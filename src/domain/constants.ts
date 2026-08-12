@@ -5,6 +5,9 @@ export const SOLAR_TEMPERATURE = kelvin(5772)
 
 export const SOLAR_RADIUS_KM = kilometres(695700)
 
+/** Solar surface gravity, log g in cgs. */
+export const SOLAR_LOG_G = 4.438
+
 /** Schwarzschild radius per solar mass: 2GM/c². */
 export const SCHWARZSCHILD_KM_PER_SOLAR_MASS = 2.953
 

@@ -2,6 +2,7 @@ import {
   HAWKING_TEMPERATURE_SOLAR,
   NEUTRON_STAR_RADIUS_KM,
   SCHWARZSCHILD_KM_PER_SOLAR_MASS,
+  SOLAR_LOG_G,
   SOLAR_TEMPERATURE,
   kmToSolarRadii,
 } from './constants.js'
@@ -64,6 +65,8 @@ export interface StarState {
   readonly radius: SolarRadii
   readonly color: RGB
   readonly colorLinear: LinearRGB
+  /** log g in cgs. Sets convective granule size, so the renderer keys surface detail off it. */
+  readonly surfaceGravity: number
   readonly spectral: Spectral
   readonly zams: Photosphere
   readonly tams: Pick<Photosphere, 'luminosity' | 'radius'>
@@ -309,6 +312,7 @@ export function evolveWith(
     radius: photosphere.radius,
     color: blackbodyRGB(photosphere.temperature),
     colorLinear: blackbodyLinearRGB(photosphere.temperature),
+    surfaceGravity: SOLAR_LOG_G + Math.log10(mass) - 2 * Math.log10(photosphere.radius),
     spectral: classify(stage, photosphere.temperature, photosphere.luminosity),
     zams: { ...zamsProps, temperature: temperatureFrom(zamsProps.luminosity, zamsProps.radius) },
     tams: {

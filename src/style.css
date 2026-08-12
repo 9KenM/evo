@@ -38,7 +38,7 @@ body {
   touch-action: none;
 }
 
-#canvas.drag {
+#canvas.dragging {
   cursor: grabbing;
 }
 
@@ -128,6 +128,22 @@ body {
 
 #info .value {
   font-variant-numeric: tabular-nums;
+}
+
+#scaleref {
+  position: fixed;
+  bottom: 12px;
+  left: 14px;
+  color: var(--muted);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 10px;
+}
+
+#controls button:disabled {
+  opacity: 0.4;
+  cursor: default;
 }
 
 #info hr {

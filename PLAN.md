@@ -304,13 +304,56 @@ Deferred to 2b:
   legitimate — the star sits above M_hook there, and the hook steepens at low Z — but it is the
   least-corroborated number in the engine and wants checking against a published isochrone.
 
-### Provenance note
+### Provenance note (see also: Scientific verification backlog)
 
 The published coefficients were cross-checked against `zdata.h` from a GPL-3.0 reference
 implementation. The constants themselves are paper data (Tout 1996 Table 1; Hurley 2000 Appendix)
 and the formulae are published mathematics; the TypeScript here is an independent implementation,
 not a translation of that source, and no GPL code is vendored. Flagging it so the licensing
 position is on the record rather than assumed.
+
+---
+
+## Scientific verification backlog
+
+**Nothing in this list is known to be wrong.** It is the set of values that are currently
+*uncorroborated* — carried over, approximated, or validated only against a single anchor. The
+engine passes 56 tests, but a passing test only proves agreement with what was asserted, and
+several of these were asserted from the same reasoning that produced the code.
+
+Deferred deliberately so it can be done in one focused pass rather than piecemeal.
+
+### Strategy
+
+The cheapest high-value move is an **independent oracle**. Generate a reference grid over
+(M, Z, age) → (L, R, T_eff, phase) from PySSE, COSMIC or a MIST/PARSEC isochrone set, commit it as
+a fixture, and diff the engine against it. That converts most items below from "reason about it"
+into "run the comparison", and it catches coefficient-assembly errors that self-consistent tests
+cannot. Note the licensing position in the provenance note above: generated *output* is data, which
+is a different question from vendoring source.
+
+### Specific items
+
+| Area | What is uncorroborated | Check against |
+|---|---|---|
+| Low-Z terminal age | L_TMS = 7.7 L☉ for 1 M☉ at [Fe/H] = −1.5, a 5x rise on ZAMS versus 3x at solar | Published isochrone at matching Z; globular-cluster turnoff luminosities |
+| Present-day Sun | 5540 K / G5V at 4.57 Gyr instead of 5772 K / G2V | Resolves with the 2b perturbation terms — reconfirm afterwards |
+| Giant branch | Tip luminosity far below the real RGB tip; duration is `0.15 × t_BGB`, a stand-in and not a fit | Hurley GB machinery (2b), then RGB tip L for a solar-mass star |
+| Mass loss | Reimers only, with η = 0.4. No hot-star radiative winds, no dust-driven AGB winds. Magnitude understated because it scales with the depressed tip luminosity | Vink et al. for OB winds; total RGB mass loss ≈ 0.2–0.3 M☉ for the Sun |
+| White dwarf IFMR | Kalirai et al. (2008) applied across the whole 0.1–8 M☉ range, beyond its calibrated span | Catalán et al. / Cummings et al. IFMRs at the extremes |
+| Neutron star mass | Linear interpolation 1.25 → 2.0 M☉ over an 8–25 M☉ progenitor range. Invented, not fitted | Observed NS mass distribution; Hurley remnant prescription |
+| Black hole mass | `max(3, 0.3 × M_initial)`. Invented | Fryer et al. fallback prescriptions; observed BH mass function |
+| WD cooling | Mestel `L ∝ M·t^(−7/5)` with a 10⁻³ Gyr floor. Spot-checked at 1 and 10 Gyr only | Bergeron / Fontaine cooling tracks |
+| NS cooling | `T ∝ t^(−1/6)`, crude; radius fixed at 11 km independent of mass | Modified-URCA cooling curves; NS mass–radius relations |
+| Spectral boundaries | Class temperature ranges carried over unchanged from the original engine, never checked against a published calibration | Pecaut & Mamajek modern MK sequence |
+| Luminosity classes | Ia0/I/II/III cut at 10⁶/10⁴/5×10³ L☉ — arbitrary thresholds inherited from the original | MK luminosity-class calibration |
+| Colour | Wyman analytic CMF fit validated to ~1 decimal place on the Planckian locus | Full CIE 1931 tabulated observer, if tighter agreement is wanted |
+| Zero-age Sun | ZAMS T = 5598 K against a real ≈ 5620 K — agrees, but on a single point | Broader ZAMS comparison once the oracle grid exists |
+
+Two structural notes: the ported PHP tables are **not** a trustworthy oracle — they are MESA output
+from a flaky run, with radii below ~0.7 M☉ already demonstrated wrong and the L/T/Y rows flagged as
+copied placeholders. And the HR diagram arriving in phase 5 is itself a verification tool: a wrong
+track shape is far more obvious plotted than tabulated, so revisit this list once it exists.
 
 ---
 
