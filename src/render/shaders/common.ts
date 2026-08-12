@@ -107,16 +107,17 @@ vec3 orbitRotate(vec3 v) {
  * Direction-based rather than a screen-space pan, so the backdrop rotates at exactly the same
  * angular rate as the stellar surface and in the same sense. An observer orbiting a star while
  * keeping it centred turns their view direction by the orbit angle, so the distant sky sweeps by
- * that same angle — the surface and the background have to move together or the scene reads as two
- * unrelated layers sliding past each other.
+ * that same angle.
+ *
+ * One sky, identical for every archetype. It was briefly split — a faint diffuse component behind
+ * luminous stars, a strong one behind a black hole so the shadow had something to be silhouetted
+ * against — but two different skies read as two different places. The rich version is used
+ * throughout, at a fixed level: the subject's exposure is applied to the subject alone, so the sky
+ * is never re-lit by whatever happens to be in front of it.
  */
-/*
- * nebulaWeight is a parameter rather than a constant because the two callers want opposite
- * things from the same sky. Behind a luminous star the diffuse component has to stay faint or it
- * washes out the photosphere; behind a black hole it is the only thing the shadow can be
- * silhouetted against, and a sparse field of point stars leaves the hole invisible.
- */
-vec3 skyColor(vec3 dir, float nebulaWeight) {
+const float NEBULA_WEIGHT = 0.85;
+
+vec3 skyColor(vec3 dir) {
   dir = orbitRotate(dir);
 
   vec2 uv = vec2(
@@ -137,7 +138,7 @@ vec3 skyColor(vec3 dir, float nebulaWeight) {
   vec3 coarse = pow(texture2D(uNebula2, uv * vec2(0.75, 0.38) + vec2(0.61, 0.29)).rgb, vec3(2.2));
   vec3 nebula = fine * 0.65 + coarse * vec3(1.0, 0.72, 0.55) * 0.55;
 
-  return texels * 0.5 + vec3(procedural) * 0.6 + nebula * nebulaWeight;
+  return texels * 0.5 + vec3(procedural) * 0.6 + nebula * NEBULA_WEIGHT;
 }
 
 /*
@@ -154,6 +155,6 @@ const float SKY_FOV = 0.55;
 
 vec3 backdrop(vec2 ndc, float aspect) {
   vec3 dir = normalize(vec3(ndc.x * aspect * SKY_FOV, ndc.y * SKY_FOV, 1.0));
-  return skyColor(dir, 0.12) * uBackdropGain;
+  return skyColor(dir) * uBackdropGain;
 }
 `

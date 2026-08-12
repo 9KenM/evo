@@ -11,6 +11,11 @@ import { BACKDROP, NOISE } from './common.js'
  *
  * Output is linear-light HDR, with radiance ∝ (T/T☉)⁴. Brightness is therefore carried by physics
  * rather than by the colour, and the camera's exposure decides what blows out.
+ *
+ * Exposure is applied here, in the shader, rather than at the tonemap. Bloom runs on the HDR buffer
+ * before any tonemap exposure would reach it, so exposing afterwards let a dim subject's opened-up
+ * gain drive the whole frame through the bloom threshold. Exposing first keeps the buffer
+ * display-referred and the bloom threshold meaningful at every subject brightness.
  */
 export const SPHERE_FRAGMENT = /* glsl */ `
 precision highp float;
@@ -26,6 +31,7 @@ uniform float uGranulation;
 uniform float uGranuleScale;
 uniform float uLimbDarkening;
 uniform float uTime;
+uniform float uExposure;
 
 ${NOISE}
 ${BACKDROP}
@@ -65,13 +71,13 @@ void main() {
 
     // A photosphere is opaque. The backdrop is replaced here, not added to, so background stars are
     // properly occluded rather than showing through the disk.
-    gl_FragColor = vec4(uColor * uRadiance * max(intensity, 0.0), 1.0);
+    gl_FragColor = vec4(uColor * uRadiance * uExposure * max(intensity, 0.0), 1.0);
     return;
   }
 
   // Chromosphere falling off just outside the limb. Bloom carries the rest of the glow.
   float halo = exp(-(r - 1.0) * 5.0);
-  vec3 color = backdrop(ndc, aspect) + uColor * uRadiance * halo * 0.12;
+  vec3 color = backdrop(ndc, aspect) + uColor * uRadiance * uExposure * halo * 0.12;
 
   gl_FragColor = vec4(color, 1.0);
 }

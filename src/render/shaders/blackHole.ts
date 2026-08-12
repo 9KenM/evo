@@ -37,11 +37,7 @@ const float ESCAPE_RADIUS = 28.0;
  * is spherically symmetric, so moving around it changes only which part of the sky sits behind the
  * lens, not the deflection pattern — rotating the sampled direction is the physically equivalent
  * and much cheaper expression of that, and it shares one rotation with every other archetype.
- *
- * The lensed sky is the only light source in this frame, so it carries extra gain: without a
- * continuous background the shadow has nothing to be silhouetted against.
  */
-const float LENSED_SKY_GAIN = 3.2;
 
 void main() {
   float aspect = uResolution.x / uResolution.y;
@@ -77,7 +73,7 @@ void main() {
   vec3 color = vec3(0.0);
   if (!captured && escaped) {
     // Rays still bound after the step budget are treated as captured rather than faked.
-    color = skyColor(normalize(dir), 0.85) * uBackdropGain * LENSED_SKY_GAIN;
+    color = skyColor(normalize(dir)) * uBackdropGain;
   }
 
   gl_FragColor = vec4(color, 1.0);

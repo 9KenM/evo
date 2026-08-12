@@ -31,10 +31,16 @@ const EXPOSURE_TARGET = 1.1
  * other. Partial compensation keeps hotter objects visibly brighter while holding the whole range
  * inside what the tonemap can render.
  */
-const EXPOSURE_COMPENSATION = 0.55
+const EXPOSURE_COMPENSATION = 0.8
 
-/** Backdrop level held constant across exposures, so the sky is not re-lit by the subject. */
-const BACKDROP_REFERENCE = 0.55
+/**
+ * Backdrop level, fixed for every archetype.
+ *
+ * A constant rather than an exposure-compensated gain. Exposure is applied to the subject inside
+ * the shader, so the sky needs no correction and cannot be dragged through the bloom threshold by
+ * a dim subject opening the aperture up.
+ */
+export const BACKDROP_LEVEL = 1.0
 
 export interface CameraOptics {
   /** Surface radiance relative to the Sun, (T/T☉)⁴. A surface brightness, so distance-invariant. */
@@ -45,8 +51,6 @@ export interface CameraOptics {
   readonly exposure: number
   /** Exposure in stops relative to unity. Negative is stopped down. */
   readonly stops: number
-  /** Backdrop gain, pre-divided so the sky renders at a fixed level whatever the exposure. */
-  readonly backdropGain: number
 }
 
 /**
@@ -62,17 +66,11 @@ export function opticsFor(star: StarState, span: number): CameraOptics {
   if (star.stage === 'black hole') {
     // Nothing self-luminous in frame. Hawking radiance is ~10⁻⁵⁷ of solar and would drive the
     // exposure to absurdity, so expose for the lensed sky instead of for a photosphere.
-    return { radiance: 0, distance, exposure: 1, stops: 0, backdropGain: BACKDROP_REFERENCE }
+    return { radiance: 0, distance, exposure: 1, stops: 0 }
   }
 
   const radiance = Math.pow(star.temperature / SOLAR_TEMPERATURE, 4)
   const exposure = EXPOSURE_TARGET / Math.pow(radiance, EXPOSURE_COMPENSATION)
 
-  return {
-    radiance,
-    distance,
-    exposure,
-    stops: Math.log2(exposure),
-    backdropGain: BACKDROP_REFERENCE / exposure,
-  }
+  return { radiance, distance, exposure, stops: Math.log2(exposure) }
 }

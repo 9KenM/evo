@@ -25,7 +25,15 @@ import { FULLSCREEN_VERTEX } from './shaders/common.js'
 import { SPHERE_FRAGMENT } from './shaders/sphere.js'
 import { BLACK_HOLE_FRAGMENT } from './shaders/blackHole.js'
 import type { Camera } from './camera.js'
-import { opticsFor, type CameraOptics } from './exposure.js'
+import { BACKDROP_LEVEL, opticsFor, type CameraOptics } from './exposure.js'
+
+/**
+ * Bloom threshold, in the display-referred units the shader now emits.
+ *
+ * Sits above the nebula but below the brightest field stars, so the diffuse sky contributes
+ * atmosphere without hazing the frame, while point sources and luminous subjects still glow.
+ */
+const BLOOM_THRESHOLD = 0.9
 
 /** Noise cells across the disk at solar surface gravity. */
 const GRANULE_BASE = 18
@@ -56,6 +64,7 @@ export class Stage {
     this.renderer = new WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' })
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     this.renderer.toneMapping = ACESFilmicToneMapping
+    this.renderer.toneMappingExposure = 1
     this.renderer.outputColorSpace = SRGBColorSpace
 
     const shared = {
@@ -65,7 +74,7 @@ export class Stage {
       // Two tileable cloud plates, summed as octaves in skyColor.
       uNebula: { value: loadTexture('/img/cloudsB2.jpg') },
       uNebula2: { value: loadTexture('/img/cloudsR2.jpg') },
-      uBackdropGain: { value: 0.55 },
+      uBackdropGain: { value: BACKDROP_LEVEL },
       uOrbit: { value: new Vector2(0, 0) },
     }
 
@@ -81,6 +90,7 @@ export class Stage {
         uGranuleScale: { value: GRANULE_BASE },
         uLimbDarkening: { value: 0.6 },
         uTime: { value: 0 },
+        uExposure: { value: 1 },
       },
     })
 
@@ -98,7 +108,7 @@ export class Stage {
     this.composer = new EffectComposer(this.renderer, target)
     this.composer.addPass(new RenderPass(this.scene, this.view))
 
-    this.bloom = new UnrealBloomPass(new Vector2(1, 1), 0.45, 0.6, 0.85)
+    this.bloom = new UnrealBloomPass(new Vector2(1, 1), 0.45, 0.6, BLOOM_THRESHOLD)
     this.composer.addPass(this.bloom)
     this.composer.addPass(new OutputPass())
 
@@ -140,11 +150,12 @@ export class Stage {
     this.sphere.uniforms.uSpan!.value = camera.span
     ;(this.sphere.uniforms.uOrbit!.value as Vector2).set(azimuth, elevation)
 
-    // The star is rendered at its true radiance; the camera is what adapts.
+    // The star is rendered at its true radiance; the camera is what adapts. Exposure is handed to
+    // the shader rather than the tonemap so that bloom, which runs earlier in the chain, sees
+    // display-referred values.
     const optics = opticsFor(star, camera.span)
     this.lastOptics = optics
-    this.renderer.toneMappingExposure = optics.exposure
-    this.sphere.uniforms.uBackdropGain!.value = optics.backdropGain
+    this.sphere.uniforms.uExposure!.value = optics.exposure
 
     if (star.stage === 'black hole') {
       this.mesh.material = this.blackHole
