@@ -1,32 +1,27 @@
-<!DOCTYPE html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stellar Evolution</title>
+  </head>
+  <body>
+    <div id="viewport">
+      <canvas id="canvas">Canvas not supported</canvas>
+    </div>
 
-<head>
-	<meta charset="utf-8">
-	<title>SQ 0.1</title>
+    <header id="controls">
+      <button id="play" type="button" aria-label="Play">▶</button>
+      <label for="mass">Mass <input id="mass" type="text" inputmode="decimal" size="6" /> M☉</label>
+      <label for="age">Age <input id="age" type="text" inputmode="decimal" size="8" /> Gyr</label>
+      <label for="timescale">
+        Speed <input id="timescale" type="text" inputmode="decimal" size="6" /> Gyr/s
+      </label>
+      <button id="recentre" type="button">Recentre</button>
+    </header>
 
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script src="jquery.mousewheel.js"></script>
-	<script src="Stats.js"></script>
-	<script src="renderer.js"></script>
-	<script src="star.js"></script>
-	<script src="script.js"></script>
+    <aside id="info"></aside>
 
-	<link rel="stylesheet" href="style.css">
-
-
-</head>
-
-<body>
-
-	<div id="viewport">
-		<canvas id="canvas">Canvas not supported</canvas>
-	</div>
-	
-	<div id="controls"><div id="play">&gt;</div> Mass: <input type="text" id="mass"></input> Age: <input type="text" id="age"></input> Timescale: <input type="text" id="timescale"></input></div>
-
-	<div id="info">
-	</div>
-
-</body>
-
+    <script type="module" src="/src/app.ts"></script>
+  </body>
 </html>

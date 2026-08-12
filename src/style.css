@@ -1,0 +1,137 @@
+:root {
+  --panel: rgba(20, 22, 28, 0.72);
+  --border: rgba(255, 255, 255, 0.12);
+  --text: #e8e8ea;
+  --muted: #8b8f9a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: #000;
+  color: var(--text);
+  font-family: 'Inconsolata', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+#viewport {
+  position: fixed;
+  inset: 0;
+}
+
+#canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+}
+
+#canvas.drag {
+  cursor: grabbing;
+}
+
+#controls {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 14px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+
+#controls label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+}
+
+#controls input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font: inherit;
+  padding: 3px 6px;
+}
+
+#controls input:focus-visible,
+#controls button:focus-visible {
+  outline: 2px solid #6ea8fe;
+  outline-offset: 1px;
+}
+
+#controls button {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  padding: 4px 12px;
+}
+
+#controls button:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+#info {
+  position: fixed;
+  top: 60px;
+  left: 14px;
+  width: 250px;
+  padding: 14px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+}
+
+#info .swatch {
+  height: 4px;
+  border-radius: 2px;
+  margin-bottom: 10px;
+}
+
+#info .type {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+#info .row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+#info .label {
+  color: var(--muted);
+}
+
+#info .value {
+  font-variant-numeric: tabular-nums;
+}
+
+#info hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 10px 0;
+}
