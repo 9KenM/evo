@@ -25,24 +25,7 @@ import { FULLSCREEN_VERTEX } from './shaders/common.js'
 import { SPHERE_FRAGMENT } from './shaders/sphere.js'
 import { BLACK_HOLE_FRAGMENT } from './shaders/blackHole.js'
 import type { Camera } from './camera.js'
-
-const BACKDROP_GAIN = 0.5
-
-/**
- * Exposure exponent. Surface radiance spans ~6 decades between a cool giant and a freshly exposed
- * white dwarf, so exposure adapts to the subject the way a real astrophotograph would. The exponent
- * is partial rather than 1, which means the compensation is incomplete on purpose: hotter objects
- * still resolve brighter, they just do not blow the frame out entirely.
- */
-const EXPOSURE_EXPONENT = 0.5
-
-/*
- * Held well below saturation on purpose. Exposing a stellar photosphere "correctly" drives the disk
- * to clipped white — which is what the Sun genuinely looks like, and also discards the blackbody
- * colour this whole engine computes. Sitting under the knee keeps hue legible across the disk and
- * lets bloom, not clipping, carry the sense of brightness.
- */
-const EXPOSURE_TARGET = 0.42
+import { opticsFor, type CameraOptics } from './exposure.js'
 
 /** Noise cells across the disk at solar surface gravity. */
 const GRANULE_BASE = 18
@@ -62,6 +45,12 @@ export class Stage {
   private readonly onContextRestored: () => void
   private elapsed = 0
   private lost = false
+  private lastOptics: CameraOptics | null = null
+
+  /** Camera characteristics of the most recent frame, for display in the UI. */
+  get optics(): CameraOptics | null {
+    return this.lastOptics
+  }
 
   constructor(private readonly canvas: HTMLCanvasElement) {
     this.renderer = new WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' })
@@ -76,7 +65,7 @@ export class Stage {
       // Two tileable cloud plates, summed as octaves in skyColor.
       uNebula: { value: loadTexture('/img/cloudsB2.jpg') },
       uNebula2: { value: loadTexture('/img/cloudsR2.jpg') },
-      uBackdropGain: { value: BACKDROP_GAIN },
+      uBackdropGain: { value: 0.55 },
       uOrbit: { value: new Vector2(0, 0) },
     }
 
@@ -92,8 +81,6 @@ export class Stage {
         uGranuleScale: { value: GRANULE_BASE },
         uLimbDarkening: { value: 0.6 },
         uTime: { value: 0 },
-        uReferenceRadius: { value: 1 },
-        uReferenceColor: { value: [0.05, 0.09, 0.14] },
       },
     })
 
@@ -153,26 +140,30 @@ export class Stage {
     this.sphere.uniforms.uSpan!.value = camera.span
     ;(this.sphere.uniforms.uOrbit!.value as Vector2).set(azimuth, elevation)
 
+    // The star is rendered at its true radiance; the camera is what adapts.
+    const optics = opticsFor(star, camera.span)
+    this.lastOptics = optics
+    this.renderer.toneMappingExposure = optics.exposure
+    this.sphere.uniforms.uBackdropGain!.value = optics.backdropGain
+
     if (star.stage === 'black hole') {
       this.mesh.material = this.blackHole
       this.blackHole.uniforms.uSchwarzschild!.value =
         (SCHWARZSCHILD_KM_PER_SOLAR_MASS * star.mass) / SOLAR_RADIUS_KM
-      this.renderer.toneMappingExposure = EXPOSURE_TARGET
     } else {
       this.mesh.material = this.sphere
-      this.applySphereUniforms(star)
+      this.applySphereUniforms(star, optics)
     }
 
     this.composer.render(dt)
   }
 
-  private applySphereUniforms(star: StarState): void {
+  private applySphereUniforms(star: StarState, optics: CameraOptics): void {
     const u = this.sphere.uniforms
-    const radiance = Math.pow(star.temperature / 5772, 4)
 
     u.uRadius!.value = star.radius
     u.uColor!.value = [star.colorLinear.r, star.colorLinear.g, star.colorLinear.b]
-    u.uRadiance!.value = radiance
+    u.uRadiance!.value = optics.radiance
     u.uTime!.value = this.elapsed
 
     // Convective envelopes exist in cool stars; hot photospheres are radiative and smooth.
@@ -189,13 +180,6 @@ export class Stage {
 
     // Cool giants are more strongly limb-darkened than hot dwarfs.
     u.uLimbDarkening!.value = 0.35 + 0.45 * convective
-
-    this.renderer.toneMappingExposure = EXPOSURE_TARGET / Math.pow(radiance, EXPOSURE_EXPONENT)
-  }
-
-  /** Physical yardstick drawn into the scene; 0 disables it. */
-  setReferenceRadius(radiusSolar: number): void {
-    this.sphere.uniforms.uReferenceRadius!.value = radiusSolar
   }
 
   dispose(): void {

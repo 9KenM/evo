@@ -140,33 +140,20 @@ vec3 skyColor(vec3 dir, float nebulaWeight) {
   return texels * 0.5 + vec3(procedural) * 0.6 + nebula * nebulaWeight;
 }
 
-/** Angular width of the backdrop projection. Wider looks fisheyed; narrower barely moves. */
+/*
+ * Angular width of the backdrop projection.
+ *
+ * The orbit's *direction* is faithful, but its *rate* is compressed here, and deliberately so. A
+ * distant observer tracking a star turns their view by the full orbit angle while surface features
+ * shift only by roughly (R/D)·sin θ, so the sky genuinely ought to sweep about D/R times faster
+ * than the disk — around 150x at typical framing. Rendered honestly the background would blur past
+ * unreadably. This value holds the ratio near 7x: fast enough to read as a distant sky, slow enough
+ * to watch. Larger widens the projection and slows the sweep further.
+ */
 const float SKY_FOV = 0.55;
 
 vec3 backdrop(vec2 ndc, float aspect) {
   vec3 dir = normalize(vec3(ndc.x * aspect * SKY_FOV, ndc.y * SKY_FOV, 1.0));
   return skyColor(dir, 0.12) * uBackdropGain;
-}
-`
-
-/**
- * Faint ring at a known physical radius, so the viewer has a fixed yardstick while the camera
- * traverses many decades. Fades out when it would be either subpixel or far off screen.
- */
-export const REFERENCE_RING = /* glsl */ `
-uniform float uReferenceRadius;
-uniform vec3 uReferenceColor;
-
-vec3 referenceRing(vec2 world, float span, float pixelWorld) {
-  if (uReferenceRadius <= 0.0) return vec3(0.0);
-
-  float onScreen = uReferenceRadius / span;
-  if (onScreen < 0.04 || onScreen > 2.5) return vec3(0.0);
-
-  float d = abs(length(world) - uReferenceRadius);
-  float line = 1.0 - smoothstep(0.0, pixelWorld * 1.5, d);
-
-  float fade = smoothstep(0.04, 0.10, onScreen) * (1.0 - smoothstep(1.6, 2.5, onScreen));
-  return uReferenceColor * line * fade;
 }
 `

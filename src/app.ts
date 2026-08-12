@@ -35,34 +35,6 @@ const params: Params = {
   running: false,
 }
 
-/**
- * Physical yardsticks the reference ring can snap to, in solar radii. The camera crosses eight
- * decades, so a single fixed reference would be off screen almost everywhere.
- */
-const REFERENCES: ReadonlyArray<{ label: string; radius: number }> = [
-  { label: '10 km', radius: 1.437e-5 },
-  { label: '1000 km', radius: 1.437e-3 },
-  { label: 'Earth radius', radius: 0.00917 },
-  { label: 'Jupiter radius', radius: 0.10045 },
-  { label: '1 R☉', radius: 1 },
-  { label: '10 R☉', radius: 10 },
-  { label: '1 AU', radius: 215.03 },
-  { label: "Jupiter's orbit", radius: 1118 },
-]
-
-function pickReference(span: number): { label: string; radius: number } {
-  let best = REFERENCES[0]!
-  let bestError = Infinity
-  for (const candidate of REFERENCES) {
-    const error = Math.abs(Math.log(candidate.radius / (span * 0.6)))
-    if (error < bestError) {
-      bestError = error
-      best = candidate
-    }
-  }
-  return best
-}
-
 const el = <T extends HTMLElement>(id: string): T => {
   const found = document.getElementById(id)
   if (!found) throw new Error(`missing element #${id}`)
@@ -73,7 +45,6 @@ const canvas = el<HTMLCanvasElement>('canvas')
 const stage = new Stage(canvas)
 const camera = new Camera()
 const readout = new Readout(el('info'))
-const scaleLabel = el('scaleref')
 
 const massInput = el<HTMLInputElement>('mass')
 const fehInput = el<HTMLInputElement>('feh')
@@ -181,13 +152,10 @@ function frame(now: number): void {
   camera.follow(visualExtent(star))
   camera.update(dt)
 
-  const reference = pickReference(camera.span)
-  stage.setReferenceRadius(reference.radius)
-  scaleLabel.textContent = `ring: ${reference.label}`
   recentreButton.disabled = camera.isFollowing
 
   stage.render(star, camera, dt)
-  readout.update(star)
+  readout.update(star, stage.optics)
 
   requestAnimationFrame(frame)
 }

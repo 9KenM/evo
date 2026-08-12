@@ -1,5 +1,6 @@
 import type { StarState } from '../domain/index.js'
 import { cssRGB, toFeH } from '../domain/index.js'
+import type { CameraOptics } from '../render/exposure.js'
 
 function num(value: number, unit = ''): string {
   const abs = Math.abs(value)
@@ -21,14 +22,29 @@ function age(gyrValue: number): string {
   return `${num(gyrValue)} Gyr`
 }
 
+const AU_IN_SOLAR_RADII = 215.03
+
+function distance(solarRadii: number): string {
+  if (solarRadii >= AU_IN_SOLAR_RADII) return `${num(solarRadii / AU_IN_SOLAR_RADII)} AU`
+  return `${num(solarRadii)} R☉`
+}
+
 const ROW = (label: string, value: string) =>
   `<div class="row"><span class="label">${label}</span><span class="value">${value}</span></div>`
 
 export class Readout {
   constructor(private readonly root: HTMLElement) {}
 
-  update(star: StarState): void {
+  update(star: StarState, optics?: CameraOptics | null): void {
     const { lifetimes: life } = star
+
+    const camera = optics
+      ? [
+          '<hr>',
+          ROW('camera distance', distance(optics.distance)),
+          ROW('exposure', `${optics.stops >= 0 ? '+' : ''}${optics.stops.toFixed(1)} stops`),
+        ]
+      : []
 
     this.root.innerHTML = [
       `<div class="swatch" style="background:${cssRGB(star.color)}"></div>`,
@@ -49,6 +65,7 @@ export class Readout {
       ROW('subgiant', age(life.subgiant)),
       ROW('giant', age(life.giant)),
       ROW('remnant at', age(life.total)),
+      ...camera,
     ].join('')
   }
 }

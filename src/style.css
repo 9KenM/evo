@@ -130,16 +130,6 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-#scaleref {
-  position: fixed;
-  bottom: 12px;
-  left: 14px;
-  color: var(--muted);
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 4px 10px;
-}
 
 #controls button:disabled {
   opacity: 0.4;
