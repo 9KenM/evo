@@ -1,0 +1,5405 @@
+{
+ "$provenance": "Ported from genTables.php (retired) by scripts/port-php-tables.mjs. Mass in M_sun, radius in R_sun, luminosity in L_sun. Entries marked unreliable were annotated in the source as guessed placeholders rather than tabulated values.",
+ "entries": [
+  {
+   "spectralClass": "O",
+   "luminosityClass": "0",
+   "subtype": 0,
+   "mass": 160,
+   "radius": 80.2,
+   "luminosity": 34100000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "0",
+   "subtype": 1,
+   "mass": 159.7,
+   "radius": 78.8,
+   "luminosity": 27100000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "0",
+   "subtype": 2,
+   "mass": 159.4,
+   "radius": 77.7,
+   "luminosity": 21400000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "0",
+   "subtype": 3,
+   "mass": 159,
+   "radius": 76.9,
+   "luminosity": 16800000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "0",
+   "subtype": 4,
+   "mass": 158.7,
+   "radius": 76.4,
+   "luminosity": 13200000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "0",
+   "subtype": 5,
+   "mass": 158.4,
+   "radius": 76.2,
+   "luminosity": 10300000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "0",
+   "subtype": 6,
+   "mass": 136.7,
+   "radius": 76.6,
+   "luminosity": 7810000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "0",
+   "subtype": 7,
+   "mass": 115.1,
+   "radius": 77.4,
+   "luminosity": 5880000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "0",
+   "subtype": 8,
+   "mass": 93.4,
+   "radius": 78.7,
+   "luminosity": 4370000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "0",
+   "subtype": 9,
+   "mass": 71.8,
+   "radius": 80.5,
+   "luminosity": 3190000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ia",
+   "subtype": 0,
+   "mass": 150,
+   "radius": 22.1,
+   "luminosity": 2590000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ia",
+   "subtype": 1,
+   "mass": 149.3,
+   "radius": 22.7,
+   "luminosity": 2250000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ia",
+   "subtype": 2,
+   "mass": 148.6,
+   "radius": 24.6,
+   "luminosity": 2140000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ia",
+   "subtype": 3,
+   "mass": 148,
+   "radius": 25.5,
+   "luminosity": 1850000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ia",
+   "subtype": 4,
+   "mass": 147.3,
+   "radius": 27.7,
+   "luminosity": 1740000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ia",
+   "subtype": 5,
+   "mass": 142,
+   "radius": 29,
+   "luminosity": 1480000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ia",
+   "subtype": 6,
+   "mass": 120.1,
+   "radius": 31.9,
+   "luminosity": 1360000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ia",
+   "subtype": 7,
+   "mass": 100.9,
+   "radius": 33.8,
+   "luminosity": 1120000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ia",
+   "subtype": 8,
+   "mass": 81.7,
+   "radius": 36,
+   "luminosity": 913000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ia",
+   "subtype": 9,
+   "mass": 63.1,
+   "radius": 38.5,
+   "luminosity": 731000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ib",
+   "subtype": 0,
+   "mass": 140,
+   "radius": 20.2,
+   "luminosity": 2150000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ib",
+   "subtype": 1,
+   "mass": 139,
+   "radius": 20.7,
+   "luminosity": 1870000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ib",
+   "subtype": 2,
+   "mass": 137.9,
+   "radius": 21.4,
+   "luminosity": 1620000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ib",
+   "subtype": 3,
+   "mass": 136.9,
+   "radius": 22.2,
+   "luminosity": 1400000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ib",
+   "subtype": 4,
+   "mass": 135.8,
+   "radius": 23.1,
+   "luminosity": 1200000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ib",
+   "subtype": 5,
+   "mass": 125.6,
+   "radius": 24.1,
+   "luminosity": 1030000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ib",
+   "subtype": 6,
+   "mass": 103.5,
+   "radius": 24.2,
+   "luminosity": 781000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ib",
+   "subtype": 7,
+   "mass": 86.7,
+   "radius": 24.5,
+   "luminosity": 588000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ib",
+   "subtype": 8,
+   "mass": 69.9,
+   "radius": 24.9,
+   "luminosity": 437000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "Ib",
+   "subtype": 9,
+   "mass": 54.5,
+   "radius": 25.5,
+   "luminosity": 319000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "II",
+   "subtype": 0,
+   "mass": 130,
+   "radius": 20.2,
+   "luminosity": 2150000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "II",
+   "subtype": 1,
+   "mass": 128.6,
+   "radius": 19.8,
+   "luminosity": 1730000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "II",
+   "subtype": 2,
+   "mass": 127.2,
+   "radius": 20.3,
+   "luminosity": 1520000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "II",
+   "subtype": 3,
+   "mass": 125.8,
+   "radius": 20,
+   "luminosity": 1210000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "II",
+   "subtype": 4,
+   "mass": 124.4,
+   "radius": 19.8,
+   "luminosity": 960000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "II",
+   "subtype": 5,
+   "mass": 109.2,
+   "radius": 19.7,
+   "luminosity": 759000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "II",
+   "subtype": 6,
+   "mass": 86.9,
+   "radius": 20.5,
+   "luminosity": 654000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "II",
+   "subtype": 7,
+   "mass": 72.5,
+   "radius": 20.5,
+   "luminosity": 510000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "II",
+   "subtype": 8,
+   "mass": 58.2,
+   "radius": 19.6,
+   "luminosity": 360000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "II",
+   "subtype": 9,
+   "mass": 45.9,
+   "radius": 19.8,
+   "luminosity": 276000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "III",
+   "subtype": 0,
+   "mass": 120,
+   "radius": 20.2,
+   "luminosity": 2150000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "III",
+   "subtype": 1,
+   "mass": 118.2,
+   "radius": 18.9,
+   "luminosity": 1580000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "III",
+   "subtype": 2,
+   "mass": 116.5,
+   "radius": 18.5,
+   "luminosity": 1260000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "III",
+   "subtype": 3,
+   "mass": 114.7,
+   "radius": 17.5,
+   "luminosity": 917000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "III",
+   "subtype": 4,
+   "mass": 112.9,
+   "radius": 17.3,
+   "luminosity": 728000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "III",
+   "subtype": 5,
+   "mass": 92.8,
+   "radius": 16.4,
+   "luminosity": 525000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "III",
+   "subtype": 6,
+   "mass": 70.2,
+   "radius": 15.6,
+   "luminosity": 376000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "III",
+   "subtype": 7,
+   "mass": 58.4,
+   "radius": 15.5,
+   "luminosity": 294000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "III",
+   "subtype": 8,
+   "mass": 46.5,
+   "radius": 14.9,
+   "luminosity": 207000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "III",
+   "subtype": 9,
+   "mass": 37.3,
+   "radius": 15,
+   "luminosity": 159000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "IV",
+   "subtype": 0,
+   "mass": 110,
+   "radius": 16,
+   "luminosity": 1360000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "IV",
+   "subtype": 1,
+   "mass": 107.9,
+   "radius": 15.7,
+   "luminosity": 1090000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "IV",
+   "subtype": 2,
+   "mass": 105.7,
+   "radius": 15.4,
+   "luminosity": 872000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "IV",
+   "subtype": 3,
+   "mass": 103.6,
+   "radius": 15.2,
+   "luminosity": 696000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "IV",
+   "subtype": 4,
+   "mass": 101.5,
+   "radius": 15,
+   "luminosity": 552000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "IV",
+   "subtype": 5,
+   "mass": 76.4,
+   "radius": 14.9,
+   "luminosity": 437000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "IV",
+   "subtype": 6,
+   "mass": 53.6,
+   "radius": 14.2,
+   "luminosity": 313000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "IV",
+   "subtype": 7,
+   "mass": 44.2,
+   "radius": 13.5,
+   "luminosity": 223000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "IV",
+   "subtype": 8,
+   "mass": 34.7,
+   "radius": 13,
+   "luminosity": 157000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "IV",
+   "subtype": 9,
+   "mass": 28.6,
+   "radius": 12.5,
+   "luminosity": 110000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "V",
+   "subtype": 0,
+   "mass": 100,
+   "radius": 15.3,
+   "luminosity": 1240000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "V",
+   "subtype": 1,
+   "mass": 97.5,
+   "radius": 15,
+   "luminosity": 994000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "V",
+   "subtype": 2,
+   "mass": 95,
+   "radius": 14.7,
+   "luminosity": 795000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "V",
+   "subtype": 3,
+   "mass": 92.5,
+   "radius": 14.5,
+   "luminosity": 634000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "V",
+   "subtype": 4,
+   "mass": 90,
+   "radius": 14.4,
+   "luminosity": 504000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "V",
+   "subtype": 5,
+   "mass": 60,
+   "radius": 14.2,
+   "luminosity": 398000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "V",
+   "subtype": 6,
+   "mass": 37,
+   "radius": 12.9,
+   "luminosity": 260000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "V",
+   "subtype": 7,
+   "mass": 30,
+   "radius": 11.3,
+   "luminosity": 154000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "V",
+   "subtype": 8,
+   "mass": 23,
+   "radius": 10.3,
+   "luminosity": 99100,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "V",
+   "subtype": 9,
+   "mass": 20,
+   "radius": 9.04,
+   "luminosity": 57600,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "VI",
+   "subtype": 0,
+   "mass": 60,
+   "radius": 13.3,
+   "luminosity": 940000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "VI",
+   "subtype": 1,
+   "mass": 37,
+   "radius": 13.1,
+   "luminosity": 754000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "VI",
+   "subtype": 2,
+   "mass": 30,
+   "radius": 12.8,
+   "luminosity": 603000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "VI",
+   "subtype": 3,
+   "mass": 23,
+   "radius": 12.6,
+   "luminosity": 481000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "VI",
+   "subtype": 4,
+   "mass": 20,
+   "radius": 12.5,
+   "luminosity": 382000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "VI",
+   "subtype": 5,
+   "mass": 17.5,
+   "radius": 12.4,
+   "luminosity": 302000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "VI",
+   "subtype": 6,
+   "mass": 14.2,
+   "radius": 10.8,
+   "luminosity": 180000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "VI",
+   "subtype": 7,
+   "mass": 10.9,
+   "radius": 9.36,
+   "luminosity": 107000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "VI",
+   "subtype": 8,
+   "mass": 7.6,
+   "radius": 7.81,
+   "luminosity": 57000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "O",
+   "luminosityClass": "VI",
+   "subtype": 9,
+   "mass": 6.7,
+   "radius": 6.85,
+   "luminosity": 33100,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "0",
+   "subtype": 0,
+   "mass": 50.1,
+   "radius": 83,
+   "luminosity": 2280000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "0",
+   "subtype": 1,
+   "mass": 45.1,
+   "radius": 86.2,
+   "luminosity": 2020000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "0",
+   "subtype": 2,
+   "mass": 40.1,
+   "radius": 85.7,
+   "luminosity": 1620000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "0",
+   "subtype": 3,
+   "mass": 35.1,
+   "radius": 89.5,
+   "luminosity": 1420000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "0",
+   "subtype": 4,
+   "mass": 30.1,
+   "radius": 93.7,
+   "luminosity": 1230000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "0",
+   "subtype": 5,
+   "mass": 25.1,
+   "radius": 93.9,
+   "luminosity": 965000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "0",
+   "subtype": 6,
+   "mass": 23.2,
+   "radius": 102,
+   "luminosity": 758000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "0",
+   "subtype": 7,
+   "mass": 21.4,
+   "radius": 107,
+   "luminosity": 533000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "0",
+   "subtype": 8,
+   "mass": 19.5,
+   "radius": 114,
+   "luminosity": 367000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "0",
+   "subtype": 9,
+   "mass": 17.7,
+   "radius": 131,
+   "luminosity": 273000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ia",
+   "subtype": 0,
+   "mass": 44.7,
+   "radius": 41.6,
+   "luminosity": 573000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ia",
+   "subtype": 1,
+   "mass": 40,
+   "radius": 43.2,
+   "luminosity": 507000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ia",
+   "subtype": 2,
+   "mass": 35.2,
+   "radius": 45,
+   "luminosity": 446000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ia",
+   "subtype": 3,
+   "mass": 30.5,
+   "radius": 49.2,
+   "luminosity": 428000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ia",
+   "subtype": 4,
+   "mass": 26.2,
+   "radius": 49.2,
+   "luminosity": 338000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ia",
+   "subtype": 5,
+   "mass": 21.9,
+   "radius": 51.6,
+   "luminosity": 291000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ia",
+   "subtype": 6,
+   "mass": 20.2,
+   "radius": 55.9,
+   "luminosity": 229000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ia",
+   "subtype": 7,
+   "mass": 18.6,
+   "radius": 64.3,
+   "luminosity": 193000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ia",
+   "subtype": 8,
+   "mass": 16.9,
+   "radius": 75.2,
+   "luminosity": 160000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ia",
+   "subtype": 9,
+   "mass": 15.3,
+   "radius": 90.5,
+   "luminosity": 131000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ib",
+   "subtype": 0,
+   "mass": 39.2,
+   "radius": 26.2,
+   "luminosity": 228000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ib",
+   "subtype": 1,
+   "mass": 34.8,
+   "radius": 26,
+   "luminosity": 184000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ib",
+   "subtype": 2,
+   "mass": 30.4,
+   "radius": 27.1,
+   "luminosity": 162000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ib",
+   "subtype": 3,
+   "mass": 25.9,
+   "radius": 27,
+   "luminosity": 129000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ib",
+   "subtype": 4,
+   "mass": 22.3,
+   "radius": 28.3,
+   "luminosity": 112000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ib",
+   "subtype": 5,
+   "mass": 18.7,
+   "radius": 28.4,
+   "luminosity": 88000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ib",
+   "subtype": 6,
+   "mass": 17.2,
+   "radius": 29.4,
+   "luminosity": 63100,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ib",
+   "subtype": 7,
+   "mass": 15.8,
+   "radius": 30.8,
+   "luminosity": 44300,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ib",
+   "subtype": 8,
+   "mass": 14.3,
+   "radius": 34.4,
+   "luminosity": 33400,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "Ib",
+   "subtype": 9,
+   "mass": 12.9,
+   "radius": 37.7,
+   "luminosity": 22700,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "II",
+   "subtype": 0,
+   "mass": 33.8,
+   "radius": 19.1,
+   "luminosity": 190000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "II",
+   "subtype": 1,
+   "mass": 29.7,
+   "radius": 18.3,
+   "luminosity": 134000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "II",
+   "subtype": 2,
+   "mass": 25.5,
+   "radius": 17.7,
+   "luminosity": 93600,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "II",
+   "subtype": 3,
+   "mass": 21.4,
+   "radius": 17.1,
+   "luminosity": 64500,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "II",
+   "subtype": 4,
+   "mass": 18.4,
+   "radius": 16.7,
+   "luminosity": 43700,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "II",
+   "subtype": 5,
+   "mass": 15.5,
+   "radius": 16.3,
+   "luminosity": 29100,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "II",
+   "subtype": 6,
+   "mass": 14.2,
+   "radius": 15.4,
+   "luminosity": 17400,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "II",
+   "subtype": 7,
+   "mass": 12.9,
+   "radius": 15.4,
+   "luminosity": 11100,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "II",
+   "subtype": 8,
+   "mass": 11.7,
+   "radius": 15.7,
+   "luminosity": 6990,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "II",
+   "subtype": 9,
+   "mass": 10.5,
+   "radius": 16.5,
+   "luminosity": 4320,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "III",
+   "subtype": 0,
+   "mass": 28.4,
+   "radius": 14.5,
+   "luminosity": 109000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "III",
+   "subtype": 1,
+   "mass": 24.5,
+   "radius": 11.6,
+   "luminosity": 53400,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "III",
+   "subtype": 2,
+   "mass": 20.6,
+   "radius": 9.71,
+   "luminosity": 28300,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "III",
+   "subtype": 3,
+   "mass": 16.8,
+   "radius": 7.82,
+   "luminosity": 13500,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "III",
+   "subtype": 4,
+   "mass": 14.5,
+   "radius": 6.63,
+   "luminosity": 6930,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "III",
+   "subtype": 5,
+   "mass": 12.3,
+   "radius": 5.4,
+   "luminosity": 3190,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "III",
+   "subtype": 6,
+   "mass": 11.2,
+   "radius": 4.87,
+   "luminosity": 1740,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "III",
+   "subtype": 7,
+   "mass": 10.1,
+   "radius": 4.66,
+   "luminosity": 1010,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "III",
+   "subtype": 8,
+   "mass": 9,
+   "radius": 4.33,
+   "luminosity": 530,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "III",
+   "subtype": 9,
+   "mass": 8.1,
+   "radius": 4.33,
+   "luminosity": 299,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "IV",
+   "subtype": 0,
+   "mass": 22.9,
+   "radius": 12.1,
+   "luminosity": 75700,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "IV",
+   "subtype": 1,
+   "mass": 19.4,
+   "radius": 9.63,
+   "luminosity": 37000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "IV",
+   "subtype": 2,
+   "mass": 15.8,
+   "radius": 8.08,
+   "luminosity": 19600,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "IV",
+   "subtype": 3,
+   "mass": 12.2,
+   "radius": 6.51,
+   "luminosity": 9320,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "IV",
+   "subtype": 4,
+   "mass": 10.6,
+   "radius": 5.52,
+   "luminosity": 4790,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "IV",
+   "subtype": 5,
+   "mass": 9.1,
+   "radius": 4.5,
+   "luminosity": 2210,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "IV",
+   "subtype": 6,
+   "mass": 8.2,
+   "radius": 4.05,
+   "luminosity": 1200,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "IV",
+   "subtype": 7,
+   "mass": 7.3,
+   "radius": 3.7,
+   "luminosity": 640,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "IV",
+   "subtype": 8,
+   "mass": 6.4,
+   "radius": 3.44,
+   "luminosity": 334,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "IV",
+   "subtype": 9,
+   "mass": 5.7,
+   "radius": 3.29,
+   "luminosity": 172,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "V",
+   "subtype": 0,
+   "mass": 17.5,
+   "radius": 8.34,
+   "luminosity": 36200,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "V",
+   "subtype": 1,
+   "mass": 14.2,
+   "radius": 6.97,
+   "luminosity": 19400,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "V",
+   "subtype": 2,
+   "mass": 10.9,
+   "radius": 5.59,
+   "luminosity": 9360,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "V",
+   "subtype": 3,
+   "mass": 7.6,
+   "radius": 4.71,
+   "luminosity": 4890,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "V",
+   "subtype": 4,
+   "mass": 6.7,
+   "radius": 3.82,
+   "luminosity": 2290,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "V",
+   "subtype": 5,
+   "mass": 5.9,
+   "radius": 3.26,
+   "luminosity": 1160,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "V",
+   "subtype": 6,
+   "mass": 5.2,
+   "radius": 3.07,
+   "luminosity": 692,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "V",
+   "subtype": 7,
+   "mass": 4.5,
+   "radius": 2.94,
+   "luminosity": 404,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "V",
+   "subtype": 8,
+   "mass": 3.8,
+   "radius": 2.73,
+   "luminosity": 211,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "V",
+   "subtype": 9,
+   "mass": 3.4,
+   "radius": 2.73,
+   "luminosity": 119,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "VI",
+   "subtype": 0,
+   "mass": 5.9,
+   "radius": 6.04,
+   "luminosity": 19000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "VI",
+   "subtype": 1,
+   "mass": 5.2,
+   "radius": 5.05,
+   "luminosity": 10200,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "VI",
+   "subtype": 2,
+   "mass": 4.5,
+   "radius": 4.24,
+   "luminosity": 5390,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "VI",
+   "subtype": 3,
+   "mass": 3.8,
+   "radius": 3.41,
+   "luminosity": 2570,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "VI",
+   "subtype": 4,
+   "mass": 3.4,
+   "radius": 2.89,
+   "luminosity": 1320,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "VI",
+   "subtype": 5,
+   "mass": 2.9,
+   "radius": 2.47,
+   "luminosity": 667,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "VI",
+   "subtype": 6,
+   "mass": 2.7,
+   "radius": 2.23,
+   "luminosity": 363,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "VI",
+   "subtype": 7,
+   "mass": 2.5,
+   "radius": 2.03,
+   "luminosity": 193,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "VI",
+   "subtype": 8,
+   "mass": 2.4,
+   "radius": 1.89,
+   "luminosity": 101,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "B",
+   "luminosityClass": "VI",
+   "subtype": 9,
+   "mass": 2.1,
+   "radius": 1.81,
+   "luminosity": 52,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "0",
+   "subtype": 0,
+   "mass": 15.8,
+   "radius": 151,
+   "luminosity": 186000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "0",
+   "subtype": 1,
+   "mass": 15.2,
+   "radius": 162,
+   "luminosity": 198000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "0",
+   "subtype": 2,
+   "mass": 14.5,
+   "radius": 174,
+   "luminosity": 210000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "0",
+   "subtype": 3,
+   "mass": 13.9,
+   "radius": 187,
+   "luminosity": 224000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "0",
+   "subtype": 4,
+   "mass": 13.2,
+   "radius": 202,
+   "luminosity": 239000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "0",
+   "subtype": 5,
+   "mass": 12.6,
+   "radius": 217,
+   "luminosity": 255000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "0",
+   "subtype": 6,
+   "mass": 12.6,
+   "radius": 224,
+   "luminosity": 249000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "0",
+   "subtype": 7,
+   "mass": 12.6,
+   "radius": 243,
+   "luminosity": 267000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "0",
+   "subtype": 8,
+   "mass": 12.6,
+   "radius": 251,
+   "luminosity": 260000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "0",
+   "subtype": 9,
+   "mass": 12.6,
+   "radius": 273,
+   "luminosity": 280000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ia",
+   "subtype": 0,
+   "mass": 13.7,
+   "radius": 114,
+   "luminosity": 107000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ia",
+   "subtype": 1,
+   "mass": 13.1,
+   "radius": 123,
+   "luminosity": 114000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ia",
+   "subtype": 2,
+   "mass": 12.5,
+   "radius": 132,
+   "luminosity": 121000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ia",
+   "subtype": 3,
+   "mass": 12,
+   "radius": 142,
+   "luminosity": 129000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ia",
+   "subtype": 4,
+   "mass": 11.4,
+   "radius": 153,
+   "luminosity": 138000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ia",
+   "subtype": 5,
+   "mass": 10.8,
+   "radius": 173,
+   "luminosity": 161000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ia",
+   "subtype": 6,
+   "mass": 10.8,
+   "radius": 195,
+   "luminosity": 189000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ia",
+   "subtype": 7,
+   "mass": 10.8,
+   "radius": 221,
+   "luminosity": 222000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ia",
+   "subtype": 8,
+   "mass": 10.8,
+   "radius": 240,
+   "luminosity": 238000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ia",
+   "subtype": 9,
+   "mass": 10.8,
+   "radius": 249,
+   "luminosity": 233000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ib",
+   "subtype": 0,
+   "mass": 11.5,
+   "radius": 43.5,
+   "luminosity": 15400,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ib",
+   "subtype": 1,
+   "mass": 11,
+   "radius": 44.6,
+   "luminosity": 15000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ib",
+   "subtype": 2,
+   "mass": 10.5,
+   "radius": 43.7,
+   "luminosity": 13300,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ib",
+   "subtype": 3,
+   "mass": 10,
+   "radius": 44.9,
+   "luminosity": 12900,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ib",
+   "subtype": 4,
+   "mass": 9.5,
+   "radius": 44.1,
+   "luminosity": 11400,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ib",
+   "subtype": 5,
+   "mass": 9,
+   "radius": 45.4,
+   "luminosity": 11100,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ib",
+   "subtype": 6,
+   "mass": 9,
+   "radius": 46.9,
+   "luminosity": 10900,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ib",
+   "subtype": 7,
+   "mass": 9,
+   "radius": 48.4,
+   "luminosity": 10600,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ib",
+   "subtype": 8,
+   "mass": 9,
+   "radius": 50.1,
+   "luminosity": 10400,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "Ib",
+   "subtype": 9,
+   "mass": 9,
+   "radius": 52,
+   "luminosity": 10200,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "II",
+   "subtype": 0,
+   "mass": 9.4,
+   "radius": 18.1,
+   "luminosity": 2680,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "II",
+   "subtype": 1,
+   "mass": 8.9,
+   "radius": 17.9,
+   "luminosity": 2350,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "II",
+   "subtype": 2,
+   "mass": 8.5,
+   "radius": 17.7,
+   "luminosity": 2070,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "II",
+   "subtype": 3,
+   "mass": 8.1,
+   "radius": 16.7,
+   "luminosity": 1660,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "II",
+   "subtype": 4,
+   "mass": 7.7,
+   "radius": 16.6,
+   "luminosity": 1460,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "II",
+   "subtype": 5,
+   "mass": 7.2,
+   "radius": 16.5,
+   "luminosity": 1290,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "II",
+   "subtype": 6,
+   "mass": 7.2,
+   "radius": 16.5,
+   "luminosity": 1140,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "II",
+   "subtype": 7,
+   "mass": 7.2,
+   "radius": 17.2,
+   "luminosity": 1110,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "II",
+   "subtype": 8,
+   "mass": 7.2,
+   "radius": 17.3,
+   "luminosity": 990,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "II",
+   "subtype": 9,
+   "mass": 7.1,
+   "radius": 18.3,
+   "luminosity": 970,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "III",
+   "subtype": 0,
+   "mass": 7.2,
+   "radius": 4.35,
+   "luminosity": 154,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "III",
+   "subtype": 1,
+   "mass": 6.9,
+   "radius": 4.1,
+   "luminosity": 124,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "III",
+   "subtype": 2,
+   "mass": 6.5,
+   "radius": 3.87,
+   "luminosity": 99,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "III",
+   "subtype": 3,
+   "mass": 6.2,
+   "radius": 3.83,
+   "luminosity": 87.1,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "III",
+   "subtype": 4,
+   "mass": 5.8,
+   "radius": 3.63,
+   "luminosity": 70,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "III",
+   "subtype": 5,
+   "mass": 5.4,
+   "radius": 3.45,
+   "luminosity": 56.4,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "III",
+   "subtype": 6,
+   "mass": 5.4,
+   "radius": 3.28,
+   "luminosity": 45.5,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "III",
+   "subtype": 7,
+   "mass": 5.4,
+   "radius": 3.14,
+   "luminosity": 36.8,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "III",
+   "subtype": 8,
+   "mass": 5.4,
+   "radius": 3.15,
+   "luminosity": 32.8,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "III",
+   "subtype": 9,
+   "mass": 5.3,
+   "radius": 3.03,
+   "luminosity": 26.7,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "IV",
+   "subtype": 0,
+   "mass": 5.1,
+   "radius": 3.3,
+   "luminosity": 88.8,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "IV",
+   "subtype": 1,
+   "mass": 4.8,
+   "radius": 3.11,
+   "luminosity": 71.1,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "IV",
+   "subtype": 2,
+   "mass": 4.5,
+   "radius": 2.93,
+   "luminosity": 57,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "IV",
+   "subtype": 3,
+   "mass": 4.3,
+   "radius": 2.65,
+   "luminosity": 41.7,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "IV",
+   "subtype": 4,
+   "mass": 4,
+   "radius": 2.51,
+   "luminosity": 33.5,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "IV",
+   "subtype": 5,
+   "mass": 3.7,
+   "radius": 2.38,
+   "luminosity": 27,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "IV",
+   "subtype": 6,
+   "mass": 3.6,
+   "radius": 2.27,
+   "luminosity": 21.8,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "IV",
+   "subtype": 7,
+   "mass": 3.6,
+   "radius": 2.27,
+   "luminosity": 19.3,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "IV",
+   "subtype": 8,
+   "mass": 3.6,
+   "radius": 2.18,
+   "luminosity": 15.7,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "IV",
+   "subtype": 9,
+   "mass": 3.5,
+   "radius": 2.2,
+   "luminosity": 14,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "V",
+   "subtype": 0,
+   "mass": 2.9,
+   "radius": 2.88,
+   "luminosity": 67.4,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "V",
+   "subtype": 1,
+   "mass": 2.7,
+   "radius": 2.59,
+   "luminosity": 49.2,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "V",
+   "subtype": 2,
+   "mass": 2.5,
+   "radius": 2.44,
+   "luminosity": 39.4,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "V",
+   "subtype": 3,
+   "mass": 2.4,
+   "radius": 2.2,
+   "luminosity": 28.9,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "V",
+   "subtype": 4,
+   "mass": 2.1,
+   "radius": 2.09,
+   "luminosity": 23.2,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "V",
+   "subtype": 5,
+   "mass": 1.9,
+   "radius": 1.89,
+   "luminosity": 17,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "V",
+   "subtype": 6,
+   "mass": 1.8,
+   "radius": 1.89,
+   "luminosity": 15.1,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "V",
+   "subtype": 7,
+   "mass": 1.8,
+   "radius": 1.81,
+   "luminosity": 12.2,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "V",
+   "subtype": 8,
+   "mass": 1.8,
+   "radius": 1.81,
+   "luminosity": 10.9,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "V",
+   "subtype": 9,
+   "mass": 1.7,
+   "radius": 1.75,
+   "luminosity": 8.85,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "VI",
+   "subtype": 0,
+   "mass": 1.9,
+   "radius": 1.81,
+   "luminosity": 26.8,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "VI",
+   "subtype": 1,
+   "mass": 1.8,
+   "radius": 1.63,
+   "luminosity": 19.6,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "VI",
+   "subtype": 2,
+   "mass": 1.8,
+   "radius": 1.54,
+   "luminosity": 15.7,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "VI",
+   "subtype": 3,
+   "mass": 1.8,
+   "radius": 1.39,
+   "luminosity": 11.5,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "VI",
+   "subtype": 4,
+   "mass": 1.7,
+   "radius": 1.32,
+   "luminosity": 9.23,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "VI",
+   "subtype": 5,
+   "mass": 1.6,
+   "radius": 1.2,
+   "luminosity": 6.78,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "VI",
+   "subtype": 6,
+   "mass": 1.6,
+   "radius": 1.14,
+   "luminosity": 5.47,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "VI",
+   "subtype": 7,
+   "mass": 1.5,
+   "radius": 1.09,
+   "luminosity": 4.43,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "VI",
+   "subtype": 8,
+   "mass": 1.5,
+   "radius": 1.04,
+   "luminosity": 3.59,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "A",
+   "luminosityClass": "VI",
+   "subtype": 9,
+   "mass": 1.4,
+   "radius": 1,
+   "luminosity": 2.93,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "0",
+   "subtype": 0,
+   "mass": 12.6,
+   "radius": 283,
+   "luminosity": 274000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "0",
+   "subtype": 1,
+   "mass": 12.1,
+   "radius": 309,
+   "luminosity": 296000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "0",
+   "subtype": 2,
+   "mass": 11.6,
+   "radius": 323,
+   "luminosity": 291000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "0",
+   "subtype": 3,
+   "mass": 11,
+   "radius": 354,
+   "luminosity": 316000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "0",
+   "subtype": 4,
+   "mass": 10.5,
+   "radius": 389,
+   "luminosity": 343000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "0",
+   "subtype": 5,
+   "mass": 10,
+   "radius": 429,
+   "luminosity": 374000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "0",
+   "subtype": 6,
+   "mass": 10,
+   "radius": 460,
+   "luminosity": 374000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "0",
+   "subtype": 7,
+   "mass": 10,
+   "radius": 519,
+   "luminosity": 413000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "0",
+   "subtype": 8,
+   "mass": 10,
+   "radius": 564,
+   "luminosity": 419000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "0",
+   "subtype": 9,
+   "mass": 10,
+   "radius": 654,
+   "luminosity": 473000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ia",
+   "subtype": 0,
+   "mass": 10.8,
+   "radius": 258,
+   "luminosity": 228000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ia",
+   "subtype": 1,
+   "mass": 10.3,
+   "radius": 269,
+   "luminosity": 224000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ia",
+   "subtype": 2,
+   "mass": 9.9,
+   "radius": 268,
+   "luminosity": 202000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ia",
+   "subtype": 3,
+   "mass": 9.4,
+   "radius": 281,
+   "luminosity": 199000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ia",
+   "subtype": 4,
+   "mass": 9,
+   "radius": 282,
+   "luminosity": 180000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ia",
+   "subtype": 5,
+   "mass": 8.6,
+   "radius": 283,
+   "luminosity": 163000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ia",
+   "subtype": 6,
+   "mass": 8.6,
+   "radius": 290,
+   "luminosity": 149000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ia",
+   "subtype": 7,
+   "mass": 8.5,
+   "radius": 299,
+   "luminosity": 137000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ia",
+   "subtype": 8,
+   "mass": 8.5,
+   "radius": 310,
+   "luminosity": 127000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ia",
+   "subtype": 9,
+   "mass": 8.5,
+   "radius": 343,
+   "luminosity": 130000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ib",
+   "subtype": 0,
+   "mass": 8.9,
+   "radius": 54,
+   "luminosity": 9960,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ib",
+   "subtype": 1,
+   "mass": 8.6,
+   "radius": 56.2,
+   "luminosity": 9790,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ib",
+   "subtype": 2,
+   "mass": 8.2,
+   "radius": 56.1,
+   "luminosity": 8800,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ib",
+   "subtype": 3,
+   "mass": 7.9,
+   "radius": 58.7,
+   "luminosity": 8700,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ib",
+   "subtype": 4,
+   "mass": 7.5,
+   "radius": 58.9,
+   "luminosity": 7860,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ib",
+   "subtype": 5,
+   "mass": 7.1,
+   "radius": 62,
+   "luminosity": 7820,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ib",
+   "subtype": 6,
+   "mass": 7.1,
+   "radius": 66.4,
+   "luminosity": 7820,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ib",
+   "subtype": 7,
+   "mass": 7.1,
+   "radius": 68.4,
+   "luminosity": 7180,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ib",
+   "subtype": 8,
+   "mass": 7.1,
+   "radius": 74.3,
+   "luminosity": 7290,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "Ib",
+   "subtype": 9,
+   "mass": 7,
+   "radius": 78.6,
+   "luminosity": 6840,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "II",
+   "subtype": 0,
+   "mass": 7.1,
+   "radius": 18.5,
+   "luminosity": 870,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "II",
+   "subtype": 1,
+   "mass": 6.8,
+   "radius": 19.2,
+   "luminosity": 865,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "II",
+   "subtype": 2,
+   "mass": 6.5,
+   "radius": 19.9,
+   "luminosity": 860,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "II",
+   "subtype": 3,
+   "mass": 6.3,
+   "radius": 19.7,
+   "luminosity": 782,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "II",
+   "subtype": 4,
+   "mass": 6,
+   "radius": 20.5,
+   "luminosity": 781,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "II",
+   "subtype": 5,
+   "mass": 5.7,
+   "radius": 21.4,
+   "luminosity": 783,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "II",
+   "subtype": 6,
+   "mass": 5.7,
+   "radius": 22.4,
+   "luminosity": 786,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "II",
+   "subtype": 7,
+   "mass": 5.6,
+   "radius": 23.4,
+   "luminosity": 791,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "II",
+   "subtype": 8,
+   "mass": 5.6,
+   "radius": 23.5,
+   "luminosity": 729,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "II",
+   "subtype": 9,
+   "mass": 5.6,
+   "radius": 24.8,
+   "luminosity": 739,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "III",
+   "subtype": 0,
+   "mass": 5.3,
+   "radius": 2.93,
+   "luminosity": 21.9,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "III",
+   "subtype": 1,
+   "mass": 5.1,
+   "radius": 3.04,
+   "luminosity": 21.7,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "III",
+   "subtype": 2,
+   "mass": 4.9,
+   "radius": 3.01,
+   "luminosity": 19.7,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "III",
+   "subtype": 3,
+   "mass": 4.7,
+   "radius": 3.12,
+   "luminosity": 19.6,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "III",
+   "subtype": 4,
+   "mass": 4.5,
+   "radius": 3.25,
+   "luminosity": 19.6,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "III",
+   "subtype": 5,
+   "mass": 4.3,
+   "radius": 3.55,
+   "luminosity": 21.6,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "III",
+   "subtype": 6,
+   "mass": 4.2,
+   "radius": 3.89,
+   "luminosity": 23.7,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "III",
+   "subtype": 7,
+   "mass": 4.2,
+   "radius": 4.26,
+   "luminosity": 26.2,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "III",
+   "subtype": 8,
+   "mass": 4.1,
+   "radius": 4.69,
+   "luminosity": 29,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "III",
+   "subtype": 9,
+   "mass": 4.1,
+   "radius": 5.17,
+   "luminosity": 32.2,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "IV",
+   "subtype": 0,
+   "mass": 3.4,
+   "radius": 2.12,
+   "luminosity": 11.5,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "IV",
+   "subtype": 1,
+   "mass": 3.3,
+   "radius": 2.3,
+   "luminosity": 12.5,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "IV",
+   "subtype": 2,
+   "mass": 3.2,
+   "radius": 2.62,
+   "luminosity": 14.9,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "IV",
+   "subtype": 3,
+   "mass": 3.1,
+   "radius": 2.85,
+   "luminosity": 16.3,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "IV",
+   "subtype": 4,
+   "mass": 3,
+   "radius": 3.25,
+   "luminosity": 19.6,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "IV",
+   "subtype": 5,
+   "mass": 2.8,
+   "radius": 3.55,
+   "luminosity": 21.6,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "IV",
+   "subtype": 6,
+   "mass": 2.8,
+   "radius": 3.23,
+   "luminosity": 16.4,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "IV",
+   "subtype": 7,
+   "mass": 2.7,
+   "radius": 2.95,
+   "luminosity": 12.5,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "IV",
+   "subtype": 8,
+   "mass": 2.7,
+   "radius": 2.83,
+   "luminosity": 10.5,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "IV",
+   "subtype": 9,
+   "mass": 2.6,
+   "radius": 2.59,
+   "luminosity": 8.1,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "V",
+   "subtype": 0,
+   "mass": 1.6,
+   "radius": 1.77,
+   "luminosity": 7.94,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "V",
+   "subtype": 1,
+   "mass": 1.6,
+   "radius": 1.67,
+   "luminosity": 6.56,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "V",
+   "subtype": 2,
+   "mass": 1.5,
+   "radius": 1.65,
+   "luminosity": 5.95,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "V",
+   "subtype": 3,
+   "mass": 1.5,
+   "radius": 1.57,
+   "luminosity": 4.94,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "V",
+   "subtype": 4,
+   "mass": 1.4,
+   "radius": 1.56,
+   "luminosity": 4.5,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "V",
+   "subtype": 5,
+   "mass": 1.4,
+   "radius": 1.48,
+   "luminosity": 3.75,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "V",
+   "subtype": 6,
+   "mass": 1.3,
+   "radius": 1.41,
+   "luminosity": 3.13,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "V",
+   "subtype": 7,
+   "mass": 1.3,
+   "radius": 1.35,
+   "luminosity": 2.62,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "V",
+   "subtype": 8,
+   "mass": 1.2,
+   "radius": 1.33,
+   "luminosity": 2.41,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "V",
+   "subtype": 9,
+   "mass": 1.1,
+   "radius": 1.3,
+   "luminosity": 2.03,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "VI",
+   "subtype": 0,
+   "mass": 1.4,
+   "radius": 0.971,
+   "luminosity": 2.4,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "VI",
+   "subtype": 1,
+   "mass": 1.3,
+   "radius": 0.917,
+   "luminosity": 1.98,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "VI",
+   "subtype": 2,
+   "mass": 1.3,
+   "radius": 0.867,
+   "luminosity": 1.64,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "VI",
+   "subtype": 3,
+   "mass": 1.2,
+   "radius": 0.86,
+   "luminosity": 1.49,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "VI",
+   "subtype": 4,
+   "mass": 1.1,
+   "radius": 0.817,
+   "luminosity": 1.24,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "VI",
+   "subtype": 5,
+   "mass": 1.1,
+   "radius": 0.777,
+   "luminosity": 1.03,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "VI",
+   "subtype": 6,
+   "mass": 1,
+   "radius": 0.741,
+   "luminosity": 0.862,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "VI",
+   "subtype": 7,
+   "mass": 1,
+   "radius": 0.738,
+   "luminosity": 0.791,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "VI",
+   "subtype": 8,
+   "mass": 1,
+   "radius": 0.722,
+   "luminosity": 0.665,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "F",
+   "luminosityClass": "VI",
+   "subtype": 9,
+   "mass": 0.9,
+   "radius": 0.714,
+   "luminosity": 0.614,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "0",
+   "subtype": 0,
+   "mass": 10,
+   "radius": 732,
+   "luminosity": 495000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "0",
+   "subtype": 1,
+   "mass": 10.5,
+   "radius": 832,
+   "luminosity": 527000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "0",
+   "subtype": 2,
+   "mass": 11,
+   "radius": 959,
+   "luminosity": 573000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "0",
+   "subtype": 3,
+   "mass": 11.5,
+   "radius": 1180,
+   "luminosity": 703000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "0",
+   "subtype": 4,
+   "mass": 12,
+   "radius": 1420,
+   "luminosity": 813000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "0",
+   "subtype": 5,
+   "mass": 12.5,
+   "radius": 1840,
+   "luminosity": 1070000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "0",
+   "subtype": 6,
+   "mass": 12.5,
+   "radius": 1930,
+   "luminosity": 1120000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "0",
+   "subtype": 7,
+   "mass": 12.5,
+   "radius": 2030,
+   "luminosity": 1180000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "0",
+   "subtype": 8,
+   "mass": 12.5,
+   "radius": 2040,
+   "luminosity": 1130000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "0",
+   "subtype": 9,
+   "mass": 12.5,
+   "radius": 2160,
+   "luminosity": 1190000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ia",
+   "subtype": 0,
+   "mass": 6.3,
+   "radius": 367,
+   "luminosity": 124000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ia",
+   "subtype": 1,
+   "mass": 6.6,
+   "radius": 417,
+   "luminosity": 132000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ia",
+   "subtype": 2,
+   "mass": 6.9,
+   "radius": 459,
+   "luminosity": 131000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ia",
+   "subtype": 3,
+   "mass": 7.2,
+   "radius": 540,
+   "luminosity": 147000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ia",
+   "subtype": 4,
+   "mass": 7.5,
+   "radius": 649,
+   "luminosity": 170000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ia",
+   "subtype": 5,
+   "mass": 7.8,
+   "radius": 766,
+   "luminosity": 186000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ia",
+   "subtype": 6,
+   "mass": 7.9,
+   "radius": 804,
+   "luminosity": 195000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ia",
+   "subtype": 7,
+   "mass": 8,
+   "radius": 846,
+   "luminosity": 205000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ia",
+   "subtype": 8,
+   "mass": 8.1,
+   "radius": 851,
+   "luminosity": 196000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ia",
+   "subtype": 9,
+   "mass": 8.1,
+   "radius": 898,
+   "luminosity": 207000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ib",
+   "subtype": 0,
+   "mass": 2.5,
+   "radius": 88.1,
+   "luminosity": 7150,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ib",
+   "subtype": 1,
+   "mass": 2.6,
+   "radius": 100,
+   "luminosity": 7620,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ib",
+   "subtype": 2,
+   "mass": 2.8,
+   "radius": 115,
+   "luminosity": 8290,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ib",
+   "subtype": 3,
+   "mass": 2.9,
+   "radius": 130,
+   "luminosity": 8460,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ib",
+   "subtype": 4,
+   "mass": 3,
+   "radius": 156,
+   "luminosity": 9770,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ib",
+   "subtype": 5,
+   "mass": 3.2,
+   "radius": 192,
+   "luminosity": 11800,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ib",
+   "subtype": 6,
+   "mass": 3.3,
+   "radius": 202,
+   "luminosity": 12300,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ib",
+   "subtype": 7,
+   "mass": 3.5,
+   "radius": 212,
+   "luminosity": 12900,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ib",
+   "subtype": 8,
+   "mass": 3.6,
+   "radius": 234,
+   "luminosity": 14900,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "Ib",
+   "subtype": 9,
+   "mass": 3.8,
+   "radius": 247,
+   "luminosity": 15700,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "II",
+   "subtype": 0,
+   "mass": 2.1,
+   "radius": 29.2,
+   "luminosity": 784,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "II",
+   "subtype": 1,
+   "mass": 2.2,
+   "radius": 33.1,
+   "luminosity": 835,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "II",
+   "subtype": 2,
+   "mass": 2.3,
+   "radius": 38.2,
+   "luminosity": 909,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "II",
+   "subtype": 3,
+   "mass": 2.4,
+   "radius": 47,
+   "luminosity": 1110,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "II",
+   "subtype": 4,
+   "mass": 2.5,
+   "radius": 56.5,
+   "luminosity": 1290,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "II",
+   "subtype": 5,
+   "mass": 2.6,
+   "radius": 69.9,
+   "luminosity": 1550,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "II",
+   "subtype": 6,
+   "mass": 2.7,
+   "radius": 73.3,
+   "luminosity": 1620,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "II",
+   "subtype": 7,
+   "mass": 2.8,
+   "radius": 77.1,
+   "luminosity": 1700,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "II",
+   "subtype": 8,
+   "mass": 2.9,
+   "radius": 85.1,
+   "luminosity": 1960,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "II",
+   "subtype": 9,
+   "mass": 3,
+   "radius": 89.8,
+   "luminosity": 2070,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "III",
+   "subtype": 0,
+   "mass": 1.8,
+   "radius": 6.38,
+   "luminosity": 37.5,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "III",
+   "subtype": 1,
+   "mass": 1.8,
+   "radius": 7.59,
+   "luminosity": 43.8,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "III",
+   "subtype": 2,
+   "mass": 1.9,
+   "radius": 9.16,
+   "luminosity": 52.3,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "III",
+   "subtype": 3,
+   "mass": 1.9,
+   "radius": 11.8,
+   "luminosity": 70.3,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "III",
+   "subtype": 4,
+   "mass": 2,
+   "radius": 14.9,
+   "luminosity": 89.1,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "III",
+   "subtype": 5,
+   "mass": 2,
+   "radius": 19.2,
+   "luminosity": 118,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "III",
+   "subtype": 6,
+   "mass": 2.1,
+   "radius": 20.2,
+   "luminosity": 123,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "III",
+   "subtype": 7,
+   "mass": 2.2,
+   "radius": 21.2,
+   "luminosity": 129,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "III",
+   "subtype": 8,
+   "mass": 2.2,
+   "radius": 21.4,
+   "luminosity": 124,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "III",
+   "subtype": 9,
+   "mass": 2.3,
+   "radius": 22.6,
+   "luminosity": 131,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "IV",
+   "subtype": 0,
+   "mass": 1.4,
+   "radius": 2.38,
+   "luminosity": 6.25,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "IV",
+   "subtype": 1,
+   "mass": 1.4,
+   "radius": 2.5,
+   "luminosity": 6.35,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "IV",
+   "subtype": 2,
+   "mass": 1.4,
+   "radius": 2.62,
+   "luminosity": 6.48,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "IV",
+   "subtype": 3,
+   "mass": 1.5,
+   "radius": 2.63,
+   "luminosity": 6.04,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "IV",
+   "subtype": 4,
+   "mass": 1.5,
+   "radius": 2.76,
+   "luminosity": 6.2,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "IV",
+   "subtype": 5,
+   "mass": 1.5,
+   "radius": 2.92,
+   "luminosity": 6.38,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "IV",
+   "subtype": 6,
+   "mass": 1.5,
+   "radius": 3.09,
+   "luminosity": 6.59,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "IV",
+   "subtype": 7,
+   "mass": 1.5,
+   "radius": 3.28,
+   "luminosity": 6.84,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "IV",
+   "subtype": 8,
+   "mass": 1.5,
+   "radius": 3.34,
+   "luminosity": 6.5,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "IV",
+   "subtype": 9,
+   "mass": 1.6,
+   "radius": 3.57,
+   "luminosity": 6.8,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "V",
+   "subtype": 0,
+   "mass": 1.1,
+   "radius": 1.25,
+   "luminosity": 1.72,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "V",
+   "subtype": 1,
+   "mass": 1,
+   "radius": 1.19,
+   "luminosity": 1.46,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "V",
+   "subtype": 2,
+   "mass": 1,
+   "radius": 1.14,
+   "luminosity": 1.23,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "V",
+   "subtype": 3,
+   "mass": 1,
+   "radius": 1.15,
+   "luminosity": 1.15,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "V",
+   "subtype": 4,
+   "mass": 0.9,
+   "radius": 1.1,
+   "luminosity": 0.982,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "V",
+   "subtype": 5,
+   "mass": 0.9,
+   "radius": 1.06,
+   "luminosity": 0.841,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "V",
+   "subtype": 6,
+   "mass": 0.9,
+   "radius": 1.07,
+   "luminosity": 0.792,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "V",
+   "subtype": 7,
+   "mass": 0.9,
+   "radius": 1.04,
+   "luminosity": 0.684,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "V",
+   "subtype": 8,
+   "mass": 0.8,
+   "radius": 1.06,
+   "luminosity": 0.65,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "V",
+   "subtype": 9,
+   "mass": 0.8,
+   "radius": 1.03,
+   "luminosity": 0.566,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "VI",
+   "subtype": 0,
+   "mass": 0.9,
+   "radius": 0.688,
+   "luminosity": 0.52,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "VI",
+   "subtype": 1,
+   "mass": 0.9,
+   "radius": 0.656,
+   "luminosity": 0.44,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "VI",
+   "subtype": 2,
+   "mass": 0.9,
+   "radius": 0.628,
+   "luminosity": 0.373,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "VI",
+   "subtype": 3,
+   "mass": 0.8,
+   "radius": 0.63,
+   "luminosity": 0.348,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "VI",
+   "subtype": 4,
+   "mass": 0.8,
+   "radius": 0.605,
+   "luminosity": 0.297,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "VI",
+   "subtype": 5,
+   "mass": 0.8,
+   "radius": 0.583,
+   "luminosity": 0.254,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "VI",
+   "subtype": 6,
+   "mass": 0.8,
+   "radius": 0.562,
+   "luminosity": 0.218,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "VI",
+   "subtype": 7,
+   "mass": 0.7,
+   "radius": 0.57,
+   "luminosity": 0.206,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "VI",
+   "subtype": 8,
+   "mass": 0.7,
+   "radius": 0.554,
+   "luminosity": 0.179,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "G",
+   "luminosityClass": "VI",
+   "subtype": 9,
+   "mass": 0.7,
+   "radius": 0.566,
+   "luminosity": 0.171,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "0",
+   "subtype": 0,
+   "mass": 12.5,
+   "radius": 2280,
+   "luminosity": 1260000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "0",
+   "subtype": 1,
+   "mass": 12.5,
+   "radius": 2300,
+   "luminosity": 1220000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "0",
+   "subtype": 2,
+   "mass": 13.3,
+   "radius": 2440,
+   "luminosity": 1300000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "0",
+   "subtype": 3,
+   "mass": 14.2,
+   "radius": 2720,
+   "luminosity": 1460000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "0",
+   "subtype": 4,
+   "mass": 15,
+   "radius": 3060,
+   "luminosity": 1650000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "0",
+   "subtype": 5,
+   "mass": 15.8,
+   "radius": 3460,
+   "luminosity": 1900000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "0",
+   "subtype": 6,
+   "mass": 15.8,
+   "radius": 3380,
+   "luminosity": 1850000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "0",
+   "subtype": 7,
+   "mass": 15.8,
+   "radius": 3320,
+   "luminosity": 1810000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "0",
+   "subtype": 8,
+   "mass": 15.8,
+   "radius": 3250,
+   "luminosity": 1770000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "0",
+   "subtype": 9,
+   "mass": 15.8,
+   "radius": 3350,
+   "luminosity": 1830000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ia",
+   "subtype": 0,
+   "mass": 8.2,
+   "radius": 950,
+   "luminosity": 219000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ia",
+   "subtype": 1,
+   "mass": 8.3,
+   "radius": 960,
+   "luminosity": 212000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ia",
+   "subtype": 2,
+   "mass": 8.8,
+   "radius": 1020,
+   "luminosity": 225000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ia",
+   "subtype": 3,
+   "mass": 9.4,
+   "radius": 1140,
+   "luminosity": 253000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ia",
+   "subtype": 4,
+   "mass": 9.9,
+   "radius": 1220,
+   "luminosity": 262000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ia",
+   "subtype": 5,
+   "mass": 10.4,
+   "radius": 1380,
+   "luminosity": 301000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ia",
+   "subtype": 6,
+   "mass": 10.6,
+   "radius": 1350,
+   "luminosity": 294000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ia",
+   "subtype": 7,
+   "mass": 10.7,
+   "radius": 1260,
+   "luminosity": 262000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ia",
+   "subtype": 8,
+   "mass": 10.9,
+   "radius": 1230,
+   "luminosity": 256000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ia",
+   "subtype": 9,
+   "mass": 11.1,
+   "radius": 1270,
+   "luminosity": 265000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ib",
+   "subtype": 0,
+   "mass": 3.9,
+   "radius": 262,
+   "luminosity": 16600,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ib",
+   "subtype": 1,
+   "mass": 4.1,
+   "radius": 277,
+   "luminosity": 17600,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ib",
+   "subtype": 2,
+   "mass": 4.3,
+   "radius": 308,
+   "luminosity": 20600,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ib",
+   "subtype": 3,
+   "mass": 4.6,
+   "radius": 359,
+   "luminosity": 25300,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ib",
+   "subtype": 4,
+   "mass": 4.8,
+   "radius": 422,
+   "luminosity": 31500,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ib",
+   "subtype": 5,
+   "mass": 5,
+   "radius": 499,
+   "luminosity": 39600,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ib",
+   "subtype": 6,
+   "mass": 5.3,
+   "radius": 512,
+   "luminosity": 42400,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ib",
+   "subtype": 7,
+   "mass": 5.7,
+   "radius": 526,
+   "luminosity": 45500,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ib",
+   "subtype": 8,
+   "mass": 6,
+   "radius": 535,
+   "luminosity": 44400,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "Ib",
+   "subtype": 9,
+   "mass": 6.3,
+   "radius": 556,
+   "luminosity": 50400,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "II",
+   "subtype": 0,
+   "mass": 3.1,
+   "radius": 95,
+   "luminosity": 2190,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "II",
+   "subtype": 1,
+   "mass": 3.3,
+   "radius": 101,
+   "luminosity": 2320,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "II",
+   "subtype": 2,
+   "mass": 3.4,
+   "radius": 107,
+   "luminosity": 2470,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "II",
+   "subtype": 3,
+   "mass": 3.6,
+   "radius": 119,
+   "luminosity": 2770,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "II",
+   "subtype": 4,
+   "mass": 3.8,
+   "radius": 133,
+   "luminosity": 3150,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "II",
+   "subtype": 5,
+   "mass": 3.9,
+   "radius": 151,
+   "luminosity": 3620,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "II",
+   "subtype": 6,
+   "mass": 4.2,
+   "radius": 148,
+   "luminosity": 3530,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "II",
+   "subtype": 7,
+   "mass": 4.4,
+   "radius": 145,
+   "luminosity": 3450,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "II",
+   "subtype": 8,
+   "mass": 4.6,
+   "radius": 148,
+   "luminosity": 3690,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "II",
+   "subtype": 9,
+   "mass": 4.9,
+   "radius": 153,
+   "luminosity": 3830,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "III",
+   "subtype": 0,
+   "mass": 2.3,
+   "radius": 23.9,
+   "luminosity": 138,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "III",
+   "subtype": 1,
+   "mass": 2.4,
+   "radius": 26.4,
+   "luminosity": 161,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "III",
+   "subtype": 2,
+   "mass": 2.5,
+   "radius": 30.8,
+   "luminosity": 206,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "III",
+   "subtype": 3,
+   "mass": 2.6,
+   "radius": 35.9,
+   "luminosity": 253,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "III",
+   "subtype": 4,
+   "mass": 2.7,
+   "radius": 44.2,
+   "luminosity": 345,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "III",
+   "subtype": 5,
+   "mass": 2.8,
+   "radius": 52.3,
+   "luminosity": 435,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "III",
+   "subtype": 6,
+   "mass": 3,
+   "radius": 53.6,
+   "luminosity": 465,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "III",
+   "subtype": 7,
+   "mass": 3.1,
+   "radius": 55,
+   "luminosity": 499,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "III",
+   "subtype": 8,
+   "mass": 3.3,
+   "radius": 56.4,
+   "luminosity": 534,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "III",
+   "subtype": 9,
+   "mass": 3.4,
+   "radius": 60.9,
+   "luminosity": 606,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "IV",
+   "subtype": 0,
+   "mass": 1.6,
+   "radius": 3.83,
+   "luminosity": 7.16,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "IV",
+   "subtype": 1,
+   "mass": 1.6,
+   "radius": 4.21,
+   "luminosity": 7.71,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "IV",
+   "subtype": 2,
+   "mass": 1.6,
+   "radius": 4.66,
+   "luminosity": 8.38,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "IV",
+   "subtype": 3,
+   "mass": 1.7,
+   "radius": 5.19,
+   "luminosity": 9.22,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "IV",
+   "subtype": 4,
+   "mass": 1.7,
+   "radius": 5.84,
+   "luminosity": 10.3,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "IV",
+   "subtype": 5,
+   "mass": 1.8,
+   "radius": 6.33,
+   "luminosity": 10.6,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "IV",
+   "subtype": 6,
+   "mass": 1.8,
+   "radius": 7.26,
+   "luminosity": 12.2,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "IV",
+   "subtype": 7,
+   "mass": 1.9,
+   "radius": 8.43,
+   "luminosity": 14.2,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "IV",
+   "subtype": 8,
+   "mass": 1.9,
+   "radius": 9.9,
+   "luminosity": 17,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "IV",
+   "subtype": 9,
+   "mass": 2,
+   "radius": 11.8,
+   "luminosity": 20.7,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "V",
+   "subtype": 0,
+   "mass": 0.8,
+   "radius": 1.05,
+   "luminosity": 0.543,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "V",
+   "subtype": 1,
+   "mass": 0.8,
+   "radius": 1.02,
+   "luminosity": 0.443,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "V",
+   "subtype": 2,
+   "mass": 0.7,
+   "radius": 1.01,
+   "luminosity": 0.401,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "V",
+   "subtype": 3,
+   "mass": 0.7,
+   "radius": 0.998,
+   "luminosity": 0.335,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "V",
+   "subtype": 4,
+   "mass": 0.7,
+   "radius": 0.988,
+   "luminosity": 0.31,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "V",
+   "subtype": 5,
+   "mass": 0.7,
+   "radius": 0.981,
+   "luminosity": 0.266,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "V",
+   "subtype": 6,
+   "mass": 0.6,
+   "radius": 0.975,
+   "luminosity": 0.211,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "V",
+   "subtype": 7,
+   "mass": 0.6,
+   "radius": 0.967,
+   "luminosity": 0.187,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "V",
+   "subtype": 8,
+   "mass": 0.6,
+   "radius": 0.957,
+   "luminosity": 0.155,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "V",
+   "subtype": 9,
+   "mass": 0.5,
+   "radius": 0.946,
+   "luminosity": 0.144,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "VI",
+   "subtype": 0,
+   "mass": 0.7,
+   "radius": 0.553,
+   "luminosity": 0.15,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "VI",
+   "subtype": 1,
+   "mass": 0.6,
+   "radius": 0.555,
+   "luminosity": 0.134,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "VI",
+   "subtype": 2,
+   "mass": 0.6,
+   "radius": 0.56,
+   "luminosity": 0.121,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "VI",
+   "subtype": 3,
+   "mass": 0.6,
+   "radius": 0.544,
+   "luminosity": 0.101,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "VI",
+   "subtype": 4,
+   "mass": 0.5,
+   "radius": 0.558,
+   "luminosity": 0.0936,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "VI",
+   "subtype": 5,
+   "mass": 0.5,
+   "radius": 0.578,
+   "luminosity": 0.088,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "VI",
+   "subtype": 6,
+   "mass": 0.5,
+   "radius": 0.577,
+   "luminosity": 0.0767,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "VI",
+   "subtype": 7,
+   "mass": 0.4,
+   "radius": 0.583,
+   "luminosity": 0.068,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "VI",
+   "subtype": 8,
+   "mass": 0.3,
+   "radius": 0.57,
+   "luminosity": 0.0562,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "K",
+   "luminosityClass": "VI",
+   "subtype": 9,
+   "mass": 0.3,
+   "radius": 0.54,
+   "luminosity": 0.0433,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "0",
+   "subtype": 0,
+   "mass": 15.8,
+   "radius": 3460,
+   "luminosity": 1900000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "0",
+   "subtype": 1,
+   "mass": 15.1,
+   "radius": 4460,
+   "luminosity": 2560000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "0",
+   "subtype": 2,
+   "mass": 14.5,
+   "radius": 5950,
+   "luminosity": 3650000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "0",
+   "subtype": 3,
+   "mass": 13.8,
+   "radius": 7890,
+   "luminosity": 5070000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "0",
+   "subtype": 4,
+   "mass": 13.2,
+   "radius": 11500,
+   "luminosity": 8380000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "0",
+   "subtype": 5,
+   "mass": 12.5,
+   "radius": 17800,
+   "luminosity": 15300000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "0",
+   "subtype": 6,
+   "mass": 12.4,
+   "radius": 28100,
+   "luminosity": 28800000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "0",
+   "subtype": 7,
+   "mass": 12.3,
+   "radius": 51000,
+   "luminosity": 69600000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "0",
+   "subtype": 8,
+   "mass": 12.1,
+   "radius": 103000,
+   "luminosity": 205000000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "0",
+   "subtype": 9,
+   "mass": 12,
+   "radius": 231000,
+   "luminosity": 711000000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ia",
+   "subtype": 0,
+   "mass": 13.3,
+   "radius": 1310,
+   "luminosity": 274000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ia",
+   "subtype": 1,
+   "mass": 12.7,
+   "radius": 1620,
+   "luminosity": 337000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ia",
+   "subtype": 2,
+   "mass": 12.1,
+   "radius": 2160,
+   "luminosity": 481000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ia",
+   "subtype": 3,
+   "mass": 11.6,
+   "radius": 3000,
+   "luminosity": 733000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ia",
+   "subtype": 4,
+   "mass": 11,
+   "radius": 4180,
+   "luminosity": 1100000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ia",
+   "subtype": 5,
+   "mass": 10.5,
+   "radius": 6450,
+   "luminosity": 2020000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ia",
+   "subtype": 6,
+   "mass": 10.3,
+   "radius": 10700,
+   "luminosity": 4170000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ia",
+   "subtype": 7,
+   "mass": 10.2,
+   "radius": 18500,
+   "luminosity": 9180000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ia",
+   "subtype": 8,
+   "mass": 10.1,
+   "radius": 37600,
+   "luminosity": 27000000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ia",
+   "subtype": 9,
+   "mass": 10,
+   "radius": 87900,
+   "luminosity": 103000000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ib",
+   "subtype": 0,
+   "mass": 10.7,
+   "radius": 600,
+   "luminosity": 57300,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ib",
+   "subtype": 1,
+   "mass": 10.2,
+   "radius": 775,
+   "luminosity": 77300,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ib",
+   "subtype": 2,
+   "mass": 9.8,
+   "radius": 1030,
+   "luminosity": 110000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ib",
+   "subtype": 3,
+   "mass": 9.3,
+   "radius": 1440,
+   "luminosity": 168000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ib",
+   "subtype": 4,
+   "mass": 8.9,
+   "radius": 2090,
+   "luminosity": 277000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ib",
+   "subtype": 5,
+   "mass": 8.4,
+   "radius": 3230,
+   "luminosity": 507000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ib",
+   "subtype": 6,
+   "mass": 8.3,
+   "radius": 5120,
+   "luminosity": 955000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ib",
+   "subtype": 7,
+   "mass": 8.2,
+   "radius": 8870,
+   "luminosity": 2100000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ib",
+   "subtype": 8,
+   "mass": 8.1,
+   "radius": 16400,
+   "luminosity": 5150000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "Ib",
+   "subtype": 9,
+   "mass": 8,
+   "radius": 36700,
+   "luminosity": 17900000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "II",
+   "subtype": 0,
+   "mass": 8.2,
+   "radius": 158,
+   "luminosity": 3960,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "II",
+   "subtype": 1,
+   "mass": 7.8,
+   "radius": 213,
+   "luminosity": 5860,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "II",
+   "subtype": 2,
+   "mass": 7.4,
+   "radius": 285,
+   "luminosity": 8360,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "II",
+   "subtype": 3,
+   "mass": 7.1,
+   "radius": 414,
+   "luminosity": 14000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "II",
+   "subtype": 4,
+   "mass": 6.7,
+   "radius": 604,
+   "luminosity": 23100,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "II",
+   "subtype": 5,
+   "mass": 6.4,
+   "radius": 976,
+   "luminosity": 46200,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "II",
+   "subtype": 6,
+   "mass": 6.3,
+   "radius": 1620,
+   "luminosity": 95500,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "II",
+   "subtype": 7,
+   "mass": 6.2,
+   "radius": 3070,
+   "luminosity": 253000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "II",
+   "subtype": 8,
+   "mass": 6.1,
+   "radius": 6230,
+   "luminosity": 744000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "II",
+   "subtype": 9,
+   "mass": 6,
+   "radius": 14600,
+   "luminosity": 2830000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "III",
+   "subtype": 0,
+   "mass": 5.6,
+   "radius": 65.8,
+   "luminosity": 689,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "III",
+   "subtype": 1,
+   "mass": 5.3,
+   "radius": 85,
+   "luminosity": 929,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "III",
+   "subtype": 2,
+   "mass": 5.1,
+   "radius": 108,
+   "luminosity": 1210,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "III",
+   "subtype": 3,
+   "mass": 4.8,
+   "radius": 150,
+   "luminosity": 1840,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "III",
+   "subtype": 4,
+   "mass": 4.6,
+   "radius": 209,
+   "luminosity": 2770,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "III",
+   "subtype": 5,
+   "mass": 4.3,
+   "radius": 323,
+   "luminosity": 5070,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "III",
+   "subtype": 6,
+   "mass": 4.2,
+   "radius": 512,
+   "luminosity": 9550,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "III",
+   "subtype": 7,
+   "mass": 4.2,
+   "radius": 887,
+   "luminosity": 21000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "III",
+   "subtype": 8,
+   "mass": 4.1,
+   "radius": 1640,
+   "luminosity": 51500,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "III",
+   "subtype": 9,
+   "mass": 4.1,
+   "radius": 3670,
+   "luminosity": 179000,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "IV",
+   "subtype": 0,
+   "mass": 3.1,
+   "radius": 14.3,
+   "luminosity": 26,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "IV",
+   "subtype": 1,
+   "mass": 2.9,
+   "radius": 18.4,
+   "luminosity": 35.5,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "IV",
+   "subtype": 2,
+   "mass": 2.7,
+   "radius": 24.4,
+   "luminosity": 50.9,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "IV",
+   "subtype": 3,
+   "mass": 2.6,
+   "radius": 33.6,
+   "luminosity": 77.6,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "IV",
+   "subtype": 4,
+   "mass": 2.4,
+   "radius": 48.3,
+   "luminosity": 127,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "IV",
+   "subtype": 5,
+   "mass": 2.3,
+   "radius": 69.4,
+   "luminosity": 207,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "IV",
+   "subtype": 6,
+   "mass": 2.2,
+   "radius": 111,
+   "luminosity": 410,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "IV",
+   "subtype": 7,
+   "mass": 2.1,
+   "radius": 192,
+   "luminosity": 926,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "IV",
+   "subtype": 8,
+   "mass": 2.1,
+   "radius": 361,
+   "luminosity": 2440,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "IV",
+   "subtype": 9,
+   "mass": 2.1,
+   "radius": 764,
+   "luminosity": 7910,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "V",
+   "subtype": 0,
+   "mass": 0.5,
+   "radius": 0.99,
+   "luminosity": 0.125,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "V",
+   "subtype": 1,
+   "mass": 0.5,
+   "radius": 0.768,
+   "luminosity": 0.0618,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "V",
+   "subtype": 2,
+   "mass": 0.4,
+   "radius": 0.614,
+   "luminosity": 0.0321,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "V",
+   "subtype": 3,
+   "mass": 0.3,
+   "radius": 0.509,
+   "luminosity": 0.0178,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "V",
+   "subtype": 4,
+   "mass": 0.3,
+   "radius": 0.44,
+   "luminosity": 0.0106,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "V",
+   "subtype": 5,
+   "mass": 0.2,
+   "radius": 0.381,
+   "luminosity": 0.00624,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "V",
+   "subtype": 6,
+   "mass": 0.2,
+   "radius": 0.368,
+   "luminosity": 0.0045,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "V",
+   "subtype": 7,
+   "mass": 0.1,
+   "radius": 0.383,
+   "luminosity": 0.00369,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "V",
+   "subtype": 8,
+   "mass": 0.1,
+   "radius": 0.434,
+   "luminosity": 0.00353,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "V",
+   "subtype": 9,
+   "mass": 0.1,
+   "radius": 0.553,
+   "luminosity": 0.00415,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "VI",
+   "subtype": 0,
+   "mass": 0.2,
+   "radius": 0.544,
+   "luminosity": 0.0376,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "VI",
+   "subtype": 1,
+   "mass": 0.2,
+   "radius": 0.422,
+   "luminosity": 0.0186,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "VI",
+   "subtype": 2,
+   "mass": 0.2,
+   "radius": 0.322,
+   "luminosity": 0.00885,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "VI",
+   "subtype": 3,
+   "mass": 0.2,
+   "radius": 0.267,
+   "luminosity": 0.0049,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "VI",
+   "subtype": 4,
+   "mass": 0.1,
+   "radius": 0.221,
+   "luminosity": 0.00266,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "VI",
+   "subtype": 5,
+   "mass": 0.1,
+   "radius": 0.2,
+   "luminosity": 0.00172,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "VI",
+   "subtype": 6,
+   "mass": 0.1,
+   "radius": 0.222,
+   "luminosity": 0.00163,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "VI",
+   "subtype": 7,
+   "mass": 0.1,
+   "radius": 0.278,
+   "luminosity": 0.00194,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "VI",
+   "subtype": 8,
+   "mass": 0.1,
+   "radius": 0.361,
+   "luminosity": 0.00244,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "M",
+   "luminosityClass": "VI",
+   "subtype": 9,
+   "mass": 0.1,
+   "radius": 0.453,
+   "luminosity": 0.00415,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "L",
+   "luminosityClass": null,
+   "subtype": 0,
+   "mass": 0.1,
+   "radius": 0.544,
+   "luminosity": 0.0376,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "L",
+   "luminosityClass": null,
+   "subtype": 1,
+   "mass": 0.09,
+   "radius": 0.422,
+   "luminosity": 0.0186,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "L",
+   "luminosityClass": null,
+   "subtype": 2,
+   "mass": 0.08,
+   "radius": 0.322,
+   "luminosity": 0.00885,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "L",
+   "luminosityClass": null,
+   "subtype": 3,
+   "mass": 0.07,
+   "radius": 0.267,
+   "luminosity": 0.0049,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "L",
+   "luminosityClass": null,
+   "subtype": 4,
+   "mass": 0.06,
+   "radius": 0.221,
+   "luminosity": 0.00266,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "L",
+   "luminosityClass": null,
+   "subtype": 5,
+   "mass": 0.05,
+   "radius": 0.2,
+   "luminosity": 0.00172,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "L",
+   "luminosityClass": null,
+   "subtype": 6,
+   "mass": 0.04,
+   "radius": 0.222,
+   "luminosity": 0.00163,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "L",
+   "luminosityClass": null,
+   "subtype": 7,
+   "mass": 0.03,
+   "radius": 0.278,
+   "luminosity": 0.00194,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "L",
+   "luminosityClass": null,
+   "subtype": 8,
+   "mass": 0.02,
+   "radius": 0.361,
+   "luminosity": 0.00244,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "L",
+   "luminosityClass": null,
+   "subtype": 9,
+   "mass": 0.0124,
+   "radius": 0.453,
+   "luminosity": 0.00415,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "T",
+   "luminosityClass": null,
+   "subtype": 0,
+   "mass": 0.01,
+   "radius": 0.544,
+   "luminosity": 0.0376,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "T",
+   "luminosityClass": null,
+   "subtype": 1,
+   "mass": 0.01,
+   "radius": 0.422,
+   "luminosity": 0.0186,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "T",
+   "luminosityClass": null,
+   "subtype": 2,
+   "mass": 0.01,
+   "radius": 0.322,
+   "luminosity": 0.00885,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "T",
+   "luminosityClass": null,
+   "subtype": 3,
+   "mass": 0.01,
+   "radius": 0.267,
+   "luminosity": 0.0049,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "T",
+   "luminosityClass": null,
+   "subtype": 4,
+   "mass": 0.01,
+   "radius": 0.221,
+   "luminosity": 0.00266,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "T",
+   "luminosityClass": null,
+   "subtype": 5,
+   "mass": 0.01,
+   "radius": 0.2,
+   "luminosity": 0.00172,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "T",
+   "luminosityClass": null,
+   "subtype": 6,
+   "mass": 0.01,
+   "radius": 0.222,
+   "luminosity": 0.00163,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "T",
+   "luminosityClass": null,
+   "subtype": 7,
+   "mass": 0.01,
+   "radius": 0.278,
+   "luminosity": 0.00194,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "T",
+   "luminosityClass": null,
+   "subtype": 8,
+   "mass": 0.01,
+   "radius": 0.361,
+   "luminosity": 0.00244,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "T",
+   "luminosityClass": null,
+   "subtype": 9,
+   "mass": 0.01,
+   "radius": 0.453,
+   "luminosity": 0.00415,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "Y",
+   "luminosityClass": null,
+   "subtype": 0,
+   "mass": 0.01,
+   "radius": 0.544,
+   "luminosity": 0.0376,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "Y",
+   "luminosityClass": null,
+   "subtype": 1,
+   "mass": 0.01,
+   "radius": 0.422,
+   "luminosity": 0.0186,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "Y",
+   "luminosityClass": null,
+   "subtype": 2,
+   "mass": 0.01,
+   "radius": 0.322,
+   "luminosity": 0.00885,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "Y",
+   "luminosityClass": null,
+   "subtype": 3,
+   "mass": 0.01,
+   "radius": 0.267,
+   "luminosity": 0.0049,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "Y",
+   "luminosityClass": null,
+   "subtype": 4,
+   "mass": 0.01,
+   "radius": 0.221,
+   "luminosity": 0.00266,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "Y",
+   "luminosityClass": null,
+   "subtype": 5,
+   "mass": 0.01,
+   "radius": 0.2,
+   "luminosity": 0.00172,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "Y",
+   "luminosityClass": null,
+   "subtype": 6,
+   "mass": 0.01,
+   "radius": 0.222,
+   "luminosity": 0.00163,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "Y",
+   "luminosityClass": null,
+   "subtype": 7,
+   "mass": 0.01,
+   "radius": 0.278,
+   "luminosity": 0.00194,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "Y",
+   "luminosityClass": null,
+   "subtype": 8,
+   "mass": 0.01,
+   "radius": 0.361,
+   "luminosity": 0.00244,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "Y",
+   "luminosityClass": null,
+   "subtype": 9,
+   "mass": 0.01,
+   "radius": 0.453,
+   "luminosity": 0.00415,
+   "unreliable": true
+  },
+  {
+   "spectralClass": "White",
+   "luminosityClass": "Dwarfs",
+   "subtype": 0,
+   "mass": 1.1,
+   "radius": 0.00902,
+   "luminosity": 6.91,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "White",
+   "luminosityClass": "Dwarfs",
+   "subtype": 1,
+   "mass": 0.9,
+   "radius": 0.00696,
+   "luminosity": 0.265,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "White",
+   "luminosityClass": "Dwarfs",
+   "subtype": 2,
+   "mass": 0.8,
+   "radius": 0.00864,
+   "luminosity": 0.0255,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "White",
+   "luminosityClass": "Dwarfs",
+   "subtype": 3,
+   "mass": 0.7,
+   "radius": 0.00944,
+   "luminosity": 0.00602,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "White",
+   "luminosityClass": "Dwarfs",
+   "subtype": 4,
+   "mass": 0.6,
+   "radius": 0.00922,
+   "luminosity": 0.00182,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "White",
+   "luminosityClass": "Dwarfs",
+   "subtype": 5,
+   "mass": 0.5,
+   "radius": 0.0089,
+   "luminosity": 0.000693,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "White",
+   "luminosityClass": "Dwarfs",
+   "subtype": 6,
+   "mass": 0.4,
+   "radius": 0.00864,
+   "luminosity": 0.000315,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "White",
+   "luminosityClass": "Dwarfs",
+   "subtype": 7,
+   "mass": 0.3,
+   "radius": 0.00889,
+   "luminosity": 0.00018,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "White",
+   "luminosityClass": "Dwarfs",
+   "subtype": 8,
+   "mass": 0.2,
+   "radius": 0.00887,
+   "luminosity": 0.000105,
+   "unreliable": false
+  },
+  {
+   "spectralClass": "White",
+   "luminosityClass": "Dwarfs",
+   "subtype": 9,
+   "mass": 0.1,
+   "radius": 0.00898,
+   "luminosity": 0.0000673,
+   "unreliable": false
+  }
+ ]
+}

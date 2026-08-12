@@ -263,10 +263,54 @@ so the log-space 8-order-of-magnitude zoom is custom regardless.
 | 0 | Vite + TS + Vitest, ESM, drop jQuery, vendor font. Logic ported verbatim, bugs intact. | App behaves identically; `npm run dev` works |
 | 1 | Domain extraction: pure `evolve()`, single-pass, branded units. Fix the six bugs. Old renderer still attached. | Sun classifies G2V; WD from 1 M☉ ≈ 0.55 M☉; mass drops on the giant branch |
 | 2 | Tout ZAMS + Hurley tracks + metallicity + blackbody color. | Validated vs. ported tables, Sun at 4.57 Gyr (L=1.00, R=1.00, T=5772 K), continuity at every phase boundary |
+| 2b | Hurley MS perturbation terms + giant-branch machinery. See "Phase 2 status". | Sun classifies G2V at 4.57 Gyr; giant branch reaches realistic tip luminosity |
 | 3 | three.js + EffectComposer HDR pipeline, log-space camera, archetypes. | Resize keeps the star centered; collapse traverses 7 orders smoothly |
 | 4 | `computeTrack`, warped timeline, bookmarks, adaptive pacing, size scale. | PN phase is visible during full-lifecycle playback |
 | 5 | Sliders, readout, SVG HR diagram with moving marker. | — |
 | 6 | URL state, keyboard, reduced-motion, a11y. | — |
+
+---
+
+## Phase 2 status
+
+Landed and validated:
+
+- **Tout (1996) ZAMS**, metallicity-dependent L and R. Reproduces the zero-age Sun at
+  L = 0.698, R = 0.888, T = 5598 K (real ≈ 5620 K).
+- **Hurley (2000) timescales** — t_BGB and the main-sequence hook fraction. Sun 11.0 Gyr,
+  5 M☉ 104 Myr, 30 M☉ 5.81 Myr against a real ≈ 6 Myr. The Hertzsprung gap is now the real
+  t_BGB − t_MS rather than a hardcoded 10% of the main sequence.
+- **Hurley terminal-age anchors** L_TMS and R_TMS. The Sun brightens ~3x and swells ~1.8x across
+  its main sequence, against the 5.6% the previous engine gave.
+- **Metallicity** threaded through every fit as ζ = log10(Z/Z☉), exposed as [Fe/H].
+- **Blackbody colour** — Planck spectrum integrated against the CIE 1931 observer (Wyman, Sloan &
+  Shirley 2013 analytic fit), to linear sRGB. Validated against published Planckian locus
+  coordinates from 2856 K to 20000 K. Emits linear-light values for the phase-3 HDR pipeline.
+- **Coefficient extraction is mechanical**, not transcribed: `scripts/extract-sse-coefficients.mjs`
+  parses all 509 published constants and fails loudly on any count mismatch.
+- **Phase-boundary continuity** asserted at 0.8, 1, 2, 5 and 12 M☉.
+
+Deferred to 2b:
+
+- **MS perturbation terms** (Hurley's α, β, η and the hook corrections). Without them the main
+  sequence is a log-space interpolation between the ZAMS and terminal-age anchors, which grows the
+  radius too fast early. Consequence: the Sun reads 5540 K / G5V at 4.57 Gyr instead of
+  5772 K / G2V. Both endpoints are correct; only the path between them is approximate.
+- **Giant-branch machinery** (the GB parameter block, core-mass–luminosity relation, t_inf
+  timescales). The giant phase duration is currently a fraction of t_BGB and its tip luminosity is
+  far below the real RGB tip, which in turn understates Reimers mass loss.
+- **Unverified:** the terminal-age luminosity at low metallicity. At [Fe/H] = −1.5 a 1 M☉ star
+  gets L_TMS = 7.7 L☉, a factor of 5 above its ZAMS value against 3x at solar. That may be
+  legitimate — the star sits above M_hook there, and the hook steepens at low Z — but it is the
+  least-corroborated number in the engine and wants checking against a published isochrone.
+
+### Provenance note
+
+The published coefficients were cross-checked against `zdata.h` from a GPL-3.0 reference
+implementation. The constants themselves are paper data (Tout 1996 Table 1; Hurley 2000 Appendix)
+and the formulae are published mathematics; the TypeScript here is an independent implementation,
+not a translation of that source, and no GPL code is vendored. Flagging it so the licensing
+position is on the record rather than assumed.
 
 ---
 

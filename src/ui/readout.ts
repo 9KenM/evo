@@ -1,5 +1,5 @@
 import type { StarState } from '../domain/index.js'
-import { cssRGB } from '../domain/index.js'
+import { cssRGB, toFeH } from '../domain/index.js'
 
 function num(value: number, unit = ''): string {
   const abs = Math.abs(value)
@@ -37,9 +37,13 @@ export class Readout {
       ROW('age', age(star.age)),
       ROW('mass', num(star.mass, 'M☉')),
       ROW('initial mass', num(star.massInitial, 'M☉')),
+      ROW('[Fe/H]', toFeH(star.metallicity).toFixed(2)),
       ROW('radius', num(star.radius, 'R☉')),
       ROW('luminosity', num(star.luminosity, 'L☉')),
       ROW('temperature', num(star.temperature, 'K')),
+      '<hr>',
+      ROW('ZAMS', `${num(star.zams.luminosity)} L☉ / ${num(star.zams.radius)} R☉`),
+      ROW('TAMS', `${num(star.tams.luminosity)} L☉ / ${num(star.tams.radius)} R☉`),
       '<hr>',
       ROW('main sequence', age(life.mainSequence)),
       ROW('subgiant', age(life.subgiant)),

@@ -2,12 +2,23 @@ import '@fontsource/inconsolata/400.css'
 import '@fontsource/inconsolata/700.css'
 import './style.css'
 
-import { evolve, gyr, solarMasses, type Gyr, type SolarMasses } from './domain/index.js'
+import {
+  SOLAR,
+  evolve,
+  fromFeH,
+  gyr,
+  solarMasses,
+  toFeH,
+  type Gyr,
+  type Metallicity,
+  type SolarMasses,
+} from './domain/index.js'
 import { Renderer } from './render/renderer.js'
 import { Readout } from './ui/readout.js'
 
 interface Params {
   massInitial: SolarMasses
+  metallicity: Metallicity
   age: Gyr
   /** Gyr of simulated time per second of wall-clock time. */
   timescale: number
@@ -16,6 +27,7 @@ interface Params {
 
 const params: Params = {
   massInitial: solarMasses(1),
+  metallicity: SOLAR,
   age: gyr(0),
   timescale: 0.6,
   running: false,
@@ -32,6 +44,7 @@ const renderer = new Renderer(canvas)
 const readout = new Readout(el('info'))
 
 const massInput = el<HTMLInputElement>('mass')
+const fehInput = el<HTMLInputElement>('feh')
 const ageInput = el<HTMLInputElement>('age')
 const timescaleInput = el<HTMLInputElement>('timescale')
 const playButton = el<HTMLButtonElement>('play')
@@ -43,12 +56,19 @@ const readNumber = (input: HTMLInputElement, fallback: number, min: number): num
 
 function syncInputs(): void {
   massInput.value = String(params.massInitial)
+  fehInput.value = toFeH(params.metallicity).toFixed(2)
   ageInput.value = params.age.toPrecision(4)
   timescaleInput.value = String(params.timescale)
 }
 
 massInput.addEventListener('change', () => {
-  params.massInitial = solarMasses(readNumber(massInput, params.massInitial, 0.08))
+  params.massInitial = solarMasses(readNumber(massInput, params.massInitial, 0.1))
+  syncInputs()
+})
+
+fehInput.addEventListener('change', () => {
+  const parsed = Number.parseFloat(fehInput.value)
+  params.metallicity = fromFeH(Number.isFinite(parsed) ? parsed : toFeH(params.metallicity))
   syncInputs()
 })
 
@@ -81,7 +101,7 @@ function frame(now: number): void {
     ageInput.value = params.age.toPrecision(4)
   }
 
-  const star = evolve(params.massInitial, params.age)
+  const star = evolve(params.massInitial, params.age, params.metallicity)
   renderer.render(star)
   readout.update(star)
 
