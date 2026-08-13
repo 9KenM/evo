@@ -1,4 +1,8 @@
 :root {
+  /* Left rail belongs to the size scale; the info panel starts after it. Reference labels then sit
+     clear of the panel rather than underneath it. */
+  --panel-left: 78px;
+  --panel-width: 250px;
   --panel: rgba(20, 22, 28, 0.72);
   --border: rgba(255, 255, 255, 0.12);
   --text: #e8e8ea;
@@ -63,13 +67,34 @@ body {
   color: var(--muted);
 }
 
-#controls input {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--border);
-  border-radius: 4px;
+#controls input[type='range'] {
+  width: 132px;
+  accent-color: #6ea8fe;
+}
+
+/* label · slider · value, with the value on a fixed width so the row does not jitter as it drags */
+.field {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+}
+
+.field-name {
+  white-space: nowrap;
+}
+
+.field output {
+  min-width: 68px;
   color: var(--text);
-  font: inherit;
-  padding: 3px 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
 }
 
 #controls input:focus-visible,
@@ -95,8 +120,8 @@ body {
 #info {
   position: fixed;
   top: 56px;
-  left: 78px;
-  width: 250px;
+  left: var(--panel-left);
+  width: var(--panel-width);
   padding: 14px;
   background: var(--panel);
   border: 1px solid var(--border);
@@ -176,9 +201,10 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* Starts clear of the info panel, so the label is never printed underneath it. */
 .ss-reference {
   position: absolute;
-  left: 0;
+  left: calc(var(--panel-left) + var(--panel-width) + 16px);
   right: 0;
   height: 0;
   border-top: 1px dashed rgba(150, 190, 255, 0.35);
@@ -186,7 +212,7 @@ body {
 
 .ss-reference span {
   position: absolute;
-  left: 70px;
+  left: 0;
   bottom: 3px;
   font-size: 11px;
   color: rgba(150, 190, 255, 0.75);
@@ -343,6 +369,120 @@ body {
   white-space: nowrap;
 }
 
-.tl-caption {
-  display: none;
+.tl-strip:focus-visible {
+  outline: 2px solid #6ea8fe;
+  outline-offset: 2px;
+}
+
+/* --- HR diagram ------------------------------------------------------- */
+
+#hrpanel {
+  position: fixed;
+  right: 14px;
+  bottom: 132px;
+  width: 190px;
+  padding: 10px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+}
+
+.panel-title {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 8px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+#hr {
+  position: relative;
+}
+
+#hr svg {
+  display: block;
+  width: 100%;
+  height: 130px;
+  overflow: visible;
+}
+
+.hr-grid line {
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 0.3;
+  vector-effect: non-scaling-stroke;
+}
+
+.hr-track {
+  fill: none;
+  stroke: rgba(150, 190, 255, 0.75);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+/* The present-day Sun, as a fixed landmark to read every other track against. */
+.hr-sun circle {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.5);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.hr-marker {
+  stroke: rgba(0, 0, 0, 0.8);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.hr-axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.35);
+  margin-top: 4px;
+}
+
+.hr-axis-y {
+  position: absolute;
+  top: 0;
+  bottom: 22px;
+  left: -2px;
+  flex-direction: column;
+  margin-top: 0;
+  pointer-events: none;
+}
+
+/* --- keyboard help ---------------------------------------------------- */
+
+#shortcuts {
+  position: fixed;
+  top: 56px;
+  right: 14px;
+  width: 230px;
+  padding: 12px 14px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+  z-index: 10;
+}
+
+#shortcuts dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  margin: 0;
+  font-size: 12px;
+}
+
+#shortcuts dt {
+  color: var(--text);
+  white-space: nowrap;
+}
+
+#shortcuts dd {
+  margin: 0;
+  color: var(--muted);
 }

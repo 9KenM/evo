@@ -9,9 +9,13 @@ import {
 import { blackbodyLinearRGB, blackbodyRGB, type LinearRGB, type RGB } from './color.js'
 import { classify, type Spectral } from './classify.js'
 import { isRemnant, type Stage } from './stage.js'
+import { giantBranchCoefficients, type GiantBranchCoefficients } from './giantBranch.js'
+import { buildTrack, type EvolutionTrack } from './track.js'
+import { peakTemperature } from './postAGB.js'
 import { SOLAR, type Metallicity } from './metallicity.js'
 import { zamsCoefficients, zamsProperties, type ZamsCoefficients } from './zams.js'
 import {
+  hookFraction,
   mainSequenceLifetime,
   timeToBGB,
   timescaleCoefficients,
@@ -26,16 +30,13 @@ import {
 import {
   gyr,
   kelvin,
-  massLostOver,
   solarLuminosities,
   solarMasses,
-  solarMassesPerYear,
   solarRadii,
   type Gyr,
   type Kelvin,
   type SolarLuminosities,
   type SolarMasses,
-  type SolarMassesPerYear,
   type SolarRadii,
 } from './units.js'
 
@@ -45,13 +46,11 @@ export interface Photosphere {
   readonly radius: SolarRadii
 }
 
-export interface Lifetimes {
-  readonly mainSequence: Gyr
-  /** Hertzsprung gap. t_BGB − t_MS, both Hurley quantities. */
-  readonly subgiant: Gyr
-  readonly giant: Gyr
-  /** Age at which the remnant forms. */
-  readonly total: Gyr
+/** A nuclear-burning phase, in Gyr. */
+export interface Phase {
+  readonly stage: Stage
+  readonly start: Gyr
+  readonly end: Gyr
 }
 
 export interface StarState {
@@ -60,6 +59,8 @@ export interface StarState {
   readonly age: Gyr
   readonly stage: Stage
   readonly mass: SolarMasses
+  /** Mass of the burning core, in solar masses. Zero on the main sequence. */
+  readonly coreMass: SolarMasses
   readonly luminosity: SolarLuminosities
   readonly temperature: Kelvin
   readonly radius: SolarRadii
@@ -70,7 +71,6 @@ export interface StarState {
   readonly spectral: Spectral
   readonly zams: Photosphere
   readonly tams: Pick<Photosphere, 'luminosity' | 'radius'>
-  readonly lifetimes: Lifetimes
 }
 
 /**
@@ -84,14 +84,17 @@ export interface EvolutionContext {
   readonly zams: ZamsCoefficients
   readonly timescales: TimescaleCoefficients
   readonly mainSequence: MainSequenceCoefficients
+  readonly giantBranch: GiantBranchCoefficients
 }
 
 export function evolutionContext(metallicity: Metallicity): EvolutionContext {
+  const timescales = timescaleCoefficients(metallicity)
   return {
     metallicity,
     zams: zamsCoefficients(metallicity),
-    timescales: timescaleCoefficients(metallicity),
+    timescales,
     mainSequence: mainSequenceCoefficients(metallicity),
+    giantBranch: giantBranchCoefficients(metallicity, timescales),
   }
 }
 
@@ -105,200 +108,158 @@ function cachedContext(metallicity: Metallicity): EvolutionContext {
   return built
 }
 
-const radiusFrom = (luminosity: number, temperature: number): SolarRadii =>
-  solarRadii(Math.pow(SOLAR_TEMPERATURE / temperature, 2) * Math.sqrt(luminosity))
-
-const temperatureFrom = (luminosity: number, radius: number): Kelvin =>
-  kelvin(Math.pow(luminosity / (radius * radius), 0.25) * SOLAR_TEMPERATURE)
-
-const lerp = (from: number, to: number, t: number) => from + (to - from) * t
-const logLerp = (from: number, to: number, t: number) =>
-  Math.exp(lerp(Math.log(from), Math.log(to), t))
-const clamp01 = (t: number) => Math.min(1, Math.max(0, t))
-
-export function lifetimes(mass: SolarMasses, ctx: EvolutionContext): Lifetimes {
-  const ms = mainSequenceLifetime(mass, ctx.timescales)
-  const bgb = timeToBGB(mass, ctx.timescales)
-
-  // Hertzsprung gap is the real gap between the two Hurley timescales.
-  const subgiant = gyr(Math.max(bgb - ms, ms * 1e-3))
-
-  /*
-   * PROVISIONAL. The giant-branch duration needs Hurley's core-mass/luminosity machinery
-   * (the GB parameter block and the t_inf timescales), which is not implemented yet. This
-   * fraction of t_BGB is a stand-in that keeps the phase present and ordered; it is not a fit.
-   */
-  const giant = gyr(0.15 * bgb)
-
-  return { mainSequence: ms, subgiant, giant, total: gyr(ms + subgiant + giant) }
-}
-
-export function stageAt(massInitial: SolarMasses, age: Gyr, life: Lifetimes): Stage {
-  if (age <= life.mainSequence) return 'main sequence'
-  if (age <= life.mainSequence + life.subgiant) return 'subgiant'
-  if (age <= life.total) return 'giant'
-  if (massInitial <= 8) return 'white dwarf'
-  if (massInitial <= 25) return 'neutron star'
-  return 'black hole'
-}
-
-// --- Nuclear-burning phases -------------------------------------------------
+const MYR_PER_GYR = 1000
 
 /**
- * Luminosity, temperature and radius of a burning star at a given age.
+ * The full evolutionary track for one (mass, metallicity) pair.
  *
- * The main sequence interpolates in log space between the Tout ZAMS values and the Hurley
- * terminal-age values, so both endpoints are anchored on published fits.
- *
- * The post-main-sequence phases are PROVISIONAL: they start exactly at the terminal-age values, so
- * there is no discontinuity at that boundary, but their shape is a smooth stand-in rather than
- * Hurley's giant-branch fits.
+ * Building it integrates the wind across the whole post-main-sequence, so it is far from free and
+ * every caller should hold onto the result rather than rebuilding per sample.
  */
-export function photosphereAt(
-  stage: Stage,
-  age: Gyr,
-  mass: SolarMasses,
-  ctx: EvolutionContext,
-  life: Lifetimes,
-): Photosphere {
-  const zamsProps = zamsProperties(mass, ctx.zams)
-  const lTAMS = luminosityTAMS(mass, ctx.mainSequence)
-  const rTAMS = radiusTAMS(mass, ctx.mainSequence, ctx.zams)
-
-  if (stage === 'main sequence') {
-    const tau = clamp01(age / life.mainSequence)
-    const luminosity = solarLuminosities(logLerp(zamsProps.luminosity, lTAMS, tau))
-    const radius = solarRadii(logLerp(zamsProps.radius, rTAMS, tau))
-    return { luminosity, radius, temperature: temperatureFrom(luminosity, radius) }
-  }
-
-  const tTAMS = temperatureFrom(lTAMS, rTAMS)
-
-  if (stage === 'subgiant') {
-    const tau = clamp01((age - life.mainSequence) / life.subgiant)
-    // Crosses the Hertzsprung gap at near-constant luminosity, cooling toward the giant branch.
-    const luminosity = solarLuminosities(logLerp(lTAMS, lTAMS * 2.5, tau))
-    const temperature = kelvin(logLerp(tTAMS, Math.min(tTAMS, 4800), tau))
-    return { luminosity, temperature, radius: radiusFrom(luminosity, temperature) }
-  }
-
-  const tau = clamp01((age - (life.mainSequence + life.subgiant)) / life.giant)
-  const luminosity = solarLuminosities(logLerp(lTAMS * 2.5, lTAMS * 25, tau))
-  const temperature = kelvin(logLerp(Math.min(tTAMS, 4800), 3200, tau))
-  return { luminosity, temperature, radius: radiusFrom(luminosity, temperature) }
+export function starTrack(massInitial: SolarMasses, ctx: EvolutionContext): EvolutionTrack {
+  const zams = zamsProperties(massInitial, ctx.zams)
+  return buildTrack({
+    mass: massInitial,
+    metallicity: ctx.metallicity,
+    giantBranch: ctx.giantBranch,
+    mainSequence: mainSequenceLifetime(massInitial, ctx.timescales) * MYR_PER_GYR,
+    bgb: timeToBGB(massInitial, ctx.timescales) * MYR_PER_GYR,
+    zamsLuminosity: zams.luminosity,
+    zamsRadius: zams.radius,
+    tamsLuminosity: luminosityTAMS(massInitial, ctx.mainSequence),
+    tamsRadius: radiusTAMS(massInitial, ctx.mainSequence, ctx.zams),
+    mainSequenceCoefficients: ctx.mainSequence,
+    hookTime:
+      hookFraction(massInitial, ctx.timescales) *
+      timeToBGB(massInitial, ctx.timescales) *
+      MYR_PER_GYR,
+    massHook: ctx.timescales.massHook,
+  })
 }
 
-// --- Mass loss --------------------------------------------------------------
+const trackCache = new Map<string, EvolutionTrack>()
 
-/**
- * Reimers' empirical mass-loss rate, in solar masses **per year**.
- *
- * The previous engine multiplied this rate directly by an age in Gyr, losing a factor of 10⁹ and
- * making mass loss unobservable. The branded return type means that no longer compiles.
- */
-export function reimersRate(
-  luminosity: SolarLuminosities,
-  radius: SolarRadii,
-  mass: SolarMasses,
-  eta = 0.4,
-): SolarMassesPerYear {
-  return solarMassesPerYear(eta * 4e-13 * ((luminosity * radius) / mass))
+export function cachedTrack(massInitial: SolarMasses, ctx: EvolutionContext): EvolutionTrack {
+  const key = `${massInitial}|${ctx.metallicity}`
+  const existing = trackCache.get(key)
+  if (existing) return existing
+  const built = starTrack(massInitial, ctx)
+  if (trackCache.size > 64) trackCache.clear()
+  trackCache.set(key, built)
+  return built
 }
 
-const MASS_LOSS_STEPS = 32
-
-function cumulativeMassLoss(
-  massInitial: SolarMasses,
-  age: Gyr,
-  ctx: EvolutionContext,
-  life: Lifetimes,
-): SolarMasses {
-  const start = life.mainSequence
-  const end = Math.min(age, life.total)
-  if (end <= start) return solarMasses(0)
-
-  const step = gyr((end - start) / MASS_LOSS_STEPS)
-  let lost = 0
-
-  for (let i = 0; i < MASS_LOSS_STEPS; i++) {
-    const t = gyr(start + (i + 0.5) * step)
-    const stage = stageAt(massInitial, t, life)
-    const { luminosity, radius } = photosphereAt(stage, t, massInitial, ctx, life)
-    const rate = reimersRate(luminosity, radius, solarMasses(massInitial - lost))
-    lost += massLostOver(rate, step)
-  }
-
-  return solarMasses(Math.min(lost, massInitial * 0.9))
-}
+/** Phase spans in Gyr, for the timeline. */
+export const phasesOf = (track: EvolutionTrack): Phase[] =>
+  track.phases.map((phase) => ({
+    stage: phase.stage,
+    start: gyr(phase.start / MYR_PER_GYR),
+    end: gyr(phase.end / MYR_PER_GYR),
+  }))
 
 // --- Remnants ---------------------------------------------------------------
 
-/** Initial–final mass relation, Kalirai et al. (2008). */
-export const whiteDwarfMass = (massInitial: SolarMasses): SolarMasses =>
-  solarMasses(Math.min(0.109 * massInitial + 0.394, 1.4, massInitial))
+/**
+ * White dwarf radius from the mass-radius relation for a degenerate carbon-oxygen configuration.
+ * Diverges toward zero at the Chandrasekhar mass, hence the clamp.
+ */
+export const whiteDwarfRadius = (mass: number): SolarRadii =>
+  solarRadii(0.0115 * Math.pow(Math.min(mass, 1.43), -1 / 3))
 
-export const neutronStarMass = (massInitial: SolarMasses): SolarMasses =>
-  solarMasses(lerp(1.25, 2.0, (massInitial - 8) / (25 - 8)))
-
-export const blackHoleMass = (massInitial: SolarMasses): SolarMasses =>
-  solarMasses(Math.max(3, 0.3 * massInitial))
-
-/** Mestel cooling. */
-function whiteDwarfPhotosphere(mass: SolarMasses, cooling: Gyr): Photosphere {
-  const radius = solarRadii(0.01 * Math.pow(mass, -1 / 3))
-  const t = Math.max(cooling, 1e-3)
+/**
+ * White dwarf cooling, Mestel.
+ *
+ * The cooling clock carries an offset so that the star's luminosity is continuous with the end of
+ * the planetary nebula rather than starting from an arbitrary floor. Without it there is a step at
+ * the moment the nebula disperses, which is precisely the kind of discontinuity this rewrite
+ * exists to remove.
+ */
+function whiteDwarfPhotosphere(
+  mass: SolarMasses,
+  cooling: number,
+  handoverLuminosity: number,
+): Photosphere {
+  const radius = whiteDwarfRadius(mass)
+  const offset = Math.pow((6.8e-3 * mass) / handoverLuminosity, 1 / 1.4)
+  const t = Math.max(offset + cooling, 1e-6)
   const luminosity = solarLuminosities(6.8e-3 * mass * Math.pow(t, -7 / 5))
-  return { luminosity, radius, temperature: temperatureFrom(luminosity, radius) }
+  return {
+    luminosity,
+    radius,
+    temperature: kelvin(
+      Math.pow(luminosity / (radius * radius), 0.25) * SOLAR_TEMPERATURE,
+    ),
+  }
 }
 
 function neutronStarPhotosphere(cooling: Gyr): Photosphere {
   const radius = kmToSolarRadii(NEUTRON_STAR_RADIUS_KM)
   const t = Math.max(cooling, 1e-6)
   const temperature = kelvin(1e6 * Math.pow(t / 1e-6, -1 / 6))
-  const luminosity = solarLuminosities(
-    radius * radius * Math.pow(temperature / SOLAR_TEMPERATURE, 4),
-  )
-  return { luminosity, radius, temperature }
+  return {
+    luminosity: solarLuminosities(
+      radius * radius * Math.pow(temperature / SOLAR_TEMPERATURE, 4),
+    ),
+    radius,
+    temperature,
+  }
 }
 
 function blackHolePhotosphere(mass: SolarMasses): Photosphere {
   const radius = kmToSolarRadii(SCHWARZSCHILD_KM_PER_SOLAR_MASS * mass)
   const temperature = kelvin(HAWKING_TEMPERATURE_SOLAR / mass)
-  const luminosity = solarLuminosities(
-    radius * radius * Math.pow(temperature / SOLAR_TEMPERATURE, 4),
-  )
-  return { luminosity, radius, temperature }
+  return {
+    luminosity: solarLuminosities(
+      radius * radius * Math.pow(temperature / SOLAR_TEMPERATURE, 4),
+    ),
+    radius,
+    temperature,
+  }
 }
 
 // --- Entry point ------------------------------------------------------------
 
-export function evolveWith(
+export function evolveOn(
   massInitial: SolarMasses,
   age: Gyr,
   ctx: EvolutionContext,
+  track: EvolutionTrack,
 ): StarState {
-  const zamsProps = zamsProperties(massInitial, ctx.zams)
-  const life = lifetimes(massInitial, ctx)
-  const stage = stageAt(massInitial, age, life)
+  const zams = zamsProperties(massInitial, ctx.zams)
+  const ageMyr = age * MYR_PER_GYR
 
+  let stage: Stage
   let mass: SolarMasses
+  let coreMass: SolarMasses
   let photosphere: Photosphere
 
-  if (isRemnant(stage)) {
-    const cooling = gyr(Math.max(0, age - life.total))
-    if (stage === 'white dwarf') {
-      mass = whiteDwarfMass(massInitial)
-      photosphere = whiteDwarfPhotosphere(mass, cooling)
-    } else if (stage === 'neutron star') {
-      mass = neutronStarMass(massInitial)
-      photosphere = neutronStarPhotosphere(cooling)
-    } else {
-      mass = blackHoleMass(massInitial)
-      photosphere = blackHolePhotosphere(mass)
+  if (ageMyr <= track.remnantAt) {
+    const sample = track.sample(ageMyr)
+    stage = sample.stage
+    mass = solarMasses(sample.mass)
+    coreMass = solarMasses(sample.coreMass)
+    photosphere = {
+      luminosity: solarLuminosities(sample.luminosity),
+      radius: solarRadii(sample.radius),
+      temperature: kelvin(sample.temperature),
     }
   } else {
-    photosphere = photosphereAt(stage, age, massInitial, ctx, life)
-    mass = solarMasses(massInitial - cumulativeMassLoss(massInitial, age, ctx, life))
+    stage = track.remnantStage
+    mass = solarMasses(track.remnantMass)
+    coreMass = mass
+    const cooling = gyr((ageMyr - track.remnantAt) / MYR_PER_GYR)
+
+    if (stage === 'white dwarf') {
+      // Luminosity the nebula handed over: the cooling track starts exactly where it ended.
+      const handover =
+        whiteDwarfRadius(mass) ** 2 *
+        Math.pow(peakTemperature(track.coreMassFinal) / SOLAR_TEMPERATURE, 4)
+      photosphere = whiteDwarfPhotosphere(mass, cooling, handover)
+    } else if (stage === 'neutron star') {
+      photosphere = neutronStarPhotosphere(cooling)
+    } else {
+      photosphere = blackHolePhotosphere(mass)
+    }
   }
 
   return {
@@ -307,6 +268,7 @@ export function evolveWith(
     age,
     stage,
     mass,
+    coreMass,
     luminosity: photosphere.luminosity,
     temperature: photosphere.temperature,
     radius: photosphere.radius,
@@ -314,13 +276,25 @@ export function evolveWith(
     colorLinear: blackbodyLinearRGB(photosphere.temperature),
     surfaceGravity: SOLAR_LOG_G + Math.log10(mass) - 2 * Math.log10(photosphere.radius),
     spectral: classify(stage, photosphere.temperature, photosphere.luminosity),
-    zams: { ...zamsProps, temperature: temperatureFrom(zamsProps.luminosity, zamsProps.radius) },
+    zams: {
+      ...zams,
+      temperature: kelvin(
+        Math.pow(zams.luminosity / (zams.radius * zams.radius), 0.25) * SOLAR_TEMPERATURE,
+      ),
+    },
     tams: {
       luminosity: luminosityTAMS(massInitial, ctx.mainSequence),
       radius: radiusTAMS(massInitial, ctx.mainSequence, ctx.zams),
     },
-    lifetimes: life,
   }
+}
+
+export function evolveWith(
+  massInitial: SolarMasses,
+  age: Gyr,
+  ctx: EvolutionContext,
+): StarState {
+  return evolveOn(massInitial, age, ctx, cachedTrack(massInitial, ctx))
 }
 
 /** Convenience entry point; resolves and caches the coefficient set for the given metallicity. */

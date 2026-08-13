@@ -1,16 +1,29 @@
-import { cssRGB, gyr, type Gyr, type LifecycleTrack } from '../domain/index.js'
+import { gyr, type Gyr, type LifecycleTrack } from '../domain/index.js'
 import { formatAge, formatAgeTick } from './format.js'
 
 /** Colour samples along the strip. Enough for a smooth gradient without a costly rebuild. */
 const STRIP_SAMPLES = 140
 
+/** Decades of luminosity the strip's brightness ramp spans below the track's peak. */
+const DYNAMIC_RANGE_DECADES = 6
+
+/** Floor on the brightness ramp, so the faintest stretch is still visibly coloured. */
+const MIN_LEVEL = 0.22
+
+const clamp01 = (value: number) => Math.min(1, Math.max(0, value))
+
 /** Decades of age the tick axis will consider, from a thousand years up. */
 const TICK_DECADES = { from: -6, to: 3 }
 
+/** Short forms, because a phase band is often only a few dozen pixels wide. */
 const PHASE_LABEL: Record<string, string> = {
   'main sequence': 'main sequence',
-  subgiant: 'Hertzsprung gap',
-  giant: 'giant branch',
+  'hertzsprung gap': 'Hertzsprung gap',
+  'giant branch': 'giant branch',
+  'core helium burning': 'He burning',
+  'early AGB': 'AGB',
+  'thermally pulsing AGB': 'TP-AGB',
+  'planetary nebula': 'nebula',
   'white dwarf': 'white dwarf',
   'neutron star': 'neutron star',
   'black hole': 'black hole',
@@ -32,7 +45,6 @@ export class Timeline {
   private readonly marks: HTMLElement
   private readonly ticks: HTMLElement
   private readonly playhead: HTMLElement
-  private readonly caption: HTMLElement
   private track: LifecycleTrack | null = null
 
   constructor(
@@ -44,16 +56,32 @@ export class Timeline {
       <div class="tl-strip"><div class="tl-playhead"></div></div>
       <div class="tl-phases"></div>
       <div class="tl-ticks"></div>
-      <div class="tl-caption"></div>
     `
     this.marks = root.querySelector('.tl-marks')!
     this.strip = root.querySelector('.tl-strip')!
     this.playhead = root.querySelector('.tl-playhead')!
     this.phases = root.querySelector('.tl-phases')!
     this.ticks = root.querySelector('.tl-ticks')!
-    this.caption = root.querySelector('.tl-caption')!
+
+    /*
+     * The strip is a scrubber, so it is announced as one. Arrow-key handling lives in the app's
+     * global keydown handler rather than here — the same keys do the same thing whether or not the
+     * strip happens to hold focus, and duplicating it would double-apply every press.
+     */
+    this.strip.setAttribute('role', 'slider')
+    this.strip.setAttribute('tabindex', '0')
+    this.strip.setAttribute('aria-label', 'Age')
+    this.strip.setAttribute('aria-valuemin', '0')
+    this.strip.setAttribute('aria-valuemax', '1')
 
     this.bindSeeking()
+    /*
+     * Bookmark rows and end-anchoring are measured in pixels at layout time, so they go stale when
+     * the window changes width — labels re-overlap and the end ones spill outside the strip.
+     */
+    window.addEventListener('resize', () => {
+      if (this.track) this.renderBookmarks(this.track)
+    })
   }
 
   private bindSeeking(): void {
@@ -91,14 +119,33 @@ export class Timeline {
     this.renderTicks(track)
   }
 
-  /** The strip is tinted with the star's own colour at each point in its life. */
+  /**
+   * The strip carries the star's own colour *and* its brightness at each point in its life.
+   *
+   * Colour alone is misleading. A cooling white dwarf drops five decades in luminosity while its
+   * blackbody colour runs blue to white — so a purely chromatic strip shows it getting *lighter* as
+   * it dies. Modulating by log luminosity makes the strip dim as the star does.
+   *
+   * The range is floored at six decades below the peak because a black hole's Hawking luminosity is
+   * ~10⁻⁵⁷ L☉ and would otherwise crush the entire rest of the track to black.
+   */
   private renderStrip(track: LifecycleTrack): void {
-    const stops: string[] = []
-    for (let i = 0; i <= STRIP_SAMPLES; i++) {
-      const position = i / STRIP_SAMPLES
-      const star = track.sample(track.unwarp(position))
-      stops.push(`${cssRGB(star.color)} ${(position * 100).toFixed(2)}%`)
-    }
+    const samples = Array.from({ length: STRIP_SAMPLES + 1 }, (_, i) =>
+      track.sample(track.unwarp(i / STRIP_SAMPLES)),
+    )
+    const logs = samples.map((star) => Math.log10(Math.max(star.luminosity, 1e-30)))
+    const peak = Math.max(...logs)
+    const floor = Math.max(Math.min(...logs), peak - DYNAMIC_RANGE_DECADES)
+
+    const stops = samples.map((star, i) => {
+      const t = clamp01(((logs[i] as number) - floor) / Math.max(peak - floor, 1e-9))
+      const level = MIN_LEVEL + (1 - MIN_LEVEL) * t
+      const { r, g, b } = star.color
+      const shade = (channel: number) => Math.round(channel * level)
+      const position = ((i / STRIP_SAMPLES) * 100).toFixed(2)
+      return `rgb(${shade(r)}, ${shade(g)}, ${shade(b)}) ${position}%`
+    })
+
     this.strip.style.background = `linear-gradient(to right, ${stops.join(', ')})`
   }
 
@@ -207,9 +254,17 @@ export class Timeline {
     this.ticks.innerHTML = marks.join('')
   }
 
+  /** Phase covering an age, for the scrubber's spoken value. */
+  private stageAt(age: Gyr): string {
+    const phase = this.track?.phases.find((p) => age >= p.start && age <= p.end)
+    return phase ? (PHASE_LABEL[phase.stage] ?? phase.stage) : ''
+  }
+
   setAge(age: Gyr): void {
     if (!this.track) return
-    this.playhead.style.left = `${this.track.warp(age) * 100}%`
-    this.caption.textContent = formatAge(age)
+    const position = this.track.warp(age)
+    this.playhead.style.left = `${position * 100}%`
+    this.strip.setAttribute('aria-valuenow', position.toFixed(3))
+    this.strip.setAttribute('aria-valuetext', `${formatAge(age)} — ${this.stageAt(age)}`)
   }
 }

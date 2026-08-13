@@ -1,4 +1,7 @@
-# Stellar Evolution Simulator — Modernization Plan
+# Stellar Evolution Simulator — Plan
+
+Phases 0–6 are complete. Phase 7 is the remaining scope. Open issues live in `DEFECTS.md`; this
+document is the design and the reasoning behind it.
 
 ## Decisions locked
 
@@ -8,62 +11,7 @@
 | Lifecycle start | ZAMS (Hurley's domain start). No pre-main-sequence. |
 | Language | TypeScript, branded unit types in the domain layer |
 | Renderer | WebGL2 via three.js, used as plumbing only — all appearance in custom shaders |
-| PHP | Port `genTables.php` tables to JSON as test fixtures; delete `genStar.php` |
 | Time control | Play/pause + log speed slider, adaptive pacing on by default |
-
----
-
-## Why the current code is being replaced
-
-### Confirmed physics bugs (reproduced by running the engine)
-
-| | Current output | Correct |
-|---|---|---|
-| Sun's spectral type | `G7V` | `G2V` — subtype index is inverted; 0 is hottest in a class |
-| White dwarf from 1 M☉ | 0.057 M☉ | ~0.55 — `(M-0.1)/(8-0.1)*(1.4-0.9)` missing `+ 0.9` |
-| Neutron star from 15 M☉ | 0.74 M☉ | ~1.4 — same missing-offset bug (`+ 1.4`) |
-| Giant-branch mass loss | none; mass stays 1.000 | Reimers' rate is per-year, multiplied by an age in Gyr — off by 10⁹ |
-| WD temp at 1000 Gyr | 20,000 K | ~4000 K — `ageREM / 99999999` makes cooling take 10⁸ Gyr |
-| 30 M☉ luminosity | 810,000 L☉ | ~150,000 — M–L exponent steepens to `M⁴` above 20 M☉, wrong direction |
-
-Beyond bugs: subgiant and giant phases are hardcoded at exactly 10% of MS lifetime each, with
-luminosity jumping by exact 5× and 25× steps. Transitions are discontinuities, not tracks.
-Metallicity does not exist anywhere in the codebase.
-
-### Confirmed rendering defects
-
-- **Resize breaks framing.** `frameWidth/Height` update on resize; `frameX/frameY` never recompute.
-  After one resize the star sits at screen (10, 0), hidden behind the controls bar.
-- **Zoom state is implicit and unclamped.** Wheel zoom *works* — the context transform accumulates
-  because `REN.draw()` never resets it. But the tracked `REN.zoom` variable has drifted out of sync
-  with the actual transform (1.88 vs 2.389 measured), and neither end is clamped. Unreadable,
-  unresettable, unserializable.
-- **Hit-testing targets the wrong coordinates.** `REN.element` sets `x=260, y=0`; `drawStar` draws at
-  `(mapWidth/2 + 10, mapHeight/2)`. The mousedown handler also references an undeclared global
-  `selected` and DOM ids that don't exist.
-- **Additive compositing in sRGB space.** `globalCompositeOperation = 'lighter'` adds gamma-encoded
-  values, which is not adding light. Primary cause of the washed-toward-white look.
-
-### Not a defect
-
-Rendering performance. Measured 121 rAF/sec and 0.05 ms per full draw. The 3000×3000 offscreen
-canvas is waste, but it is not a bottleneck. Do not rewrite for speed.
-
----
-
-## File disposition
-
-| File | Fate |
-|---|---|
-| `star.js` | → `src/domain/`. Bug table above is the migration checklist. |
-| `star2.js` | Delete. Broken half-refactor; mixes `this` and `star`, would throw. |
-| `renderer.js` | → `src/render/`. ~180 lines are dead (hover, select-arrow, commented bg blocks). |
-| `script.js` | Split: clock → `app.ts`, readout → `ui/readout.ts` |
-| `genTables.php` | → `src/data/zams-tables.json` via one-shot Node script, then delete |
-| `genStar.php` | Delete. No age parameter; nothing in it serves an evolution sim. |
-| `jquery.mousewheel.js`, `Stats.js` | Delete |
-| `index.html`, `style.css` | Rewrite. Both load `http://` resources that break on https. |
-| `img/` | Keep the 3 backgrounds in use; the other 10 are unreferenced |
 
 ---
 
@@ -74,11 +22,16 @@ src/
   domain/              # pure, zero DOM, fully testable
     units.ts           # branded types: SolarMasses, Gyr, MsunPerYear
     zams.ts            # Tout et al. 1996
-    tracks.ts          # Hurley et al. 2000
+    mainSequence.ts    # Hurley MS perturbation terms
+    giantBranch.ts     # xg/xh decode, GB/CHeB/AGB fits
+    massLoss.ts        # max-of-five wind prescriptions
+    postAGB.ts         # Miller Bertolami crossing
+    track.ts           # phase timeline, wind integration, Fryer remnants
     lifecycle.ts       # computeTrack() -> LifecycleTrack
     classify.ts        # spectral type + luminosity class
     color.ts           # blackbody -> CIE XYZ -> linear sRGB
   data/
+    sse-coefficients.json
     zams-tables.json   # ported from genTables.php, used as fixtures
   render/
     stage.ts           # three.js renderer + EffectComposer setup
@@ -93,9 +46,7 @@ src/
   app.ts               # wiring + clock only
 ```
 
-The structural fix: today `REN.element.update()` advances `EVO.age`, regenerates the star, and
-rewrites the info panel — simulation and DOM writes inside the render loop. Domain gets no
-knowledge that a canvas exists.
+Simulation and DOM writes stay out of the render loop. Domain gets no knowledge that a canvas exists.
 
 ---
 
@@ -129,8 +80,7 @@ knowledge that a canvas exists.
 
 ## The time-warp function
 
-One function drives both the timeline's non-linear axis and the playback pacing. This is the core
-idea and it is worth stating precisely.
+One function drives both the timeline's non-linear axis and the playback pacing.
 
 **The problem.** For a 1 M☉ star: MS ≈ 10 Gyr, Hertzsprung gap ≈ 30 Myr, planetary nebula ≈ 10 kyr.
 Playing 12 Gyr over 60 seconds at constant rate gives the PN phase **0.00005 seconds** — it never
@@ -140,65 +90,81 @@ renders a single frame. A constant-rate slider cannot show the full lifecycle at
 exactly there. On a log axis from 1 Myr to 12 Gyr, the post-MS 2 Gyr occupies 1.9% of the width —
 worse than the 17% a linear axis gives it.
 
-**The warp.** Let the observable state be `(ln L, ln R, ln T_eff)`. Define
-
-```
-v(t) = ‖ d/dt (ln L, ln R, ln T_eff) ‖         # rate of observable change
-w(t) = ε + v(t)^α                               # softened, floored
-s(t) = ∫₀ᵗ w dt′ ⁄ ∫₀^t_end w dt′               # normalized to [0,1]
-```
-
-- **Timeline x-axis** maps `s` uniformly → rapid-change regions are automatically magnified. This
-  *is* the magnifier; it needs no separate mechanism.
-- **Playback** advances `s` at a constant rate → the sim crawls through transitions and sprints
-  through quiescent burning. The speed slider is a multiplier on `ds/dt_real`.
-- Toggle adaptive off and the slider becomes a literal yr/sec rate.
-
-### Revised in phase 4
-
-The single-integral form above was built and did not work. Two failures, both instructive:
-
-1. **A softening of 0.35 flattened the warp to nothing** — warped shares came out within a percent
-   of real time shares. Too much compression to differentiate anything.
-2. **Raising it made the result erratic rather than better.** At 0.6 the same track gave the
-   Hertzsprung gap 5.4% at 5 M☉ but 0.22% at 30 M☉, and the black hole 1%. The cause is that the
-   floor is a quantile over *intervals*, and interval durations vary by orders of magnitude within
-   a single track, so "typical rate" is not a meaningful quantity across the whole thing.
-
-Shipped instead: **fixed shares per phase, warped within each phase.** `PHASE_SHARES` allocates
-40 / 14 / 20 / 26 percent to main sequence, Hertzsprung gap, giant branch and remnant; inside each,
-width is distributed by local rate of change. Every phase is guaranteed visible at every mass — the
-30 M☉ Hertzsprung gap goes from 0.09% of real time to 14% of the strip, a 150x magnification — and
-the layout no longer lurches when the mass slider moves.
+**The shipped design: fixed shares per phase, warped within each phase.** A single warp integral
+across the whole track was built first and failed — "typical rate" is not a meaningful quantity
+across a track whose interval durations span orders of magnitude, so the result was either flat or
+erratic depending on the softening. Instead `PHASE_SHARES` allocates a fixed fraction of the strip to
+each phase, normalised over the phases a given star actually has; inside each phase, width is
+distributed by local rate of change of `(ln L, ln R, ln T_eff)`. Every phase is guaranteed visible at
+every mass — the 30 M☉ Hertzsprung gap goes from 0.09% of real time to 14% of the strip.
 
 The cost is real and worth stating: the strip no longer encodes relative duration. The age ticks
-carry that instead, bunching wherever time is compressed, the way ticks bunch on a log axis.
+carry that instead, bunching wherever time is compressed, the way ticks bunch on a log axis. This is
+correct and readable.
 
-Two tuning knobs, exposed in a dev panel during development:
-- `α ≈ 0.35` — softening. At α=1 the PN phase (dlnT/dt ~10⁶× the MS rate) would swallow the strip.
-- `ε` — floor, tuned so the main sequence retains ~35% of the width. It is most of the star's life
-  and that fact should be legible.
+The knobs, all scoped inside a phase rather than across phases:
 
-Time tickmarks along the bottom will therefore be non-uniformly spaced, bunching where time is
-compressed — the same way a log plot's ticks bunch. This is correct and readable.
+- `WARP_SOFTENING = 0.6` — exponent applied to the rate of observable change. At 1 the fastest
+  moment in a phase swallows the phase.
+- `WARP_FLOOR_QUANTILE = 0.3` — quiescent floor, taken as a quantile of *that phase's own* softened
+  rates. Per-phase is what makes the floor meaningful.
+- `WARP_CEILING = 30` — cap on any single interval, as a multiple of its phase's floor.
+
+Playback advances the warped coordinate at a constant rate, so screen time matches each phase's
+allocated share. Toggling adaptive pacing off makes the speed slider a fraction of the track per
+second. Measured over a full solar-mass playback:
+
+| main sequence | HG | giant branch | CHeB | E-AGB | TP-AGB | nebula | white dwarf |
+|---|---|---|---|---|---|---|---|
+| 617 | 166 | 290 | 290 | 166 | 166 | **207** | 249 |
+
+frames. The nebula is 30 kyr out of a 22.5 Gyr track — one part in 750,000 — and at constant rate
+would get less than a single frame at any speed that made the main sequence watchable.
+`lifecycle.test.ts` asserts both halves of that.
 
 ---
 
 ## Lifecycle bookmarks
 
-Bookmarks are **generated, not authored** — Hurley already classifies phase by its stellar type
-index, so transitions fall out of the model:
+Bookmarks are **generated, not authored** — Hurley classifies phase by its stellar type index, so
+transitions fall out of the model.
 
-`0` low-mass MS · `1` MS · `2` Hertzsprung gap · `3` first giant branch · `4` core He burning ·
-`5` early AGB · `6` thermally pulsing AGB · `7–9` naked helium star · `10–12` white dwarf ·
-`13` neutron star · `14` black hole · `15` massless remnant
+### The single-star phase set
 
-Plus derived bookmarks: peak luminosity, maximum radius, and **"Earth engulfed"** (R > 1 AU) — that
-last one is the most engaging marker on a 1 M☉ track.
+| k | Phase | Single star? |
+|---|---|---|
+| 0 | Low-mass MS, deeply or fully convective (M ≲ 0.7) | yes |
+| 1 | Main sequence | yes |
+| 2 | Hertzsprung gap | yes |
+| 3 | First giant branch (RGB) | yes |
+| 4 | Core helium burning | yes |
+| 5 | Early AGB | yes |
+| 6 | Thermally pulsing AGB | yes |
+| 7–9 | Naked helium star (MS / HG / GB) | **both** — binary stripping, *or* self-stripping by LBV and Wolf–Rayet winds above ~25–30 M☉ |
+| 10 | Helium white dwarf | no — needs the RGB truncated before the helium flash, which for a single star does not happen |
+| 11 | CO white dwarf | yes |
+| 12 | ONe white dwarf | yes, from M_c,BAGB > 2.25 (roughly 6–8 M☉ progenitors) |
+| 13 | Neutron star | yes |
+| 14 | Black hole | yes |
+| 15 | Massless remnant | bookkeeping only in SSE; not reachable in the modelled range |
 
-**Discovery needs adaptive sampling.** A uniform 10,000-point sweep across 12 Gyr has 1.2 Myr
-spacing and steps straight over a 10 kyr PN phase. Coarse pass first, then bisect wherever the
-phase index changes, to pin each transition.
+Two of these contradict the obvious reading. **Types 7–9 are not binary-only** — a single star above
+roughly 25–30 M☉ strips its own envelope through its winds, which is inside this app's mass range.
+And **type 0 is not cosmetic**: a fully convective star never ascends a giant branch at all. It burns
+hydrogen for ~10¹³ yr and that is the whole story.
+
+So single-star evolution has **seven burning phases, not three**.
+
+### Derived bookmarks
+
+Peak luminosity, maximum radius, RGB tip, helium flash, AGB tip, nebula ionisation (T_eff crosses
+~30,000 K), and **"Earth engulfed"** (R > 1 AU) — that last one is the most engaging marker on a
+1 M☉ track.
+
+Two constraints the implementation depends on. Deduplication compares `warp()` values rather than
+ages, because an age window scaled to total lifetime is wider than whole phases at high mass.
+Discovery uses a coarse pass plus bisection wherever the phase index changes: a uniform 10,000-point
+sweep across 12 Gyr has 1.2 Myr spacing and steps straight over a 10 kyr PN phase.
 
 `computeTrack(mass, Z): LifecycleTrack` is pure and cached per (M, Z), recomputed debounced on
 slider drag. Returns bookmarks, `warp`/`unwarp`, total lifetime, and `sample(t)`.
@@ -214,27 +180,25 @@ deliberately *not* `state.radius`:
 - AGB → radius plus dust envelope
 - Planetary nebula → the **nebula**, not the core; the shell is the spectacle
 - White dwarf / neutron star → stellar radius
-- Black hole → ~10 R_s, so the photon ring and lensed background stay in frame. Framing a bare
-  30 km R_s would show nothing.
+- Black hole → ~10 R_s, so the photon ring and lensed background stay in frame
 
-Manual wheel zoom stays and breaks away from auto-fit; a re-center control snaps back. Wheel steps
-map to a constant *ratio* in log space — the current code adds a linear delta to a multiplicative
-transform, which is the runaway feel. Hard clamps at both ends.
+Manual wheel zoom breaks away from auto-fit; a re-center control snaps back. Wheel steps map to a
+constant *ratio* in log space, with hard clamps at both ends.
 
 **Brace for the collapse.** A 30 M☉ supergiant (~1000 R☉) → ~10 M☉ black hole (R_s ≈ 30 km ≈
 4×10⁻⁵ R☉) is **7.4 orders of magnitude**. Log-space easing is the only thing that works.
 
 **Size scale** is a vertical ruler on the left: 1-2-5 ticks, auto unit switching (km → R☉ → AU),
-ticks slide while labels snap to nice values. Reference markers drawn when in range: Earth radius,
-Jupiter radius, 1 R☉, 1 AU, Jupiter's orbit; R_s and the photon sphere for black holes.
+ticks slide while labels snap to nice values. Reference markers when in range: Earth radius, Jupiter
+radius, 1 R☉, 1 AU, Jupiter's orbit; R_s, photon sphere and shadow radius for black holes.
 
 ---
 
 ## Stage visuals
 
-Continuous phases need no special handling once the physics is right — Hurley gives smooth
-L, R, T_eff throughout, so MS → subgiant → giant is continuous swelling and reddening. Only three
-moments are genuinely discontinuous, and they are **events with duration**, not stage swaps:
+Continuous phases need no special handling now that the physics is right — Hurley gives smooth
+L, R, T_eff throughout. Only three moments are genuinely discontinuous, and they are **events with
+duration**, not stage swaps:
 
 | Event | Real duration | Appearance |
 |---|---|---|
@@ -244,25 +208,21 @@ moments are genuinely discontinuous, and they are **events with duration**, not 
 
 Archetypes share one HDR → bloom → filmic tonemap chain, cross-faded by weight:
 
-- **Star** — limb darkening (dot product against surface normal, raised to a power matching the
-  empirical solar law), granulation from 3D simplex/fBm noise. **Granule size scales with `log g`**:
-  the Sun has millions of small cells, a red giant a handful of enormous ones. One uniform, and it
-  makes giants read as giant rather than as a bigger orange ball.
+- **Star** — limb darkening, granulation from 3D simplex/fBm noise. **Granule size scales with
+  `log g`**: the Sun has millions of small cells, a red giant a handful of enormous ones. One
+  uniform, and it makes giants read as giant rather than as a bigger orange ball.
 - **AGB** — dusty wind that progressively self-obscures and reddens, driven by mass-loss rate.
 - **Planetary nebula** — expanding ionized shell lit from within by the exposed core.
 - **White dwarf** — small, hot, no granulation (radiative surface), slow multi-Gyr fade.
 - **Neutron star** — hot point source; optional pulsar beams.
-- **Black hole** — backward geodesic integration in the fragment shader. Shadow at 5.2 R_s;
-  photon sphere at 1.5 R_s appears to a distant observer at ~2.6 R_s. Rendered as an isolated
-  remnant: a pure lensing shadow against a gravitationally lensed starfield, which is what a
-  companionless stellar-mass black hole actually looks like. **No accretion disk** — see Deferred.
-
-Reference implementation measured at **121 fps, 1039×898**, hundreds of curved ray steps per pixel,
-in this same browser. Geodesic tracing is affordable for a single object.
+- **Black hole** — backward geodesic integration in the fragment shader. Shadow at 5.2 R_s; photon
+  sphere at 1.5 R_s appears to a distant observer at ~2.6 R_s. Rendered as an isolated remnant: a
+  pure lensing shadow against a lensed starfield, which is what a companionless stellar-mass black
+  hole actually looks like. **No accretion disk** — a disk implies a donor; see Deferred.
 
 ### three.js scope
 
-Used as plumbing, not as a renderer. The distinction matters for keeping the dependency honest.
+Used as plumbing, not as a renderer.
 
 **Used:** linear working color space with `outputColorSpace` conversion at output; `HalfFloatType`
 render targets; `EffectComposer` for the bloom → ACES filmic tonemap chain; render-target, resize,
@@ -278,102 +238,111 @@ so the log-space 8-order-of-magnitude zoom is custom regardless.
 
 ## Phases
 
-| # | Scope | Verifiable when |
+| # | Scope | Status |
 |---|---|---|
-| 0 | Vite + TS + Vitest, ESM, drop jQuery, vendor font. Logic ported verbatim, bugs intact. | App behaves identically; `npm run dev` works |
-| 1 | Domain extraction: pure `evolve()`, single-pass, branded units. Fix the six bugs. Old renderer still attached. | Sun classifies G2V; WD from 1 M☉ ≈ 0.55 M☉; mass drops on the giant branch |
-| 2 | Tout ZAMS + Hurley tracks + metallicity + blackbody color. | Validated vs. ported tables, Sun at 4.57 Gyr (L=1.00, R=1.00, T=5772 K), continuity at every phase boundary |
-| 2b | Hurley MS perturbation terms + giant-branch machinery. See "Phase 2 status". | Sun classifies G2V at 4.57 Gyr; giant branch reaches realistic tip luminosity |
-| 3 | three.js + EffectComposer HDR pipeline, log-space camera, archetypes. | Resize keeps the star centered; collapse traverses 7 orders smoothly |
-| 4 | `computeTrack`, warped timeline, bookmarks, adaptive pacing, size scale. | PN phase is visible during full-lifecycle playback |
-| 5 | Sliders, readout, SVG HR diagram with moving marker. | — |
-| 6 | URL state, keyboard, reduced-motion, a11y. | — |
+| 0 | Vite + TS + Vitest, ESM, drop jQuery | Met |
+| 1 | Domain extraction: pure `evolve()`, branded units, six ported bugs fixed | Met |
+| 2 | Tout ZAMS + Hurley tracks + metallicity + blackbody color | Met |
+| 2b | Post-MS rewrite: GB machinery, CHeB/EAGB/TPAGB, post-AGB, mass-loss set, remnants from M_CO, MS perturbation terms | Met |
+| 3 | three.js + EffectComposer HDR pipeline, log-space camera, archetypes | Met; two shader defects open |
+| 4 | `computeTrack`, warped timeline, bookmarks, adaptive pacing, size scale | Met |
+| 5 | Sliders, readout, SVG HR diagram with moving marker | Met |
+| 6 | URL state, keyboard, reduced-motion, a11y | Met |
+| 7 | Discontinuous-event animation | **Next** |
 
 ---
 
-## Phase 2 status
+## Phase 7 — animating the sharp transitions
 
-Landed and validated:
+**This is a presentation concern and it must stay one.** The domain gets no synthetic durations, no
+eased radii, and no invented intermediate states to make an animation land. If a transition is
+instantaneous in the physics, it stays instantaneous in `evolve()`, and the renderer is what gives it
+screen time. The moment the domain starts stretching time to look good, every number the readout
+prints becomes untrustworthy.
 
-- **Tout (1996) ZAMS**, metallicity-dependent L and R. Reproduces the zero-age Sun at
-  L = 0.698, R = 0.888, T = 5598 K (real ≈ 5620 K).
-- **Hurley (2000) timescales** — t_BGB and the main-sequence hook fraction. Sun 11.0 Gyr,
-  5 M☉ 104 Myr, 30 M☉ 5.81 Myr against a real ≈ 6 Myr. The Hertzsprung gap is now the real
-  t_BGB − t_MS rather than a hardcoded 10% of the main sequence.
-- **Hurley terminal-age anchors** L_TMS and R_TMS. The Sun brightens ~3x and swells ~1.8x across
-  its main sequence, against the 5.6% the previous engine gave.
-- **Metallicity** threaded through every fit as ζ = log10(Z/Z☉), exposed as [Fe/H].
-- **Blackbody colour** — Planck spectrum integrated against the CIE 1931 observer (Wyman, Sloan &
-  Shirley 2013 analytic fit), to linear sRGB. Validated against published Planckian locus
-  coordinates from 2856 K to 20000 K. Emits linear-light values for the phase-3 HDR pipeline.
-- **Coefficient extraction is mechanical**, not transcribed: `scripts/extract-sse-coefficients.mjs`
-  parses all 509 published constants and fails loudly on any count mismatch.
-- **Phase-boundary continuity** asserted at 0.8, 1, 2, 5 and 12 M☉.
+**Continuous but fast — already solved.** The post-AGB crossing (~10⁴ yr), envelope ejection, and the
+white dwarf's early cooling are genuinely continuous, and the phase-4 warp magnifies them
+automatically. These need no animation work.
 
-Deferred to 2b:
+**Genuinely discontinuous — the actual scope.** Two cases:
 
-- **MS perturbation terms** (Hurley's α, β, η and the hook corrections). Without them the main
-  sequence is a log-space interpolation between the ZAMS and terminal-age anchors, which grows the
-  radius too fast early. Consequence: the Sun reads 5540 K / G5V at 4.57 Gyr instead of
-  5772 K / G2V. Both endpoints are correct; only the path between them is approximate.
-- **Giant-branch machinery** (the GB parameter block, core-mass–luminosity relation, t_inf
-  timescales). The giant phase duration is currently a fraction of t_BGB and its tip luminosity is
-  far below the real RGB tip, which in turn understates Reimers mass loss.
-- **Unverified:** the terminal-age luminosity at low metallicity. At [Fe/H] = −1.5 a 1 M☉ star
-  gets L_TMS = 7.7 L☉, a factor of 5 above its ZAMS value against 3x at solar. That may be
-  legitimate — the star sits above M_hook there, and the hook steepens at low Z — but it is the
-  least-corroborated number in the engine and wants checking against a published isochrone.
+| Event | Physical duration | What is actually observed |
+|---|---|---|
+| Core collapse → supernova | seconds | Shock breakout flash over hours, then an expanding photosphere over weeks to months |
+| Envelope loss → naked helium star | continuous in mass, but dR/dt is extreme | Photosphere jumps from ~3,000 K and ~10³ R☉ to ~10⁵ K and a few R☉ |
 
-### Provenance note (see also: Scientific verification backlog)
+The supernova is the clean case for the rule above: the *collapse* is seconds and unobservable, while
+the *observable* is a shock breakout and an expanding photosphere lasting weeks. The renderer should
+model the observable, not the collapse. Self-stripping is subtler — with correct winds the mass
+really does decline smoothly, but the surface conditions cross so fast that a handful of samples
+separate a red supergiant from a Wolf–Rayet star. (The naked-helium-star track itself is still
+missing from the domain; see `DEFECTS.md`.)
 
-The published coefficients were cross-checked against `zdata.h` from a GPL-3.0 reference
-implementation. The constants themselves are paper data (Tout 1996 Table 1; Hurley 2000 Appendix)
-and the formulae are published mathematics; the TypeScript here is an independent implementation,
-not a translation of that source, and no GPL code is vendored. Flagging it so the licensing
-position is on the record rather than assumed.
+Design constraints, so this stays honest:
+
+- **Events are derived, not scripted.** The renderer keys off the domain's phase index and a
+  normalised progress through the event, the same way archetypes already cross-fade by weight.
+- **Screen duration is a presentation constant, decoupled from sim time.** An event may occupy two
+  seconds of wall clock while representing three weeks or three seconds of stellar time.
+- **The clock never lies.** The age readout and the timeline playhead keep showing true simulation
+  time. If an event is being stretched for legibility, that is visible as the playhead sitting still,
+  which is the honest depiction.
+- **The timeline needs a glyph for zero-width events.** A phase band cannot represent an instant.
+  Core collapse wants a mark on the strip, not a slice of it.
 
 ---
 
-## Scientific verification backlog
+## Validation
 
-**Nothing in this list is known to be wrong.** It is the set of values that are currently
-*uncorroborated* — carried over, approximated, or validated only against a single anchor. The
-engine passes 56 tests, but a passing test only proves agreement with what was asserted, and
-several of these were asserted from the same reasoning that produced the code.
+The ported PHP tables are **not** an oracle. They are class-V dwarfs only, they are MESA output from a
+flaky run with radii below ~0.7 M☉ demonstrated wrong, and nothing past the main sequence is a dwarf.
+They must not be extended to try.
 
-Deferred deliberately so it can be done in one focused pass rather than piecemeal.
+**The observed-star oracle** (`src/domain/observed.test.ts`) is the replacement, and it is shaped to
+avoid circularity. Rather than asking whether a track reaches some state at some age — which needs an
+age, and stellar ages are themselves model-derived — it asks the question the fits can answer on
+their own: *given this star's measured mass and measured luminosity, does the model predict its
+measured radius?* Radius is the right target because for giants it is an angular diameter and a
+parallax, so it is the least model-contaminated number available; luminosity is an input, not a
+prediction, which is what keeps the check honest.
 
-### Strategy
+Current agreement, all single (or wide, non-interacting) stars:
 
-The cheapest high-value move is an **independent oracle**. Generate a reference grid over
-(M, Z, age) → (L, R, T_eff, phase) from PySSE, COSMIC or a MIST/PARSEC isochrone set, commit it as
-a fixture, and diff the engine against it. That converts most items below from "reason about it"
-into "run the comparison", and it catches coefficient-assembly errors that self-consistent tests
-cannot. Note the licensing position in the provenance note above: generated *output* is data, which
-is a different question from vendoring source.
-
-### Specific items
-
-| Area | What is uncorroborated | Check against |
+| Star | Phase | Model vs observed |
 |---|---|---|
-| Low-Z terminal age | L_TMS = 7.7 L☉ for 1 M☉ at [Fe/H] = −1.5, a 5x rise on ZAMS versus 3x at solar | Published isochrone at matching Z; globular-cluster turnoff luminosities |
-| Present-day Sun | 5540 K / G5V at 4.57 Gyr instead of 5772 K / G2V | Resolves with the 2b perturbation terms — reconfirm afterwards |
-| Giant branch | Tip luminosity far below the real RGB tip; duration is `0.15 × t_BGB`, a stand-in and not a fit | Hurley GB machinery (2b), then RGB tip L for a solar-mass star |
-| Mass loss | Reimers only, with η = 0.4. No hot-star radiative winds, no dust-driven AGB winds. Magnitude understated because it scales with the depressed tip luminosity | Vink et al. for OB winds; total RGB mass loss ≈ 0.2–0.3 M☉ for the Sun |
-| White dwarf IFMR | Kalirai et al. (2008) applied across the whole 0.1–8 M☉ range, beyond its calibrated span | Catalán et al. / Cummings et al. IFMRs at the extremes |
-| Neutron star mass | Linear interpolation 1.25 → 2.0 M☉ over an 8–25 M☉ progenitor range. Invented, not fitted | Observed NS mass distribution; Hurley remnant prescription |
-| Black hole mass | `max(3, 0.3 × M_initial)`. Invented | Fryer et al. fallback prescriptions; observed BH mass function |
-| WD cooling | Mestel `L ∝ M·t^(−7/5)` with a 10⁻³ Gyr floor. Spot-checked at 1 and 10 Gyr only | Bergeron / Fontaine cooling tracks |
-| NS cooling | `T ∝ t^(−1/6)`, crude; radius fixed at 11 km independent of mass | Modified-URCA cooling curves; NS mass–radius relations |
-| Spectral boundaries | Class temperature ranges carried over unchanged from the original engine, never checked against a published calibration | Pecaut & Mamajek modern MK sequence |
-| Luminosity classes | Ia0/I/II/III cut at 10⁶/10⁴/5×10³ L☉ — arbitrary thresholds inherited from the original | MK luminosity-class calibration |
-| Colour | Wyman analytic CMF fit validated to ~1 decimal place on the Planckian locus | Full CIE 1931 tabulated observer, if tighter agreement is wanted |
-| Zero-age Sun | ZAMS T = 5598 K against a real ≈ 5620 K — agrees, but on a single point | Broader ZAMS comparison once the oracle grid exists |
+| Arcturus | first giant branch | radius +4.4% |
+| Aldebaran | first giant branch | radius +4.3% |
+| Antares | red supergiant | radius +8.2% |
+| Pollux | red clump | luminosity +20% (a full prediction, not a fit) |
+| Proxima Centauri | lower MS | radius +2%, luminosity −1% |
+| Barnard's Star | lower MS | radius −8%, luminosity −26% |
+| 61 Cygni A | lower MS | radius −2%, luminosity −17% |
+| α Centauri B | lower MS | radius −7%, luminosity −13% |
 
-Two structural notes: the ported PHP tables are **not** a trustworthy oracle — they are MESA output
-from a flaky run, with radii below ~0.7 M☉ already demonstrated wrong and the L/T/Y rows flagged as
-copied placeholders. And the HR diagram arriving in phase 5 is itself a verification tool: a wrong
-track shape is far more obvious plotted than tabulated, so revisit this list once it exists.
+Arcturus and Aldebaran agreeing to under 5% is inside Hurley's own quoted accuracy and is strong
+evidence the coefficient block is decoded correctly. The lower-main-sequence rows are the direct
+replacement for the excluded fixtures — the tables gave a 0.5 M☉ star a mean density 0.59x solar,
+where these real dwarfs are several times denser than the Sun.
+
+Stars to add as later phases arrive: Procyon A for the Hertzsprung gap, χ Cygni for the thermally
+pulsing AGB, and Sirius B / 40 Eridani B / Procyon B for white dwarf cooling.
+
+**The missing oracle is a reference grid** over (M, Z, age) → (L, R, T_eff, phase) from PySSE, COSMIC
+or a MIST/PARSEC isochrone set, committed as a fixture. It is the only thing that would check the fits
+across metallicity, which currently nothing does. The plan called for building it before the 2b
+physics; it was skipped, and the IFMR bias recorded in `DEFECTS.md` is exactly the kind of error it
+would have caught immediately.
+
+### Provenance note
+
+The published coefficients were cross-checked against `zdata.h` and `zcnsts.f` from a GPL-3.0
+reference implementation. The paper's appendix and the reference source express the *same* coefficient
+set in different arrangements, and resolving which `xg` or `xh` constant feeds which published
+b-coefficient is far more reliable read off the reference than reconstructed from the appendix's prose
+ordering. That indexing is a fact about the published data. The constants themselves are paper data
+(Tout 1996 Table 1; Hurley 2000 Appendix), the formulae are published mathematics, the TypeScript is
+an independent implementation, and no GPL code is vendored. Flagging it so the licensing position is
+on the record rather than assumed.
 
 ---
 
@@ -387,30 +356,18 @@ renderer, since a disk implies a donor.
 This is deferred, not designed for. Per YAGNI, `evolve(mass, Z, age)` stays a three-argument pure
 function; no speculative hooks, no options bag.
 
-Worth knowing, though: the phase-2 choice already lands on the right foundation. Hurley, Tout & Pols
-(2002) — "BSE" — is the binary-star extension of the *same* analytic framework as the Hurley (2000)
-tracks being adopted here, by the same authors. It layers interaction on top of the single-star
-formulae rather than replacing them. So when this feature arrives it extends the existing engine
-against a published model, instead of needing a different foundation. That is a real payoff of
-picking Hurley over a bespoke model, and it costs nothing today.
+Worth knowing, though: Hurley, Tout & Pols (2002) — "BSE" — is the binary-star extension of the
+*same* analytic framework, by the same authors. It layers interaction on top of the single-star
+formulae rather than replacing them, so when this feature arrives it extends the existing engine
+against a published model. That is a real payoff of picking Hurley, and it costs nothing today.
 
 ---
 
 ## Risks
 
-**Hurley transcription.** Several hundred hardcoded coefficients; a mistyped digit yields plausible
-wrong numbers. Mitigated in phase 2 by the ported PHP tables as ZAMS fixtures across all 60
-spectral-type × luminosity-class rows, the solar checkpoint, and monotonicity/continuity assertions
-at every phase boundary.
-
-**Warp tuning is empirical.** `α` and `ε` will need visual iteration. Expose them in a dev panel.
-
-**Track recompute on slider drag.** Hurley is analytic and fast, but bookmark discovery with
-bisection is not free. Debounce, cache per (M, Z), and move to a Web Worker if it hitches.
-
 **WebGL context loss.** three's `WebGLRenderer` covers most of it; still needs an explicit
-`webglcontextlost`/`restored` path. No 2D fallback — WebGL2 is effectively universal and
-maintaining two renderers is a bad trade. Clear "WebGL2 required" message instead.
+`webglcontextlost`/`restored` path. No 2D fallback — WebGL2 is effectively universal and maintaining
+two renderers is a bad trade. Clear "WebGL2 required" message instead.
 
 **three.js version churn.** Color management and postprocessing APIs have changed materially between
 revisions (notably r152's color-space overhaul). Pin the exact version; treat upgrades as deliberate
@@ -424,9 +381,21 @@ HDR/color pipeline — if that stops being true, the dependency stops being just
 ## References
 
 - Tout, Pols, Eggleton & Han (1996) — ZAMS L(M,Z), R(M,Z) rational fits
-- Hurley, Pols & Tout (2000) — analytic evolution tracks, 0.1–100 M☉, Z = 10⁻⁴–0.03
+- Hurley, Pols & Tout (2000), MNRAS 315, 543 — analytic evolution tracks, 0.1–100 M☉,
+  Z = 10⁻⁴–0.03. The type index, the GB/CHeB/AGB machinery, and the mass-loss set
+- Miller Bertolami (2016), A&A 588, A25 — post-AGB tracks. The planetary nebula phase, which
+  Hurley does not model at all
+- Vassiliadis & Wood (1993), ApJ 413, 641 — Mira-pulsation-driven AGB superwind; what terminates
+  the AGB and ejects the nebula
+- Nieuwenhuijzen & de Jager (1990) — mass loss for luminous stars, L > 4000 L☉
+- Humphreys & Davidson (1979) — the empirical upper luminosity boundary
+- Fryer, Belczynski, Wiktorowicz et al. (2012), ApJ 749, 91 — compact remnant masses from the CO
+  core; the "rapid" and "delayed" prescriptions
+- Cummings et al. (2018) / Catalán et al. (2008) — initial-final mass relations, used as an output
+  check rather than as the model
+- Pecaut & Mamajek (2013) — modern MK spectral sequence
 - James, von Tunzelmann, Franklin & Thorne (2015), arXiv:1502.03808 — Double Negative
   gravitational renderer; ray-bundle propagation through curved spacetime
 - EHT Collaboration (2019), ApJL 875 L4 — photon ring and shadow geometry
-- Hurley, Tout & Pols (2002), MNRAS 329, 897 — "BSE", the binary/interaction extension of the
-  above tracks. Deferred; recorded here so the extension path is on file.
+- Hurley, Tout & Pols (2002), MNRAS 329, 897 — "BSE", the binary/interaction extension. Deferred;
+  recorded here so the extension path is on file.

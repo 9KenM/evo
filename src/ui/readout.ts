@@ -1,71 +1,56 @@
 import type { StarState } from '../domain/index.js'
 import { cssRGB, toFeH } from '../domain/index.js'
 import type { CameraOptics } from '../render/exposure.js'
-
-function num(value: number, unit = ''): string {
-  const abs = Math.abs(value)
-  const text =
-    abs === 0
-      ? '0'
-      : abs < 1e-3 || abs >= 1e5
-        ? value.toExponential(2)
-        : abs < 1
-          ? value.toPrecision(3)
-          : value.toFixed(abs < 100 ? 2 : 0)
-  return unit ? `${text} ${unit}` : text
-}
-
-function age(gyrValue: number): string {
-  if (gyrValue < 1e-6) return `${num(gyrValue * 1e9)} yr`
-  if (gyrValue < 1e-3) return `${num(gyrValue * 1e6)} kyr`
-  if (gyrValue < 1) return `${num(gyrValue * 1e3)} Myr`
-  return `${num(gyrValue)} Gyr`
-}
-
-const AU_IN_SOLAR_RADII = 215.03
-
-function distance(solarRadii: number): string {
-  if (solarRadii >= AU_IN_SOLAR_RADII) return `${num(solarRadii / AU_IN_SOLAR_RADII)} AU`
-  return `${num(solarRadii)} R☉`
-}
+import { formatAge, formatLength, num } from './format.js'
 
 const ROW = (label: string, value: string) =>
   `<div class="row"><span class="label">${label}</span><span class="value">${value}</span></div>`
 
 export class Readout {
-  constructor(private readonly root: HTMLElement) {}
+  private readonly root: HTMLElement
+  private last = ''
+
+  constructor(root: HTMLElement) {
+    this.root = root
+  }
 
   update(star: StarState, optics?: CameraOptics | null): void {
-    const { lifetimes: life } = star
-
     const camera = optics
       ? [
           '<hr>',
-          ROW('camera distance', distance(optics.distance)),
+          ROW('camera distance', formatLength(optics.distance)),
           ROW('exposure', `${optics.stops >= 0 ? '+' : ''}${optics.stops.toFixed(1)} stops`),
         ]
       : []
 
-    this.root.innerHTML = [
+    // The core mass is the quantity that drives everything past the main sequence, so it earns a
+    // row of its own — it is not a derived curiosity, it is the state variable.
+    const core =
+      star.coreMass > 0 ? [ROW('core mass', num(star.coreMass, 'M☉'))] : []
+
+    const html = [
       `<div class="swatch" style="background:${cssRGB(star.color)}"></div>`,
       `<div class="type">${star.spectral.type ?? star.stage}</div>`,
       ROW('stage', star.stage),
-      ROW('age', age(star.age)),
+      ROW('age', formatAge(star.age)),
       ROW('mass', num(star.mass, 'M☉')),
+      ...core,
       ROW('initial mass', num(star.massInitial, 'M☉')),
       ROW('[Fe/H]', toFeH(star.metallicity).toFixed(2)),
-      ROW('radius', num(star.radius, 'R☉')),
+      ROW('radius', formatLength(star.radius)),
       ROW('luminosity', num(star.luminosity, 'L☉')),
       ROW('temperature', num(star.temperature, 'K')),
       '<hr>',
       ROW('ZAMS', `${num(star.zams.luminosity)} L☉ / ${num(star.zams.radius)} R☉`),
       ROW('TAMS', `${num(star.tams.luminosity)} L☉ / ${num(star.tams.radius)} R☉`),
-      '<hr>',
-      ROW('main sequence', age(life.mainSequence)),
-      ROW('subgiant', age(life.subgiant)),
-      ROW('giant', age(life.giant)),
-      ROW('remnant at', age(life.total)),
       ...camera,
     ].join('')
+
+    // Rebuilt every frame otherwise, which tears down and recreates ~15 nodes at 60 Hz and makes
+    // the panel's text unselectable.
+    if (html !== this.last) {
+      this.last = html
+      this.root.innerHTML = html
+    }
   }
 }

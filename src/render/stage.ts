@@ -179,7 +179,11 @@ export class Stage {
 
     // Convective envelopes exist in cool stars; hot photospheres are radiative and smooth.
     const convective = smoothstep(9000, 6000, star.temperature)
-    const compact = star.stage === 'white dwarf' || star.stage === 'neutron star'
+    // A post-AGB core is a bare radiative surface, like a remnant, not a convective giant.
+    const compact =
+      star.stage === 'white dwarf' ||
+      star.stage === 'neutron star' ||
+      star.stage === 'planetary nebula'
 
     // Contrast rises as gravity falls: giant convection is far more violent than the Sun's, with a
     // few enormous cells rather than millions of small ones.

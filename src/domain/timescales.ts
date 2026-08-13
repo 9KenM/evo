@@ -51,8 +51,11 @@ export function timeToBGB(mass: SolarMasses, coeff: TimescaleCoefficients): Gyr 
 /**
  * Main-sequence lifetime as a fraction of t_BGB. Hurley eq. 7; only meaningful above M_hook, which
  * is why the caller takes the maximum against the metallicity-dependent floor.
+ *
+ * Also serves as t_hook/t_BGB, the timing of the convective-core hook, which is what the
+ * main-sequence perturbation terms need to place the contraction near the terminal age.
  */
-function hookFraction(mass: SolarMasses, coeff: TimescaleCoefficients): number {
+export function hookFraction(mass: SolarMasses, coeff: TimescaleCoefficients): number {
   const m = mass
   const [a1, a2, a3, a4, a5] = coeff.hook
   return Math.max(0.5, 1 - 0.01 * Math.max(a1 / m ** a2, a3 + a4 / m ** a5))

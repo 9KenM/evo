@@ -1,11 +1,12 @@
 import { SOLAR, type Metallicity } from './metallicity.js'
-import { isRemnant, type Stage } from './stage.js'
+import { isRemnant, type Remnant, type Stage } from './stage.js'
 import {
+  cachedTrack,
   evolutionContext,
-  evolveWith,
-  lifetimes,
-  stageAt,
+  evolveOn,
+  phasesOf,
   type EvolutionContext,
+  type Phase,
   type StarState,
 } from './star.js'
 import { gyr, type Gyr, type SolarMasses } from './units.js'
@@ -13,27 +14,56 @@ import { gyr, type Gyr, type SolarMasses } from './units.js'
 /** Earth's orbital radius, in solar radii. */
 const EARTH_ORBIT = 215.03
 
-/** Remnant span shown after the last burning phase, as a fraction of the burning lifetime. */
-const REMNANT_SPAN = 0.35
-
-/** Samples per burning phase. Allocated per phase so brief ones are never stepped over. */
-const SAMPLES_PER_PHASE = 200
-
-/** Samples across the remnant tail, geometrically spaced because cooling is fastest at the start. */
-const REMNANT_SAMPLES = 400
+/** Temperature at which a post-AGB core ionises the shell it ejected and the nebula lights up. */
+const IONISATION_TEMPERATURE = 30000
 
 /**
- * Share of the strip each phase receives: main sequence, Hertzsprung gap, giant, remnant.
+ * How long each kind of remnant is followed for, in Gyr.
+ *
+ * Absolute, and set by what actually changes. A white dwarf's whole story is its cooling, which
+ * takes tens of Gyr; a neutron star's surface cools appreciably over a Gyr; a black hole never
+ * changes at all and is present only so it can be reached. Tying these to the progenitor's lifetime,
+ * as the previous version did, gave a 30 M☉ black hole 2.3 Myr and a 0.8 M☉ white dwarf 11 Gyr for
+ * no physical reason.
+ */
+const REMNANT_SPAN: Record<Remnant, number> = {
+  'white dwarf': 10,
+  'neutron star': 1,
+  'black hole': 0.05,
+}
+
+/**
+ * Share of the strip each phase receives, before normalising over the phases a star actually has.
  *
  * Fixed rather than proportional to duration, and that is the whole design. Real durations span
- * five orders of magnitude — a 30 M☉ star crosses the Hertzsprung gap in 8 kyr against 5.8 Myr on
- * the main sequence — so any duration-proportional axis leaves the interesting phases as sub-pixel
+ * eight orders of magnitude — a solar-mass star spends 11 Gyr on the main sequence and crosses the
+ * post-AGB in 25 kyr — so any duration-proportional axis leaves the interesting phases as sub-pixel
  * slivers. Allocating fixed shares guarantees every phase is visible and clickable at every mass.
+ *
+ * Weights rather than fractions because the phase set varies: a 30 M☉ star has no thermally pulsing
+ * AGB and no planetary nebula, and a black hole gets less because nothing about it changes.
  *
  * The cost is that the strip no longer reads as relative duration. The time tick marks carry that
  * instead: they bunch up wherever time is compressed, the way ticks bunch on a log axis.
  */
-const PHASE_SHARES = [0.4, 0.14, 0.2, 0.26] as const
+const PHASE_WEIGHT: Record<Stage, number> = {
+  'main sequence': 30,
+  'hertzsprung gap': 8,
+  'giant branch': 14,
+  'core helium burning': 14,
+  'early AGB': 8,
+  'thermally pulsing AGB': 8,
+  'planetary nebula': 10,
+  'white dwarf': 12,
+  'neutron star': 12,
+  'black hole': 5,
+}
+
+/** Samples per phase. Allocated per phase so brief ones are never stepped over. */
+const SAMPLES_PER_PHASE = 120
+
+/** Samples across the remnant tail, geometrically spaced because cooling is fastest at the start. */
+const REMNANT_SAMPLES = 300
 
 /**
  * Softening applied to the rate of observable change before it becomes width *within* a phase.
@@ -55,11 +85,7 @@ export interface Bookmark {
   readonly stage: Stage
 }
 
-export interface PhaseSpan {
-  readonly stage: Stage
-  readonly start: Gyr
-  readonly end: Gyr
-}
+export type PhaseSpan = Phase
 
 export interface LifecycleTrack {
   readonly massInitial: SolarMasses
@@ -88,27 +114,26 @@ interface Grid {
 }
 
 /** Ages at which the track is evaluated: dense within every phase, geometric across the remnant. */
-function sampleGrid(life: ReturnType<typeof lifetimes>, end: Gyr): Grid {
-  const boundaries = [0, life.mainSequence, life.mainSequence + life.subgiant, life.total]
-
+function sampleGrid(phases: readonly PhaseSpan[], end: Gyr): Grid {
   const ages: Gyr[] = []
   const starts: number[] = []
 
-  for (let phase = 0; phase < boundaries.length - 1; phase++) {
+  const burning = phases.filter((phase) => !isRemnant(phase.stage))
+
+  for (const phase of burning) {
     starts.push(ages.length)
-    const from = boundaries[phase] as number
-    const to = boundaries[phase + 1] as number
     for (let i = 0; i < SAMPLES_PER_PHASE; i++) {
-      ages.push(gyr(from + ((to - from) * i) / SAMPLES_PER_PHASE))
+      ages.push(gyr(phase.start + ((phase.end - phase.start) * i) / SAMPLES_PER_PHASE))
     }
   }
 
   starts.push(ages.length)
-  const tail = end - life.total
+  const remnantStart = (burning[burning.length - 1] as PhaseSpan).end
+  const tail = end - remnantStart
   for (let i = 0; i <= REMNANT_SAMPLES; i++) {
     const u = i / REMNANT_SAMPLES
     // Geometric: resolves the steep early cooling without wasting samples on the long cold tail.
-    ages.push(gyr(life.total + tail * (Math.expm1(6 * u) / Math.expm1(6))))
+    ages.push(gyr(remnantStart + tail * (Math.expm1(6 * u) / Math.expm1(6))))
   }
 
   starts.push(ages.length)
@@ -119,10 +144,10 @@ function sampleGrid(life: ReturnType<typeof lifetimes>, end: Gyr): Grid {
  * Everything the timeline and the clock need for one (mass, metallicity) pair.
  *
  * The warp is the centre of it. A constant-rate playback cannot show a full lifecycle — a solar-mass
- * star spends 11 Gyr on the main sequence and crosses the Hertzsprung gap in 0.58 Gyr, and later
- * phases are shorter still, so at any speed that makes the main sequence watchable the transitions
- * are gone in a frame. Warping time by the rate of observable change fixes both problems at once:
- * the timeline axis magnifies exactly where things happen, and playback that advances the warped
+ * star spends 11 Gyr on the main sequence and crosses the post-AGB in 25 kyr, a ratio of half a
+ * million to one — so at any speed that makes the main sequence watchable the transitions are gone
+ * in a frame. Warping time by the rate of observable change fixes both problems at once: the
+ * timeline axis magnifies exactly where things happen, and playback that advances the warped
  * coordinate at a constant rate slows down through transitions by construction.
  */
 export function computeTrack(
@@ -131,12 +156,19 @@ export function computeTrack(
   context?: EvolutionContext,
 ): LifecycleTrack {
   const ctx = context ?? evolutionContext(metallicity)
-  const life = lifetimes(massInitial, ctx)
-  const end = gyr(life.total * (1 + REMNANT_SPAN))
+  const track = cachedTrack(massInitial, ctx)
 
-  const { ages, starts } = sampleGrid(life, end)
+  const burning = phasesOf(track)
+  const remnantStart = gyr(track.remnantAt / 1000)
+  const end = gyr(remnantStart + REMNANT_SPAN[track.remnantStage])
 
-  const states = ages.map((age) => evolveWith(massInitial, age, ctx))
+  const phases: PhaseSpan[] = [
+    ...burning,
+    { stage: track.remnantStage, start: remnantStart, end },
+  ]
+
+  const { ages, starts } = sampleGrid(phases, end)
+  const states = ages.map((age) => evolveOn(massInitial, age, ctx, track))
 
   // Rate of change of the observable state, in log space so it is scale-free across six decades.
   const rate = new Array<number>(ages.length).fill(0)
@@ -153,6 +185,9 @@ export function computeTrack(
 
   const softened = rate.map((v) => Math.pow(v, WARP_SOFTENING))
 
+  const weights = phases.map((phase) => PHASE_WEIGHT[phase.stage] ?? 8)
+  const totalWeight = weights.reduce((sum, w) => sum + w, 0)
+
   /*
    * Width is allocated per phase, then distributed inside each phase by local rate of change. Doing
    * it in two stages is what keeps the result predictable: the between-phase split is fixed, so no
@@ -161,26 +196,26 @@ export function computeTrack(
   const positions = new Array<number>(ages.length).fill(0)
   let base = 0
 
-  for (let phase = 0; phase < PHASE_SHARES.length; phase++) {
+  for (let phase = 0; phase < phases.length; phase++) {
     const from = starts[phase] as number
     const to = starts[phase + 1] as number
-    const share = PHASE_SHARES[phase] as number
+    const share = (weights[phase] as number) / totalWeight
 
     const local = softened.slice(from + 1, to)
     const floor = quantile([...local].sort((x, y) => x - y), WARP_FLOOR_QUANTILE) || 1
     const ceiling = floor * WARP_CEILING
 
     let running = 0
-    const weights = new Array<number>(to - from).fill(0)
+    const cumulative = new Array<number>(to - from).fill(0)
     for (let i = from + 1; i < to; i++) {
       const dt = (ages[i] as number) - (ages[i - 1] as number)
       const weight = Math.min(ceiling, Math.max(floor, softened[i] as number)) * dt
       running += weight
-      weights[i - from] = running
+      cumulative[i - from] = running
     }
 
     for (let i = from; i < to; i++) {
-      const fraction = running > 0 ? (weights[i - from] as number) / running : 0
+      const fraction = running > 0 ? (cumulative[i - from] as number) / running : 0
       positions[i] = base + share * fraction
     }
     base += share
@@ -188,28 +223,37 @@ export function computeTrack(
 
   positions[positions.length - 1] = 1
 
-  const phases: PhaseSpan[] = [
-    { stage: 'main sequence', start: gyr(0), end: life.mainSequence },
-    {
-      stage: 'subgiant',
-      start: life.mainSequence,
-      end: gyr(life.mainSequence + life.subgiant),
-    },
-    { stage: 'giant', start: gyr(life.mainSequence + life.subgiant), end: life.total },
-    { stage: stageAt(massInitial, end, life), start: life.total, end },
-  ]
+  const warp = (age: Gyr) => interpolate(ages, positions, Math.min(Math.max(age, 0), end))
 
   return {
     massInitial,
     metallicity,
     end,
     phases,
-    bookmarks: findBookmarks(massInitial, life, ages, states, end),
-    warp: (age) => interpolate(ages, positions, Math.min(Math.max(age, 0), end)),
-    unwarp: (position) =>
-      gyr(interpolate(positions, ages, Math.min(Math.max(position, 0), 1))),
-    sample: (age) => evolveWith(massInitial, age, ctx),
+    bookmarks: findBookmarks(phases, ages, states, end, warp, (age) =>
+      evolveOn(massInitial, age, ctx, track),
+    ),
+    warp,
+    unwarp: (position) => gyr(interpolate(positions, ages, Math.min(Math.max(position, 0), 1))),
+    sample: (age) => evolveOn(massInitial, age, ctx, track),
   }
+}
+
+/** Bisects a bracketed interval for the age at which `crossed` first becomes true. */
+function refine(
+  before: Gyr,
+  after: Gyr,
+  crossed: (state: StarState) => boolean,
+  sample: (age: Gyr) => StarState,
+): Gyr {
+  let lo = before
+  let hi = after
+  for (let i = 0; i < 48; i++) {
+    const mid = gyr((lo + hi) / 2)
+    if (crossed(sample(mid))) hi = mid
+    else lo = mid
+  }
+  return hi
 }
 
 /** Linear interpolation over a monotonically increasing key array. */
@@ -230,7 +274,16 @@ function interpolate(keys: readonly number[], values: readonly number[], key: nu
   return v0 + ((v1 - v0) * (key - k0)) / (k1 - k0)
 }
 
-const REMNANT_LABEL: Partial<Record<Stage, string>> = {
+/*
+ * Only transitions that read as *events* get a bookmark. "Giant branch" and "Asymptotic giant
+ * branch" were dropped because the phase band directly beneath already says exactly that, and a
+ * label row that restates the row below it buries the marks that carry real information.
+ */
+const PHASE_ENTRY_LABEL: Partial<Record<Stage, string>> = {
+  'hertzsprung gap': 'Leaves main sequence',
+  'core helium burning': 'Helium ignition',
+  'thermally pulsing AGB': 'Thermal pulses',
+  'planetary nebula': 'Envelope ejected',
   'white dwarf': 'White dwarf',
   'neutron star': 'Neutron star',
   'black hole': 'Black hole',
@@ -240,75 +293,101 @@ const REMNANT_LABEL: Partial<Record<Stage, string>> = {
  * Bookmarks are derived, not authored.
  *
  * Phase changes fall straight out of the model's own classification, so they cost nothing. The
- * extrema and the Earth-orbit crossing are scanned from the same samples the warp already needed.
+ * extrema, the Earth-orbit crossing and the moment the nebula ionises are scanned from the same
+ * samples the warp already needed.
  */
 function findBookmarks(
-  massInitial: SolarMasses,
-  life: ReturnType<typeof lifetimes>,
+  phases: readonly PhaseSpan[],
   ages: readonly Gyr[],
   states: readonly StarState[],
   end: Gyr,
+  warp: (age: Gyr) => number,
+  sample: (age: Gyr) => StarState,
 ): Bookmark[] {
-  const bookmarks: Bookmark[] = [
-    { age: gyr(0), label: 'ZAMS', stage: 'main sequence' },
-    { age: life.mainSequence, label: 'End of main sequence', stage: 'subgiant' },
-    {
-      age: gyr(life.mainSequence + life.subgiant),
-      label: 'Giant branch',
-      stage: 'giant',
-    },
-  ]
+  const bookmarks: Bookmark[] = [{ age: gyr(0), label: 'ZAMS', stage: 'main sequence' }]
 
-  const remnantStage = stageAt(massInitial, end, life)
-  bookmarks.push({
-    age: life.total,
-    label: REMNANT_LABEL[remnantStage] ?? 'Remnant',
-    stage: remnantStage,
-  })
+  for (const phase of phases) {
+    const label = PHASE_ENTRY_LABEL[phase.stage]
+    if (label) bookmarks.push({ age: phase.start, label, stage: phase.stage })
+  }
 
   let maxRadius = -Infinity
   let maxRadiusAge = gyr(0)
   let peakLuminosity = -Infinity
   let peakLuminosityAge = gyr(0)
   let engulfed: Gyr | null = null
+  let engulfedStage: Stage = 'thermally pulsing AGB'
+  let maxRadiusStage: Stage = 'thermally pulsing AGB'
+  let ionised: Gyr | null = null
 
   for (let i = 0; i < states.length; i++) {
     const state = states[i] as StarState
+    const age = ages[i] as Gyr
     if (isRemnant(state.stage)) continue
 
-    const age = ages[i] as Gyr
+    if (state.stage === 'planetary nebula' && ionised === null) {
+      if (state.temperature >= IONISATION_TEMPERATURE) ionised = age
+    }
+
+    /*
+     * The nebula's samples are included rather than skipped. A star's largest radius is reached at
+     * the very end of the thermally pulsing AGB, and that instant is the *nebula's* first sample —
+     * the phases share the boundary. Skipping them lost the maximum entirely, and with it the
+     * Earth-orbit crossing on a solar-mass track. The nebula only contracts from there, so it can
+     * never contribute a spurious maximum.
+     */
     if (state.radius > maxRadius) {
       maxRadius = state.radius
       maxRadiusAge = age
+      maxRadiusStage = state.stage
     }
     if (state.luminosity > peakLuminosity) {
       peakLuminosity = state.luminosity
       peakLuminosityAge = age
     }
-    if (engulfed === null && state.radius >= EARTH_ORBIT) engulfed = age
+    if (engulfed === null && state.radius >= EARTH_ORBIT && i > 0) {
+      /*
+       * Bisected rather than taken from the grid. The radius climbs by an order of magnitude across
+       * the last few samples of the early AGB, so a grid-pinned crossing lands on whichever sample
+       * happens to straddle it — which is usually a phase boundary, where it collides with that
+       * phase's own label and gets dropped as a duplicate.
+       */
+      engulfed = refine(ages[i - 1] as Gyr, age, (s) => s.radius >= EARTH_ORBIT, sample)
+      engulfedStage = sample(engulfed).stage
+    }
   }
 
   if (engulfed !== null) {
-    bookmarks.push({ age: engulfed, label: "Reaches Earth's orbit", stage: 'giant' })
+    bookmarks.push({ age: engulfed, label: "Reaches Earth's orbit", stage: engulfedStage })
+  }
+  if (ionised !== null) {
+    bookmarks.push({ age: ionised, label: 'Nebula ionises', stage: 'planetary nebula' })
   }
 
   /*
-   * Derived extrema are only worth a mark where they are distinct. The provisional giant branch
-   * grows monotonically to its tip, so both maxima currently land exactly on the moment the remnant
-   * forms and would just stack three labels on one tick. Once the Hurley giant-branch fits land the
-   * RGB tip and the AGB peak become interior points and these will separate on their own.
+   * Extrema are only worth a mark where they are visibly distinct, and "visibly" means on the strip
+   * — so the comparison is in warped space, not in age. Comparing ages would use a window of 90 kyr
+   * at 30 M☉, eleven times wider than that star's entire Hertzsprung gap, and would silently swallow
+   * whole phases.
    */
   const distinct = (age: Gyr) =>
-    bookmarks.every((existing) => Math.abs(existing.age - age) > end * 0.01)
+    bookmarks.every((existing) => Math.abs(warp(existing.age) - warp(age)) > 0.02)
 
   if (distinct(maxRadiusAge)) {
-    bookmarks.push({ age: maxRadiusAge, label: 'Maximum radius', stage: 'giant' })
+    bookmarks.push({ age: maxRadiusAge, label: 'Maximum radius', stage: maxRadiusStage })
   }
   if (distinct(peakLuminosityAge)) {
-    bookmarks.push({ age: peakLuminosityAge, label: 'Peak luminosity', stage: 'giant' })
+    bookmarks.push({ age: peakLuminosityAge, label: 'Peak luminosity', stage: maxRadiusStage })
   }
 
-  return bookmarks
+  /*
+   * Two derived marks can land on exactly the same instant — maximum radius and the Earth-orbit
+   * crossing coincide for a star whose tip only just clears 1 AU — and two labels on one tick is
+   * unreadable. First wins, which favours the phase entries since they are inserted first.
+   */
+  const ordered = bookmarks
     .filter((b) => b.age >= 0 && b.age <= end)
     .sort((a, b) => a.age - b.age)
+
+  return ordered.filter((mark, i) => i === 0 || mark.age > (ordered[i - 1] as Bookmark).age)
 }

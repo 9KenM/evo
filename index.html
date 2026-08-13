@@ -11,28 +11,62 @@
     </div>
 
     <header id="controls">
-      <label for="mass">Mass <input id="mass" type="text" inputmode="decimal" size="6" /> M☉</label>
-      <label for="feh">[Fe/H] <input id="feh" type="text" inputmode="decimal" size="6" /></label>
+      <label class="field" for="mass">
+        <span class="field-name">Mass</span>
+        <input id="mass" type="range" min="-1" max="2" step="0.005"
+               aria-describedby="massvalue" />
+        <output id="massvalue" for="mass">1.00 M☉</output>
+      </label>
+
+      <label class="field" for="feh">
+        <span class="field-name">[Fe/H]</span>
+        <input id="feh" type="range" min="-2.3" max="0.17" step="0.01"
+               aria-describedby="fehvalue" />
+        <output id="fehvalue" for="feh">0.00</output>
+      </label>
+
       <button id="recentre" type="button">Recentre</button>
+      <button id="help" type="button" aria-expanded="false" aria-controls="shortcuts">?</button>
     </header>
 
-    <aside id="info"></aside>
+    <aside id="info" aria-live="polite" aria-atomic="true"></aside>
     <div id="sizescale" aria-hidden="true"></div>
+
+    <aside id="hrpanel">
+      <div class="panel-title">HR diagram</div>
+      <div id="hr"></div>
+    </aside>
+
+    <div id="shortcuts" hidden>
+      <div class="panel-title">Keyboard</div>
+      <dl>
+        <dt>Space</dt><dd>play / pause</dd>
+        <dt>← →</dt><dd>step back / forward</dd>
+        <dt>Shift + ← →</dt><dd>previous / next bookmark</dd>
+        <dt>Home / End</dt><dd>start / end of life</dd>
+        <dt>↑ ↓</dt><dd>speed</dd>
+        <dt>A</dt><dd>adaptive pacing</dd>
+        <dt>R</dt><dd>recentre camera</dd>
+        <dt>?</dt><dd>this list</dd>
+      </dl>
+    </div>
 
     <footer id="transport">
       <div class="transport-controls">
         <button id="play" type="button" aria-label="Play">▶</button>
         <button id="restart" type="button" aria-label="Restart">⟲</button>
-        <label for="speed">
-          Speed
-          <input id="speed" type="range" min="-1.5" max="1.5" step="0.05" value="0" />
-          <span id="speedvalue">1.0x</span>
+        <label class="field" for="speed">
+          <span class="field-name">Speed</span>
+          <input id="speed" type="range" min="-1.5" max="1.5" step="0.05" value="0"
+                 aria-describedby="speedvalue" />
+          <output id="speedvalue" for="speed">1.0x</output>
         </label>
-        <label for="adaptive" title="Pace playback by rate of change rather than by elapsed time">
+        <label class="check" for="adaptive"
+               title="Pace playback by rate of change rather than by elapsed time">
           <input id="adaptive" type="checkbox" checked />
           Adaptive pacing
         </label>
-        <span id="agevalue" class="age"></span>
+        <span id="agevalue" class="age" aria-live="off"></span>
       </div>
       <div id="timeline"></div>
     </footer>

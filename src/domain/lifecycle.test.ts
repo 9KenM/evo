@@ -73,16 +73,23 @@ describe('warp', () => {
   })
 
   /*
-   * Phase width is allocated, not earned by duration, so the strip looks the same at every mass.
-   * That predictability is the point: a 30 M☉ Hertzsprung gap is 0.09% of real time and still gets
-   * a usable slice, and the layout does not lurch when the mass slider moves.
+   * Phase width is allocated, not earned by duration, so the strip looks the same for any two stars
+   * with the same phase set. That predictability is the point: a 30 M☉ Hertzsprung gap is 0.09% of
+   * real time and still gets a usable slice, and the layout does not lurch on the mass slider.
+   *
+   * It cannot be identical across *all* masses, because the phase set itself varies — a massive star
+   * has no first giant branch and no planetary nebula — so the weights renormalise over whichever
+   * phases a given star actually has.
    */
-  it('gives phases the same share regardless of mass', () => {
-    const reference = [0, 1, 2, 3].map((i) => share(track(1), i))
-    for (const m of [0.8, 5, 15, 30]) {
+  it('gives the same shares to stars with the same phase set', () => {
+    const signature = (t: ReturnType<typeof track>) => t.phases.map((p) => p.stage).join('|')
+    const reference = track(1)
+
+    for (const m of [0.9, 1.2, 1.5]) {
       const t = track(m)
-      for (let i = 0; i < 4; i++) {
-        expect(share(t, i)).toBeCloseTo(reference[i]!, 6)
+      expect(signature(t)).toBe(signature(reference))
+      for (let i = 0; i < reference.phases.length; i++) {
+        expect(share(t, i)).toBeCloseTo(share(reference, i), 6)
       }
     }
   })
@@ -95,6 +102,55 @@ describe('warp', () => {
     const tenth = gyr(remnant.start + (remnant.end - remnant.start) * 0.1)
     const fractionOfPhase = (t.warp(tenth) - t.warp(remnant.start)) / share(t, 3)
     expect(fractionOfPhase).toBeGreaterThan(0.2)
+  })
+})
+
+/*
+ * Phase 4's acceptance criterion, made executable.
+ *
+ * The original wording was "PN phase is visible during full-lifecycle playback", which could not be
+ * met until 2b gave the domain a planetary nebula to show. It now can be, and this is the honest
+ * form of it: simulate the app's own playback loop and count how many frames land in each phase.
+ *
+ * A solar-mass star's nebula is 30 kyr against a 22.5 Gyr track — roughly one part in a million — so
+ * under constant-rate playback it would never render a single frame at any speed that made the main
+ * sequence watchable. That is the entire reason the warp exists.
+ */
+describe('adaptive playback', () => {
+  const ADAPTIVE_RATE = 1 / 90
+  const FPS = 60
+
+  const framesPerStage = (m: number) => {
+    const t = track(m)
+    const counts = new Map<string, number>()
+    for (let position = 0; position < 1; position += ADAPTIVE_RATE / FPS) {
+      const stage = t.sample(t.unwarp(position)).stage
+      counts.set(stage, (counts.get(stage) ?? 0) + 1)
+    }
+    return counts
+  }
+
+  it.each([1, 5, 30])('renders every phase for at least half a second at %i M☉', (m) => {
+    const counts = framesPerStage(m)
+    for (const phase of track(m).phases) {
+      expect(counts.get(phase.stage) ?? 0).toBeGreaterThan(FPS / 2)
+    }
+  })
+
+  it('gives the planetary nebula seconds of screen time, not a single frame', () => {
+    const frames = framesPerStage(1).get('planetary nebula') ?? 0
+    expect(frames).toBeGreaterThan(4 * FPS)
+  })
+
+  /*
+   * The comparison that justifies the whole mechanism: at constant rate the same phase gets nothing.
+   */
+  it('would skip the nebula entirely at constant rate', () => {
+    const t = track(1)
+    const nebula = t.phases.find((p) => p.stage === 'planetary nebula')!
+    const share = (nebula.end - nebula.start) / t.end
+    // Frames the nebula would get if 90 seconds were spread evenly over the track.
+    expect(share * 90 * FPS).toBeLessThan(1)
   })
 })
 
@@ -118,11 +174,23 @@ describe('bookmarks', () => {
     expect(track(30).bookmarks.some((b) => b.label === 'Black hole')).toBe(true)
   })
 
-  it('flag the Earth-orbit crossing only for stars that actually get that big', () => {
-    const engulfs = (m: number) =>
-      track(m).bookmarks.some((b) => b.label === "Reaches Earth's orbit")
-    expect(engulfs(1)).toBe(false)
-    expect(engulfs(30)).toBe(true)
+  /*
+   * The headline marker on a solar-mass track, and the old engine never fired it — its giant branch
+   * peaked at 23 R☉ against a real AGB tip near 230, so the Sun never reached 1 AU. This test used
+   * to assert exactly that absence, which made it a specification of the bug.
+   */
+  it('flags the Sun reaching Earth’s orbit, and places it on the AGB', () => {
+    const t = track(1)
+    const crossing = t.bookmarks.find((b) => b.label === "Reaches Earth's orbit")
+    expect(crossing).toBeDefined()
+
+    const phase = t.phases.find((p) => crossing!.age >= p.start && crossing!.age <= p.end)
+    expect(phase!.stage).toContain('AGB')
+  })
+
+  it('flags the nebula ionising for stars that form one', () => {
+    expect(track(1).bookmarks.some((b) => b.label === 'Nebula ionises')).toBe(true)
+    expect(track(30).bookmarks.some((b) => b.label === 'Nebula ionises')).toBe(false)
   })
 
   /*
