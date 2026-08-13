@@ -154,6 +154,26 @@ s(t) = ∫₀ᵗ w dt′ ⁄ ∫₀^t_end w dt′               # normalized to 
   through quiescent burning. The speed slider is a multiplier on `ds/dt_real`.
 - Toggle adaptive off and the slider becomes a literal yr/sec rate.
 
+### Revised in phase 4
+
+The single-integral form above was built and did not work. Two failures, both instructive:
+
+1. **A softening of 0.35 flattened the warp to nothing** — warped shares came out within a percent
+   of real time shares. Too much compression to differentiate anything.
+2. **Raising it made the result erratic rather than better.** At 0.6 the same track gave the
+   Hertzsprung gap 5.4% at 5 M☉ but 0.22% at 30 M☉, and the black hole 1%. The cause is that the
+   floor is a quantile over *intervals*, and interval durations vary by orders of magnitude within
+   a single track, so "typical rate" is not a meaningful quantity across the whole thing.
+
+Shipped instead: **fixed shares per phase, warped within each phase.** `PHASE_SHARES` allocates
+40 / 14 / 20 / 26 percent to main sequence, Hertzsprung gap, giant branch and remnant; inside each,
+width is distributed by local rate of change. Every phase is guaranteed visible at every mass — the
+30 M☉ Hertzsprung gap goes from 0.09% of real time to 14% of the strip, a 150x magnification — and
+the layout no longer lurches when the mass slider moves.
+
+The cost is real and worth stating: the strip no longer encodes relative duration. The age ticks
+carry that instead, bunching wherever time is compressed, the way ticks bunch on a log axis.
+
 Two tuning knobs, exposed in a dev panel during development:
 - `α ≈ 0.35` — softening. At α=1 the PN phase (dlnT/dt ~10⁶× the MS rate) would swallow the strip.
 - `ε` — floor, tuned so the main sequence retains ~35% of the width. It is most of the star's life

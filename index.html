@@ -11,17 +11,31 @@
     </div>
 
     <header id="controls">
-      <button id="play" type="button" aria-label="Play">▶</button>
       <label for="mass">Mass <input id="mass" type="text" inputmode="decimal" size="6" /> M☉</label>
       <label for="feh">[Fe/H] <input id="feh" type="text" inputmode="decimal" size="6" /></label>
-      <label for="age">Age <input id="age" type="text" inputmode="decimal" size="8" /> Gyr</label>
-      <label for="timescale">
-        Speed <input id="timescale" type="text" inputmode="decimal" size="6" /> Gyr/s
-      </label>
       <button id="recentre" type="button">Recentre</button>
     </header>
 
     <aside id="info"></aside>
+    <div id="sizescale" aria-hidden="true"></div>
+
+    <footer id="transport">
+      <div class="transport-controls">
+        <button id="play" type="button" aria-label="Play">▶</button>
+        <button id="restart" type="button" aria-label="Restart">⟲</button>
+        <label for="speed">
+          Speed
+          <input id="speed" type="range" min="-1.5" max="1.5" step="0.05" value="0" />
+          <span id="speedvalue">1.0x</span>
+        </label>
+        <label for="adaptive" title="Pace playback by rate of change rather than by elapsed time">
+          <input id="adaptive" type="checkbox" checked />
+          Adaptive pacing
+        </label>
+        <span id="agevalue" class="age"></span>
+      </div>
+      <div id="timeline"></div>
+    </footer>
 
     <script type="module" src="/src/app.ts"></script>
   </body>
